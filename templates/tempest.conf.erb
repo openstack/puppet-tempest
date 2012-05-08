@@ -1,0 +1,107 @@
+[identity]
+# This section contains configuration options that a variety of Tempest
+# test clients use when authenticating with different user/tenant
+# combinations
+
+# Set to True if your test environment's Keystone authentication service should
+# be accessed over HTTPS
+use_ssl = False
+# this is the main host address of the authentication service api
+host = <%= identity_host %>
+# port that the authentication service api is running on
+port = <%= identity_port %>
+# version of the authentication service api (a string)
+api_version = <%= identity_api_version %>
+# path to the authentication service tokens resource (do not modify unless you
+# have a custom authentication api and are not using keystone)
+path = tokens
+# should typically be left as keystone unless you have a non-keystone
+# authentication api service
+strategy = keystone
+
+[compute]
+# this section contains configuration options used when executing tests
+# against the openstack compute api.
+
+# this should be the username of a user without administrative privileges
+username = <%= username %>
+# the above non-administrative user's password
+password = <%= password %>
+# the above non-administrative user's tenant name
+tenant_name = <%= tenant_name %>
+
+# this should be the username of an alternate user without
+# administrative privileges
+alt_username = <%= alt_username %>
+# the above non-administrative user's password
+alt_password = <%= alt_password %>
+# the above non-administrative user's tenant name
+alt_tenant_name = <%= alt_tenant_name %>
+
+# reference data for tests. the ref and ref_alt should be
+# distinct images/flavors.
+image_ref = <%= image_id %>
+image_ref_alt = <%= image_id_alt %>
+flavor_ref = <%= flavor_ref %>
+flavor_ref_alt = <%= flavor_ref_alt %>
+
+# number of seconds to wait while looping to check the status of an
+# instance or volume that is building.
+build_interval = 10
+
+# number of seconds to time out on waiting for an instance or volume
+# to build or reach an expected status
+build_timeout = 600
+
+# the type of endpoint for a compute api service. unless you have a
+# custom keystone service catalog implementation, you probably want to leave
+# this value as "compute"
+catalog_type = compute
+
+# does the compute api support creation of images?
+create_image_enabled = true
+
+# for resize to work with libvirt/kvm, one of the following must be true:
+# single node: allow_resize_to_same_host=true must be set in nova.conf
+# cluster: the 'nova' user must have scp access between cluster nodes
+resize_available = true
+
+# level to log compute api request/response details.
+log_level = ERROR
+
+[image]
+# this section contains configuration options used when executing tests
+# against the openstack images api
+
+# the type of endpoint for an image api service. unless you have a
+# custom keystone service catalog implementation, you probably want to leave
+# this value as "image"
+catalog_type = image
+
+# the version of the openstack images api to use
+api_version = <%= image_api_version %>
+
+# this is the main host address of the image api
+host = <%= image_host %>
+
+# port that the image api is running on
+port = <%= image_port %>
+
+# this should be the username of a user without administrative privileges
+username = <%= username %>
+# the above non-administrative user's password
+password = <%= password %>
+# the above non-administrative user's tenant name
+tenant_name = <%= tenant_name %>
+
+[compute-admin]
+# this section contains configuration options for an administrative
+# user of the compute api. these options are used in tests that stress
+# the admin-only parts of the compute api
+
+# this should be the username of a user with administrative privileges
+username = <%= admin_username %>
+# the above administrative user's password
+password = <%= admin_password %>
+# the above administrative user's tenant name
+tenant_name = <%= admin_tenant_name %>
