@@ -27,7 +27,7 @@ class tempest(
   $flavor_ref           = 1,
   $flavor_ref_alt       = 2,
   # the version of the openstack images api to use
-  $image_api_version    = 'v1',
+  $image_api_version    = '1',
   $image_host           = 'localhost',
   $image_port           = '9292',
 
