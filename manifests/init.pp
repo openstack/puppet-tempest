@@ -36,8 +36,8 @@ class tempest(
   $admin_password       = 'ChangeMe',
   $admin_tenant_name    = 'openstack',
 
-  $git_protocol         = 'git'
-  
+  $git_protocol         = 'git',
+  $revision             = 'master'
 ) {
 
   include git
@@ -54,10 +54,10 @@ class tempest(
   vcsrepo { '/var/lib/tempest':
     ensure   => 'present',
     source   => "${git_protocol}://github.com/openstack/tempest.git",
-    revision => 'origin/stable/essex',
+    revision => $revision,
     provider => 'git',
     require  => Class['git'],
-  } 
+  }
 
   file { '/var/lib/tempest/etc/tempest.conf':
     content => template('tempest/tempest.conf.erb'),
