@@ -37,7 +37,9 @@ class tempest(
   $admin_tenant_name    = 'openstack',
 
   $git_protocol         = 'git',
-  $revision             = 'master'
+  $revision             = 'master',
+  $image_name           = 'cirros',
+  $image_source         = 'https://launchpad.net/cirros/trunk/0.3.0/+download/cirros-0.3.0-x86_64-disk.img'
 ) {
 
   include git
@@ -49,6 +51,14 @@ class tempest(
     'python-nose'
     ]:
     ensure => present,
+  }
+
+  package { [
+    'python-testtools',
+    'python-testresources',
+    ]:
+    ensure   => present,
+    provider => 'pip',
   }
 
   vcsrepo { '/var/lib/tempest':
@@ -86,6 +96,30 @@ class tempest(
     enabled     => 'True',
     tenant      => $alt_tenant_name,
     password    => $alt_password,
+  }
+
+  # install an image to use for testing...
+  glance_image { $image_name:
+    ensure           => present,
+    is_public        => 'yes',
+    container_format => 'bare',
+    disk_format      => 'qcow2',
+    source           => $image_source,
+  }
+
+  # retrieve the name of the glance image
+  # and use it to set tempest.conf
+  tempest_glance_id_setter { 'image_ref':
+    ensure            => present,
+    tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
+    image_name        => $image_name,
+    require => [File['/var/lib/tempest/etc/tempest.conf'], Glance_image[$image_name]]
+  }
+  tempest_glance_id_setter { 'image_ref_alt':
+    ensure            => present,
+    tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
+    image_name        => $image_name,
+    require => [File['/var/lib/tempest/etc/tempest.conf'], Glance_image[$image_name]]
   }
 
 }
