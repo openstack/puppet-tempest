@@ -54,8 +54,8 @@ class tempest(
   }
 
   package { [
-    'python-testtools',
-    'python-testresources',
+    'testtools',
+    'testresources',
     ]:
     ensure   => present,
     provider => 'pip',
