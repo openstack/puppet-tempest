@@ -51,6 +51,14 @@ class tempest(
     ensure => present,
   }
 
+  package { [
+    'python-testtools',
+    'python-testresources',
+    ]:
+    ensure   => present,
+    provider => 'pip',
+  }
+
   vcsrepo { '/var/lib/tempest':
     ensure   => 'present',
     source   => "${git_protocol}://github.com/openstack/tempest.git",
