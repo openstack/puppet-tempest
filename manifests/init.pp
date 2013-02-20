@@ -36,6 +36,10 @@ class tempest(
   $admin_password       = 'ChangeMe',
   $admin_tenant_name    = 'openstack',
 
+  # testing features that are supported
+  $resize_available     = false,
+  $change_pw_available  = false,
+
   $git_protocol         = 'git',
   $image_name           = 'cirros',
   $version_to_test      = 'master',
