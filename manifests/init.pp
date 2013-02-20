@@ -1,4 +1,4 @@
-#
+
 # class for installing and configuring tempest
 # This manifest just sets up the basic config for
 # tempest. After it is applied, the following still needs
@@ -37,8 +37,8 @@ class tempest(
   $admin_tenant_name    = 'openstack',
 
   $git_protocol         = 'git',
-  $revision             = 'master',
   $image_name           = 'cirros',
+  $version_to_test      = 'master',
   $image_source         = 'https://launchpad.net/cirros/trunk/0.3.0/+download/cirros-0.3.0-x86_64-disk.img'
 ) {
 
@@ -61,6 +61,14 @@ class tempest(
     provider => 'pip',
   }
 
+  if $version_to_test == 'master' {
+    $template_path = "tempest/tempest.conf.erb"
+    $revision      = 'origin/master'
+  } else {
+    $template_path = "tempest/tempest.${version_to_test}.conf.erb"
+    $revision      = "origin/stable/${version_to_test}"
+  }
+
   vcsrepo { '/var/lib/tempest':
     ensure   => 'present',
     source   => "${git_protocol}://github.com/openstack/tempest.git",
@@ -69,8 +77,16 @@ class tempest(
     require  => Class['git'],
   }
 
+  if $version_to_test == 'folsom' {
+    file { "/var/lib/tempest/tempest/openstack":
+      purge   => true,
+      recurse => true,
+      require => Vcsrepo['/var/lib/tempest'],
+    }
+  }
+
   file { '/var/lib/tempest/etc/tempest.conf':
-    content => template('tempest/tempest.conf.erb'),
+    content => template($template_path),
     require => Vcsrepo['/var/lib/tempest'],
   }
 
