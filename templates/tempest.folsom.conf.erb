@@ -1,0 +1,201 @@
+[identity]
+# This section contains configuration options that a variety of Tempest
+# test clients use when authenticating with different user/tenant
+# combinations
+
+# The type of endpoint for a Identity service. Unless you have a
+# custom Keystone service catalog implementation, you probably want to leave
+# this value as "identity"
+catalog_type = identity
+# Set to True if your test environment's Keystone authentication service should
+# be accessed over HTTPS
+use_ssl = False
+# This is the main host address of the authentication service API
+host = <%= identity_host %>
+# Port that the authentication service API is running on
+port = <%= identity_port %>
+# Version of the authentication service API (a string)
+api_version = <%= identity_api_version %>
+# Path to the authentication service tokens resource (do not modify unless you
+# have a custom authentication API and are not using Keystone)
+path = tokens
+# Should typically be left as keystone unless you have a non-Keystone
+# authentication API service
+strategy = keystone
+
+[compute]
+# This section contains configuration options used when executing tests
+# against the OpenStack Compute API.
+
+# Allows test cases to create/destroy tenants and users. This option
+# enables isolated test cases and better parallel execution,
+# but also requires that OpenStack Identity API admin credentials
+# are known.
+allow_tenant_isolation = true
+
+# Allows test cases to create/destroy tenants and users. This option
+# enables isolated test cases and better parallel execution,
+# but also requires that OpenStack Identity API admin credentials
+# are known.
+allow_tenant_reuse = true
+
+# This should be the username of a user WITHOUT administrative privileges
+username = <%= username %>
+# The above non-administrative user's password
+password = <%= password %>
+# The above non-administrative user's tenant name
+tenant_name = <%= tenant_name %>
+
+# This should be the username of an alternate user WITHOUT
+# administrative privileges
+alt_username = <% alt_username %>
+# The above non-administrative user's password
+alt_password = <%= alt_password %>
+# The above non-administrative user's tenant name
+alt_tenant_name = <%= alt_tenant_name %>
+
+# Reference data for tests. The ref and ref_alt should be
+# distinct images/flavors.
+image_ref = <%= image_id %>
+image_ref_alt = <%= image_id_alt %>
+flavor_ref = <%= flavor_ref %>
+flavor_ref_alt = <%= flavor_ref_alt %>
+
+# Number of seconds to wait while looping to check the status of an
+# instance that is building.
+build_interval = 10
+
+# Number of seconds to time out on waiting for an instance
+# to build or reach an expected status
+build_timeout = 600
+
+# Run additional tests that use SSH for instance validation?
+# This requires the instances be routable from the host
+#  executing the tests
+run_ssh = false
+
+# Name of a user used to authenticated to an instance
+ssh_user = cirros
+
+# Network id used for SSH (public, private, etc)
+network_for_ssh = private
+
+# IP version of the address used for SSH
+ip_version_for_ssh = 4
+
+# Number of seconds to wait to authenticate to an instance
+ssh_timeout = 300
+
+# The type of endpoint for a Compute API service. Unless you have a
+# custom Keystone service catalog implementation, you probably want to leave
+# this value as "compute"
+catalog_type = compute
+
+# Does the Compute API support creation of images?
+create_image_enabled = true
+
+# For resize to work with libvirt/kvm, one of the following must be true:
+# Single node: allow_resize_to_same_host=True must be set in nova.conf
+# Cluster: the 'nova' user must have scp access between cluster nodes
+resize_available = true
+
+# Does the compute API support changing the admin password?
+change_password_available=true
+
+# Level to log Compute API request/response details.
+log_level = ERROR
+
+# Whitebox options for compute. Whitebox options enable the
+# whitebox test cases, which look at internal Nova database state,
+# SSH into VMs to check instance state, etc.
+
+# Should we run whitebox tests for Compute?
+whitebox_enabled = true
+
+# Path of nova source directory
+source_dir = /opt/stack/nova
+
+# Path of nova configuration file
+config_path = /etc/nova/nova.conf
+
+# Directory containing nova binaries such as nova-manage
+bin_dir = /usr/local/bin
+
+# Path to a private key file for SSH access to remote hosts
+path_to_private_key = /home/user/.ssh/id_rsa
+
+# Connection string to the database of Compute service
+db_uri = mysql://user:pass@localhost/nova
+
+[image]
+# This section contains configuration options used when executing tests
+# against the OpenStack Images API
+
+# The type of endpoint for an Image API service. Unless you have a
+# custom Keystone service catalog implementation, you probably want to leave
+# this value as "image"
+catalog_type = image
+
+# The version of the OpenStack Images API to use
+api_version = 1
+
+# This is the main host address of the Image API
+host = 127.0.0.1
+
+# Port that the Image API is running on
+port = 9292
+
+# This should be the username of a user WITHOUT administrative privileges
+username = demo
+# The above non-administrative user's password
+password = pass
+# The above non-administrative user's tenant name
+tenant_name = demo
+
+[compute-admin]
+# This section contains configuration options for an administrative
+# user of the Compute API. These options are used in tests that stress
+# the admin-only parts of the Compute API
+
+# This should be the username of a user WITH administrative privileges
+username = admin
+# The above administrative user's password
+password = pass
+# The above administrative user's tenant name
+tenant_name = admin
+
+[network]
+# This section contains configuration options used when executing tests
+# against the OpenStack Network API.
+
+# Version of the Quantum API
+api_version = v1.1
+# Catalog type of the Quantum Service
+catalog_type = network
+
+[identity-admin]
+# This section contains configuration options for an administrative
+# user of the Compute API. These options are used in tests that stress
+# the admin-only parts of the Compute API
+
+# This should be the username of a user WITH administrative privileges
+username = <%= admin_username %>
+# The above administrative user's password
+password = <%= admin_password %>
+# The above administrative user's tenant name
+tenant_name = <%= admin_tenant_name %>
+
+[volume]
+# This section contains the configuration options used when executng tests
+# against the OpenStack Block Storage API service
+
+# The type of endpoint for a Cinder or Block Storage API service.
+# Unless you have a custom Keystone service catalog implementation, you
+# probably want to leave this value as "volume"
+catalog_type = volume
+# Number of seconds to wait while looping to check the status of a
+# volume that is being made available
+build_interval = 10
+# Number of seconds to time out on waiting for a volume
+# to be available or reach an expected status
+build_timeout = 300
