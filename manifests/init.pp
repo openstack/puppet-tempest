@@ -46,15 +46,20 @@ class tempest(
   $image_source         = 'https://launchpad.net/cirros/trunk/0.3.0/+download/cirros-0.3.0-x86_64-disk.img'
 ) {
 
-  include git
-
   package { [
+    'git',
     'python-unittest2',
     'python-httplib2',
     'python-paramiko',
-    'python-nose'
+    'python-nose',
+    'python-pip'
     ]:
     ensure => present,
+  }
+
+  exec { '/usr/bin/pip-python install -U pip':
+    unless  => '/usr/bin/which pip',
+    require => Package['python-pip'],
   }
 
   package { [
@@ -63,6 +68,7 @@ class tempest(
     ]:
     ensure   => present,
     provider => 'pip',
+    require  => exec['/usr/bin/pip-python install -U pip']
   }
 
   if $version_to_test == 'master' {
