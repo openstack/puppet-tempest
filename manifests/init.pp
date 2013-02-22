@@ -46,9 +46,8 @@ class tempest(
   $image_source         = 'https://launchpad.net/cirros/trunk/0.3.0/+download/cirros-0.3.0-x86_64-disk.img'
 ) {
 
-  include git
-
   package { [
+    'git',
     'python-unittest2',
     'python-httplib2',
     'python-paramiko',
