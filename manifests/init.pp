@@ -52,9 +52,15 @@ class tempest(
     'python-unittest2',
     'python-httplib2',
     'python-paramiko',
-    'python-nose'
+    'python-nose',
+    'python-pip'
     ]:
     ensure => present,
+  }
+
+  exec { '/usr/bin/pip-python install -U pip':
+    unless  => '/usr/bin/which pip',
+    require => Package['python-pip'],
   }
 
   package { [
@@ -63,6 +69,7 @@ class tempest(
     ]:
     ensure   => present,
     provider => 'pip',
+    require  => exec['/usr/bin/pip-python install -U pip']
   }
 
   if $version_to_test == 'master' {
