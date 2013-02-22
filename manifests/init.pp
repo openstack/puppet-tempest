@@ -84,7 +84,7 @@ class tempest(
     source   => "${git_protocol}://github.com/openstack/tempest.git",
     revision => $revision,
     provider => 'git',
-    require  => Class['git'],
+    require  => Package['git'],
   }
 
   if $version_to_test == 'folsom' {
