@@ -36,6 +36,8 @@ class tempest(
   $admin_password       = 'ChangeMe',
   $admin_tenant_name    = 'openstack',
 
+  $nova_db_uri          = 'mysql://nova:nova_db_password@127.0.0.1/nova',
+
   # testing features that are supported
   $resize_available     = false,
   $change_pw_available  = false,

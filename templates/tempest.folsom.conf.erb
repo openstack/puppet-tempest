@@ -125,7 +125,7 @@ bin_dir = /usr/local/bin
 path_to_private_key = /home/user/.ssh/id_rsa
 
 # Connection string to the database of Compute service
-db_uri = mysql://user:pass@localhost/nova
+db_uri = <%= nova_db_uri %>
 
 [image]
 # This section contains configuration options used when executing tests
@@ -146,11 +146,11 @@ host = 127.0.0.1
 port = 9292
 
 # This should be the username of a user WITHOUT administrative privileges
-username = demo
+username = <%= username %>
 # The above non-administrative user's password
-password = pass
+password = <%= password %>
 # The above non-administrative user's tenant name
-tenant_name = demo
+tenant_name = <%= tenant_name %>
 
 [compute-admin]
 # This section contains configuration options for an administrative
