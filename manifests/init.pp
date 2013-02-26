@@ -50,10 +50,6 @@ class tempest(
 
   package { [
     'git',
-    'python-unittest2',
-    'python-httplib2',
-    'python-paramiko',
-    'python-nose',
     'python-pip'
     ]:
     ensure => present,
@@ -64,7 +60,15 @@ class tempest(
     require => Package['python-pip'],
   }
 
+  # If I just run the test out of venv, I should not need any of
+  # this
   package { [
+    'anyjson',
+    'nose',
+    'httplib2',
+    'pika',
+    'unittest2',
+    'lxml',
     'testtools',
     'testresources',
     ]:
