@@ -60,21 +60,9 @@ class tempest(
     require => Package['python-pip'],
   }
 
-  # If I just run the test out of venv, I should not need any of
-  # this
-  package { [
-    'anyjson',
-    'nose',
-    'httplib2',
-    'pika',
-    'unittest2',
-    'lxml',
-    'testtools',
-    'testresources',
-    ]:
-    ensure   => present,
-    provider => 'pip',
-    require  => exec['/usr/bin/pip-python install -U pip']
+  file { '/var/lib/temptest/jenkins_launch_script.sh':
+    source => 'puppet:///modules/run_tests.sh',
+    mode   => '777',
   }
 
   if $version_to_test == 'master' {
