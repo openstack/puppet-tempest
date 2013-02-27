@@ -60,8 +60,8 @@ class tempest(
     require => Package['python-pip'],
   }
 
-  file { '/var/lib/temptest/jenkins_launch_script.sh':
-    source => 'puppet:///modules/run_tests.sh',
+  file { '/var/lib/tempest/jenkins_launch_script.sh':
+    source => 'puppet:///modules/tempest/run_tests.sh',
     mode   => '777',
   }
 
