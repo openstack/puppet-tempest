@@ -63,11 +63,6 @@ class tempest(
     require => Package['python-pip'],
   }
 
-  file { '/var/lib/tempest/jenkins_launch_script.sh':
-    source => 'puppet:///modules/tempest/run_tests.sh',
-    mode   => '777',
-  }
-
   if $version_to_test == 'master' {
     $template_path = "tempest/tempest.conf.erb"
     $revision      = 'origin/master'
@@ -83,6 +78,13 @@ class tempest(
     provider => 'git',
     require  => Package['git'],
   }
+
+  file { '/var/lib/tempest/jenkins_launch_script.sh':
+    source  => 'puppet:///modules/tempest/run_tests.sh',
+    mode    => '777',
+    require => Vcsrepo['/var/lib/tempest'],
+  }
+
 
   if $version_to_test == 'folsom' {
     file { "/var/lib/tempest/tempest/openstack":
