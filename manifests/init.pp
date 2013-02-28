@@ -50,7 +50,10 @@ class tempest(
 
   package { [
     'git',
-    'python-pip'
+    'python-pip',
+    'python-dev',
+    'libxml2-dev',
+    'libxslt-dev'
     ]:
     ensure => present,
   }
