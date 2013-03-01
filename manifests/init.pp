@@ -48,12 +48,14 @@ class tempest(
   $image_source         = 'https://launchpad.net/cirros/trunk/0.3.0/+download/cirros-0.3.0-x86_64-disk.img'
 ) {
 
+  include 'tempest::params'
+
   package { [
     'git',
     'python-pip',
-    'python-dev',
-    'libxml2-dev',
-    'libxslt-dev'
+    $tempest::params::python_dev,
+    $tempest::params::libxslt_dev,
+    $tempest::params::libxml2_dev,
     ]:
     ensure => present,
   }
