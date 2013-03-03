@@ -25,7 +25,7 @@ class tempest(
   $image_id             = 'XXXXXXX',#<%= image_id %>,
   $image_id_alt         = 'XXXXXXX',#<%= image_id_alt %>,
   $flavor_ref           = 1,
-  $flavor_ref_alt       = 2,
+  $flavor_ref_alt       = 1,
   # the version of the openstack images api to use
   $image_api_version    = '1',
   $image_host           = 'localhost',
