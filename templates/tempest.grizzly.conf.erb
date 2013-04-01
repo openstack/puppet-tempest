@@ -145,11 +145,11 @@ path_to_private_key = /home/user/.ssh/id_rsa
 [compute-admin]
 # This should be the username of a user WITH administrative privileges
 # If not defined the admin user from the identity section will be used
-username =
+username = <%= admin_username %>
 # The above administrative user's password
-password =
+password = <%= admin_password %>
 # The above administrative user's tenant name
-tenant_name =
+tenant_name = <%= admin_tenant_name %>
 
 [image]
 # This section contains configuration options used when executing tests
