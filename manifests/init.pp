@@ -50,14 +50,34 @@ class tempest(
 
   include 'tempest::params'
 
-  package { [
-    'git',
-    'python-pip',
-    $tempest::params::python_dev,
-    $tempest::params::libxslt_dev,
-    $tempest::params::libxml2_dev,
-    ]:
-    ensure => present,
+  if ! defined(Package['git']){
+    package {'git':
+      ensure => present,
+    }
+  }
+
+  if ! defined(Package['python-pip']){
+    package {'python-pip':
+      ensure => present,
+    }
+  }
+
+  if ! defined(Package[$tempest::params::python_dev]){
+    package {$tempest::params::python_dev:
+      ensure => present,
+    }
+  }
+
+  if ! defined(Package[$tempest::params::libxslt_dev]){
+    package {$tempest::params::libxslt_dev:
+      ensure => present,
+    }
+  }
+
+  if ! defined(Package[$tempest::params::libxml2_dev]){
+    package {$tempest::params::libxml2_dev:
+      ensure => present,
+    }
   }
 
   exec { '/usr/bin/pip-python install -U pip':
