@@ -9,43 +9,49 @@
 #  - fill in the XXXX in /var/lib/tempest/etc/tempest.conf with the image ID
 #  - run `nosetests temptest`
 #
+# Note that only parameters for which values are provided will be
+# managed in tempest.conf.
+#
 class tempest(
-  $identity_host        = 'localhost',
-  $identity_port        = '35357',
-  $identity_api_version = 'v2.0',
+  # Clone config
+  #
+  $tempest_repo_uri          = "git://github.com/openstack/tempest.git",
+  $tempest_clone_path        = '/var/lib/tempest',
+  $tempest_clone_owner       = 'root',
+
+  $version_to_test           = 'master',
+
+  # Glance image config
+  #
+  $image_name                = 'cirros',
+  $image_source              = 'https://launchpad.net/cirros/trunk/0.3.0/+download/cirros-0.3.0-x86_64-disk.img',
+
+  # tempest.conf parameters
+  #
+  $identity_uri              = undef,
   # non admin user
-  $username             = 'user1',
-  $password             = 'user1_password',
-  $tenant_name          = 'tenant1',
+  $username                  = undef,
+  $password                  = undef,
+  $tenant_name               = undef,
   # another non-admin user
-  $alt_username         = 'user2',
-  $alt_password         = 'user2_password',
-  $alt_tenant_name      = 'tenant2',
+  $alt_username              = undef,
+  $alt_password              = undef,
+  $alt_tenant_name           = undef,
+  # admin user
+  $admin_username            = undef,
+  $admin_password            = undef,
+  $admin_tenant_name         = undef,
   # image information
-  $image_id             = 'XXXXXXX',#<%= image_id %>,
-  $image_id_alt         = 'XXXXXXX',#<%= image_id_alt %>,
-  $flavor_ref           = 1,
-  $flavor_ref_alt       = 1,
-  # the version of the openstack images api to use
-  $image_api_version    = '1',
-  $image_host           = 'localhost',
-  $image_port           = '9292',
-
-  # this should be the username of a user with administrative privileges
-  $admin_username       = 'admin',
-  $admin_password       = 'ChangeMe',
-  $admin_tenant_name    = 'openstack',
-
-  $nova_db_uri          = 'mysql://nova:nova_db_password@127.0.0.1/nova',
-
+  $image_ref                 = undef,
+  $image_ref_alt             = undef,
+  $flavor_ref                = undef,
+  $flavor_ref_alt            = undef,
+  # whitebox
+  $whitebox_db_uri           = undef,
   # testing features that are supported
-  $resize_available     = false,
-  $change_pw_available  = false,
+  $resize_available          = undef,
+  $change_password_available = undef,
 
-  $git_protocol         = 'git',
-  $image_name           = 'cirros',
-  $version_to_test      = 'master',
-  $image_source         = 'https://launchpad.net/cirros/trunk/0.3.0/+download/cirros-0.3.0-x86_64-disk.img'
 ) {
 
   include 'tempest::params'
@@ -63,40 +69,62 @@ class tempest(
     require => Package['python-setuptools'],
   }
 
-  if $version_to_test == 'master' {
-    $template_path = "tempest/tempest.conf.erb"
-    $revision      = 'origin/master'
-  } else {
-    $template_path = "tempest/tempest.${version_to_test}.conf.erb"
-    $revision      = "origin/stable/${version_to_test}"
-  }
-
-  vcsrepo { '/var/lib/tempest':
+  vcsrepo { $tempest_clone_path:
     ensure   => 'present',
-    source   => "${git_protocol}://github.com/openstack/tempest.git",
+    source   => $tempest_repo_uri,
     revision => $revision,
     provider => 'git',
     require  => Package['git'],
+    user     => $tempest_clone_owner,
   }
 
-  file { '/var/lib/tempest/jenkins_launch_script.sh':
+  file { "${tempest_clone_path}/jenkins_launch_script.sh":
     source  => 'puppet:///modules/tempest/run_tests.sh',
     mode    => '777',
-    require => Vcsrepo['/var/lib/tempest'],
+    require => Vcsrepo[$tempest_clone_path],
   }
 
 
   if $version_to_test == 'folsom' {
-    file { "/var/lib/tempest/tempest/openstack":
+    file { "${tempest_clone_path}/tempest/openstack":
       purge   => true,
       recurse => true,
-      require => Vcsrepo['/var/lib/tempest'],
+      require => Vcsrepo[$tempest_clone_path],
     }
   }
 
-  file { '/var/lib/tempest/etc/tempest.conf':
-    content => template($template_path),
-    require => Vcsrepo['/var/lib/tempest'],
+  $tempest_conf = "${tempest_clone_path}/etc/tempest.conf"
+
+  file { $tempest_conf:
+    replace => false,
+    source  => "${tempest_conf}.sample",
+    require => Vcsrepo[$tempest_clone_path],
+    owner   => $tempest_clone_owner,
+  }
+
+  Tempest_config {
+    path    => $tempest_conf,
+    require => File[$tempest_conf],
+  }
+
+  tempest_config {
+    'compute/change_password_available': value => $change_password_available;
+    'compute/flavor_ref':                value => $flavor_ref;
+    'compute/flavor_ref_alt':            value => $flavor_ref_alt;
+    'compute/image_ref':                 value => $image_ref;
+    'compute/image_ref_alt':             value => $image_ref_alt;
+    'compute/resize_available':          value => $resize_available;
+    'identity/admin_password':           value => $admin_password;
+    'identity/admin_tenant_name':        value => $admin_tenant_name;
+    'identity/admin_username':           value => $admin_username;
+    'identity/alt_password':             value => $alt_password;
+    'identity/alt_tenant_name':          value => $alt_tenant_name;
+    'identity/alt_username':             value => $alt_username;
+    'identity/password':                 value => $password;
+    'identity/tenant_name':              value => $tenant_name;
+    'identity/uri':                      value => $identity_uri;
+    'identity/username':                 value => $username;
+    'whitebox/db_uri':                   value => $whitebox_db_uri;
   }
 
   keystone_tenant { $tenant_name:
@@ -136,15 +164,15 @@ class tempest(
   # and use it to set tempest.conf
   tempest_glance_id_setter { 'image_ref':
     ensure            => present,
-    tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
+    tempest_conf_path => $tempest_conf,
     image_name        => $image_name,
-    require => [File['/var/lib/tempest/etc/tempest.conf'], Glance_image[$image_name]]
+    require => [File[$tempest_conf], Glance_image[$image_name]]
   }
   tempest_glance_id_setter { 'image_ref_alt':
     ensure            => present,
-    tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
+    tempest_conf_path => $tempest_conf,
     image_name        => $image_name,
-    require => [File['/var/lib/tempest/etc/tempest.conf'], Glance_image[$image_name]]
+    require => [File[$tempest_conf], Glance_image[$image_name]]
   }
 
 }
