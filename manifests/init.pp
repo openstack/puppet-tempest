@@ -20,6 +20,11 @@ class tempest(
   $image_name                = undef,
   $image_name_alt            = undef,
 
+  # Quantum network config
+  #
+  $configure_networks        = true,
+  $public_network_name       = undef,
+
   # tempest.conf parameters
   #
   $identity_uri              = undef,
@@ -38,6 +43,8 @@ class tempest(
   # image information
   $image_ref                 = undef,
   $image_ref_alt             = undef,
+  $image_ssh_user            = undef,
+  $image_alt_ssh_user        = undef,
   $flavor_ref                = undef,
   $flavor_ref_alt            = undef,
   # whitebox
@@ -45,7 +52,11 @@ class tempest(
   # testing features that are supported
   $resize_available          = undef,
   $change_password_available = undef,
-
+  # quantum config
+  $quantum_available         = false,
+  $public_network_id         = undef,
+  # Upstream has a bad default - set it to empty string.
+  $public_router_id          = '',
 ) {
 
   include 'tempest::params'
@@ -105,8 +116,10 @@ class tempest(
     'compute/change_password_available': value => $change_password_available;
     'compute/flavor_ref':                value => $flavor_ref;
     'compute/flavor_ref_alt':            value => $flavor_ref_alt;
+    'compute/image_alt_ssh_user':        value => $image_alt_ssh_user;
     'compute/image_ref':                 value => $image_ref;
     'compute/image_ref_alt':             value => $image_ref_alt;
+    'compute/image_ssh_user':            value => $image_ssh_user;
     'compute/resize_available':          value => $resize_available;
     'identity/admin_password':           value => $admin_password;
     'identity/admin_tenant_name':        value => $admin_tenant_name;
@@ -118,6 +131,9 @@ class tempest(
     'identity/tenant_name':              value => $tenant_name;
     'identity/uri':                      value => $identity_uri;
     'identity/username':                 value => $username;
+    'network/quantum_available':         value => $quantum_available;
+    'network/public_network_id':         value => $public_network_id;
+    'network/public_router_id':          value => $public_router_id;
     'whitebox/db_uri':                   value => $whitebox_db_uri;
   }
 
@@ -146,6 +162,21 @@ class tempest(
     else {
         fail('A value for either image_name_alt or image_ref_alt must \
 be provided.')
+    }
+  }
+
+  if $quantum_available and $configure_networks {
+    if ! $public_network_id and $public_network_name {
+      tempest_quantum_net_id_setter { 'public_network_id':
+        ensure            => present,
+        tempest_conf_path => $tempest_conf,
+        network_name      => $public_network_name,
+        require           => File[$tempest_conf],
+      }
+    }
+    else {
+        fail('A value for either public_network_id or public_network_name \
+must be provided.')
     }
   }
 
