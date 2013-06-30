@@ -1,13 +1,25 @@
 class tempest::params {
 
   if $osfamily == 'redhat' {
-    $python_dev  = 'python-devel'
-    $libxslt_dev = 'libxslt-devel'
-    $libxml2_dev = 'libxml2-devel'
+    $dev_packages = [
+                     'python-devel',
+                     'libxslt-devel',
+                     'libxml2-devel',
+                     'openssl-devel',
+                     'mysql-devel',
+                     'postgresql-devel',
+                     'patch',
+                     'gcc',
+                     ]
   } elsif $osfamily == 'debian' {
-    $libxslt_dev = 'libxslt-dev'
-    $python_dev  = 'python-dev'
-    $libxml2_dev = 'libxml2-dev'
+    # FIXME - This list of packages should be updated to match what is
+    # specified for redhat.
+    $dev_packages = [
+                     'python-dev',
+                     'libxslt-dev',
+                     'libxml2-dev',
+                     'libssl-dev',
+                     ]
   }
 
 }

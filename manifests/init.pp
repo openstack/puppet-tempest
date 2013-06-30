@@ -50,39 +50,17 @@ class tempest(
 
   include 'tempest::params'
 
-  if ! defined(Package['git']){
-    package {'git':
-      ensure => present,
-    }
-  }
+  ensure_packages([
+                   'git',
+                   'python-setuptools',
+                   ])
 
-  if ! defined(Package['python-pip']){
-    package {'python-pip':
-      ensure => present,
-    }
-  }
+  ensure_packages($tempest::params::dev_packages)
 
-  if ! defined(Package[$tempest::params::python_dev]){
-    package {$tempest::params::python_dev:
-      ensure => present,
-    }
-  }
-
-  if ! defined(Package[$tempest::params::libxslt_dev]){
-    package {$tempest::params::libxslt_dev:
-      ensure => present,
-    }
-  }
-
-  if ! defined(Package[$tempest::params::libxml2_dev]){
-    package {$tempest::params::libxml2_dev:
-      ensure => present,
-    }
-  }
-
-  exec { '/usr/bin/pip-python install -U pip':
+  exec { 'install-pip':
+    command => '/usr/bin/easy_install pip',
     unless  => '/usr/bin/which pip',
-    require => Package['python-pip'],
+    require => Package['python-setuptools'],
   }
 
   if $version_to_test == 'master' {
