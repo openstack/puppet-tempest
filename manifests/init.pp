@@ -16,7 +16,9 @@ class tempest(
 
   # Glance image config
   #
-  $image_name                = 'cirros',
+  $configure_images          = true,
+  $image_name                = undef,
+  $image_name_alt            = undef,
 
   # tempest.conf parameters
   #
@@ -119,19 +121,32 @@ class tempest(
     'whitebox/db_uri':                   value => $whitebox_db_uri;
   }
 
-  # retrieve the name of the glance image
-  # and use it to set tempest.conf
-  tempest_glance_id_setter { 'image_ref':
-    ensure            => present,
-    tempest_conf_path => $tempest_conf,
-    image_name        => $image_name,
-    require           => File[$tempest_conf],
-  }
-  tempest_glance_id_setter { 'image_ref_alt':
-    ensure            => present,
-    tempest_conf_path => $tempest_conf,
-    image_name        => $image_name,
-    require           => File[$tempest_conf],
+  if $configure_images {
+    if ! $image_ref and $image_name {
+      # If the image id was not provided, look it up via the image name
+      # and set the value in the conf file.
+      tempest_glance_id_setter { 'image_ref':
+        ensure            => present,
+        tempest_conf_path => $tempest_conf,
+        image_name        => $image_name,
+        require           => File[$tempest_conf],
+      }
+    }
+    else {
+      fail('A value for either image_name or image_ref must be provided.')
+    }
+    if ! $image_ref_alt and $image_name_alt {
+      tempest_glance_id_setter { 'image_ref_alt':
+        ensure            => present,
+        tempest_conf_path => $tempest_conf,
+        image_name        => $image_name_alt,
+        require           => File[$tempest_conf],
+      }
+    }
+    else {
+        fail('A value for either image_name_alt or image_ref_alt must \
+be provided.')
+    }
   }
 
 }
