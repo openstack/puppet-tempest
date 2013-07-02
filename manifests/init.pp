@@ -12,6 +12,8 @@ class tempest(
   $tempest_clone_path        = '/var/lib/tempest',
   $tempest_clone_owner       = 'root',
 
+  $setup_venv                = false,
+
   $version_to_test           = 'master',
 
   # Glance image config
@@ -74,6 +76,12 @@ class tempest(
     require => Package['python-setuptools'],
   }
 
+  exec { 'install-tox':
+    command => '/usr/bin/pip install -U tox',
+    unless  => '/usr/bin/which tox',
+    require => Exec['install-pip'],
+  }
+
   vcsrepo { $tempest_clone_path:
     ensure   => 'present',
     source   => $tempest_repo_uri,
@@ -83,12 +91,18 @@ class tempest(
     user     => $tempest_clone_owner,
   }
 
-  file { "${tempest_clone_path}/jenkins_launch_script.sh":
-    source  => 'puppet:///modules/tempest/run_tests.sh',
-    mode    => '777',
-    require => Vcsrepo[$tempest_clone_path],
+  if $setup_venv {
+    # virtualenv will be installed along with tox
+    exec { "setup-venv":
+      command => "/usr/bin/python ${tempest_clone_path}/tools/install_venv.py",
+      cwd => "${tempest_clone_path}",
+      unless => "/usr/bin/test -d ${tempest_clone_path}/.venv",
+      require => [
+                  Vcsrepo[$tempest_clone_path],
+                  Exec['install-tox'],
+                  ],
+    }
   }
-
 
   if $version_to_test == 'folsom' {
     file { "${tempest_clone_path}/tempest/openstack":
