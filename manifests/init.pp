@@ -58,7 +58,7 @@ class tempest(
   $quantum_available         = false,
   $public_network_id         = undef,
   # Upstream has a bad default - set it to empty string.
-  $public_router_id          = '',
+  $public_router_id          = ''
 ) {
 
   include 'tempest::params'
