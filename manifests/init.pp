@@ -9,12 +9,11 @@ class tempest(
   # Clone config
   #
   $tempest_repo_uri          = 'git://github.com/openstack/tempest.git',
+  $tempest_repo_revision     = undef,
   $tempest_clone_path        = '/var/lib/tempest',
   $tempest_clone_owner       = 'root',
 
   $setup_venv                = false,
-
-  $version_to_test           = 'master',
 
   # Glance image config
   #
@@ -85,7 +84,7 @@ class tempest(
   vcsrepo { $tempest_clone_path:
     ensure   => 'present',
     source   => $tempest_repo_uri,
-    revision => $version_to_test,
+    revision => $tempest_repo_revision,
     provider => 'git',
     require  => Package['git'],
     user     => $tempest_clone_owner,
@@ -101,14 +100,6 @@ class tempest(
         Vcsrepo[$tempest_clone_path],
         Exec['install-tox'],
       ],
-    }
-  }
-
-  if $version_to_test == 'folsom' {
-    file { "${tempest_clone_path}/tempest/openstack":
-      purge   => true,
-      recurse => true,
-      require => Vcsrepo[$tempest_clone_path],
     }
   }
 
