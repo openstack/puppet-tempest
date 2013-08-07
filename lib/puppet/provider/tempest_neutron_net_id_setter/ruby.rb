@@ -1,4 +1,4 @@
-Puppet::Type.type(:tempest_quantum_net_id_setter).provide(:ruby) do
+Puppet::Type.type(:tempest_neutron_net_id_setter).provide(:ruby) do
 
   # almost entirely lifted from stdlib's file_line
 
@@ -13,7 +13,7 @@ Puppet::Type.type(:tempest_quantum_net_id_setter).provide(:ruby) do
   end
 
   def self.get_network_id(network_name)
-    network = Puppet::Type.type('quantum_network').instances.find do |i|
+    network = Puppet::Type.type('neutron_network').instances.find do |i|
       i.provider.name == network_name
     end
     if network

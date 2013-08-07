@@ -21,7 +21,7 @@ class tempest(
   $image_name                = undef,
   $image_name_alt            = undef,
 
-  # Quantum network config
+  # Neutron network config
   #
   $configure_networks        = true,
   $public_network_name       = undef,
@@ -53,8 +53,8 @@ class tempest(
   # testing features that are supported
   $resize_available          = undef,
   $change_password_available = undef,
-  # quantum config
-  $quantum_available         = false,
+  # neutron config
+  $neutron_available         = false,
   $public_network_id         = undef,
   # Upstream has a bad default - set it to empty string.
   $public_router_id          = ''
@@ -136,7 +136,7 @@ class tempest(
     'identity/tenant_name':              value => $tenant_name;
     'identity/uri':                      value => $identity_uri;
     'identity/username':                 value => $username;
-    'network/quantum_available':         value => $quantum_available;
+    'network/neutron_available':         value => $neutron_available;
     'network/public_network_id':         value => $public_network_id;
     'network/public_router_id':          value => $public_router_id;
     'whitebox/db_uri':                   value => $whitebox_db_uri;
@@ -170,9 +170,9 @@ be provided.')
     }
   }
 
-  if $quantum_available and $configure_networks {
+  if $neutron_available and $configure_networks {
     if ! $public_network_id and $public_network_name {
-      tempest_quantum_net_id_setter { 'public_network_id':
+      tempest_neutron_net_id_setter { 'public_network_id':
         ensure            => present,
         tempest_conf_path => $tempest_conf,
         network_name      => $public_network_name,

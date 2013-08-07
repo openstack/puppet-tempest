@@ -1,4 +1,4 @@
-Puppet::Type.newtype(:tempest_quantum_net_id_setter) do
+Puppet::Type.newtype(:tempest_neutron_net_id_setter) do
 
   ensurable
 
@@ -11,7 +11,7 @@ Puppet::Type.newtype(:tempest_quantum_net_id_setter) do
   end
 
   newparam(:network_name) do
-    desc 'The name of the quantum network.'
+    desc 'The name of the neutron network.'
   end
 
 end
