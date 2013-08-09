@@ -54,10 +54,17 @@ class tempest(
   $resize_available          = undef,
   $change_password_available = undef,
   # neutron config
-  $neutron_available         = false,
   $public_network_id         = undef,
   # Upstream has a bad default - set it to empty string.
-  $public_router_id          = ''
+  $public_router_id          = '',
+  # Service configuration
+  $cinder_available          = true,
+  $glance_available          = true,
+  $heat_available            = false,
+  $horizon_available         = true,
+  $neutron_available         = false,
+  $nova_available            = true,
+  $swift_available           = false
 ) {
 
   include 'tempest::params'
@@ -136,9 +143,15 @@ class tempest(
     'identity/tenant_name':              value => $tenant_name;
     'identity/uri':                      value => $identity_uri;
     'identity/username':                 value => $username;
-    'network/neutron_available':         value => $neutron_available;
     'network/public_network_id':         value => $public_network_id;
     'network/public_router_id':          value => $public_router_id;
+    'service_available/cinder':          value => $cinder_available;
+    'service_available/glance':          value => $glance_available;
+    'service_available/heat':            value => $heat_available;
+    'service_available/horizon':         value => $horizon_available;
+    'service_available/neutron':         value => $neutron_available;
+    'service_available/nova':            value => $nova_available;
+    'service_available/swift':           value => $swift_available;
     'whitebox/db_uri':                   value => $whitebox_db_uri;
   }
 
