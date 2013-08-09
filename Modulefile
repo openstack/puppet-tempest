@@ -1,0 +1,11 @@
+name         'puppet-tempest'
+version      '0.0.1'
+source       'https://github.com/stackforge/puppet-tempest'
+license      'Apache License 2.0'
+summary      'Puppet module for Tempest'
+description  'Puppet module to install and configure Tempest'
+project_page 'https://launchpad.net/puppet-tempest'
+
+dependency 'puppetlabs/inifile', '>=1.0.0 <2.0.0'
+dependency 'puppetlabs/stdlib', '>=2.5.0'
+dependency 'puppetlabs/vcsrepo', '>=0.1.2 <1.0.0'
