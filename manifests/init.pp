@@ -167,7 +167,9 @@ class tempest(
       }
     }
     else {
-      fail('A value for either image_name or image_ref must be provided.')
+      if ! $image_ref {
+        fail('A value for either image_name or image_ref must be provided.')
+      }
     }
     if ! $image_ref_alt and $image_name_alt {
       tempest_glance_id_setter { 'image_ref_alt':
@@ -178,8 +180,10 @@ class tempest(
       }
     }
     else {
+      if ! $image_ref_alt {
         fail('A value for either image_name_alt or image_ref_alt must \
 be provided.')
+      }
     }
   }
 
@@ -193,8 +197,10 @@ be provided.')
       }
     }
     else {
+      if ! $public_network_id {
         fail('A value for either public_network_id or public_network_name \
 must be provided.')
+      }
     }
   }
 
