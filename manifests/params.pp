@@ -1,18 +1,22 @@
 #
 class tempest::params {
-
   case $::osfamily {
     'RedHat': {
-      $dev_packages = [
+      if $::operatingsystem == 'Fedora' and $::operatingsystemrelease >= 19 {
+        $pkg_set1 = [ 'mariadb-devel' ]
+      } else {
+        $pkg_set1 = [ 'mysql-devel' ]
+    }
+      $pkg_set2 = [
         'python-devel',
         'libxslt-devel',
         'libxml2-devel',
         'openssl-devel',
-        'mysql-devel',
         'postgresql-devel',
         'patch',
         'gcc',
       ]
+    $dev_packages = concat( $pkg_set1, $pkg_set2 )
     }
     'Debian': {
       # FIXME - This list of packages should be updated to match what is
@@ -29,3 +33,4 @@ class tempest::params {
     }
   }
 }
+
