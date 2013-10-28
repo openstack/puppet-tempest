@@ -41,6 +41,7 @@ class tempest(
   $admin_username            = undef,
   $admin_password            = undef,
   $admin_tenant_name         = undef,
+  $admin_role                = undef,
   # image information
   $image_ref                 = undef,
   $image_ref_alt             = undef,
@@ -136,6 +137,7 @@ class tempest(
     'identity/admin_password':           value => $admin_password;
     'identity/admin_tenant_name':        value => $admin_tenant_name;
     'identity/admin_username':           value => $admin_username;
+    'identity/admin_role':               value => $admin_role;
     'identity/alt_password':             value => $alt_password;
     'identity/alt_tenant_name':          value => $alt_tenant_name;
     'identity/alt_username':             value => $alt_username;
