@@ -21,13 +21,15 @@ class tempest::params {
     }
     'Debian': {
       $pip_bin_path = '/usr/local/bin'
-      # FIXME - This list of packages should be updated to match what is
-      # specified for redhat.
       $dev_packages = [
+        'libmysqlclient-dev',
+        'libpq-dev',
         'python-dev',
-        'libxslt-dev',
+        'libxslt1-dev',
         'libxml2-dev',
         'libssl-dev',
+        'patch',
+        'gcc',
       ]
     }
     default: {
