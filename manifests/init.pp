@@ -84,7 +84,7 @@ class tempest(
   }
 
   exec { 'install-tox':
-    command => '/usr/bin/pip install -U tox',
+    command => "${tempest::params::pip_bin_path}/pip install -U tox",
     unless  => '/usr/bin/which tox',
     require => Exec['install-pip'],
   }
