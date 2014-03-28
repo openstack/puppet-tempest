@@ -29,6 +29,7 @@ class tempest(
   # tempest.conf parameters
   #
   $identity_uri              = undef,
+  $cli_dir                   = undef,
   # non admin user
   $username                  = undef,
   $password                  = undef,
@@ -155,6 +156,7 @@ class tempest(
     'service_available/nova':            value => $nova_available;
     'service_available/swift':           value => $swift_available;
     'whitebox/db_uri':                   value => $whitebox_db_uri;
+    'cli/cli_dir':                       value => $cli_dir;
   }
 
   if $configure_images {
