@@ -170,8 +170,7 @@ class tempest(
         image_name        => $image_name,
         require           => File[$tempest_conf],
       }
-    }
-    else {
+    } elsif ($image_name and $image_ref) or (! $image_name and ! $image_ref) {
       fail('A value for either image_name or image_ref must be provided.')
     }
     if ! $image_ref_alt and $image_name_alt {
@@ -181,8 +180,7 @@ class tempest(
         image_name        => $image_name_alt,
         require           => File[$tempest_conf],
       }
-    }
-    else {
+    } elsif ($image_name_alt and $image_ref_alt) or (! $image_name_alt and ! $image_ref_alt) {
         fail('A value for either image_name_alt or image_ref_alt must \
 be provided.')
     }
@@ -196,10 +194,9 @@ be provided.')
         network_name      => $public_network_name,
         require           => File[$tempest_conf],
       }
-    }
-    else {
-        fail('A value for either public_network_id or public_network_name \
-must be provided.')
+    } elsif ($public_network_name and $public_network_id) or (! $public_network_name and ! $public_network_id) {
+      fail('A value for either public_network_id or public_network_name \
+  must be provided.')
     }
   }
 

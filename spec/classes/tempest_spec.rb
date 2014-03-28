@@ -18,6 +18,77 @@ describe 'tempest' do
       end
     end
 
+    context 'with image_ref parameters' do
+      let :params do
+        { :image_ref        => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b',
+          :image_ref_alt    => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b' }
+      end
+
+      it 'configures image_ref' do
+        should contain_tempest_config('compute/image_ref').with_value('4c423fc6-87f7-4e6d-9d3c-abc13058ae5b')
+      end
+    end
+
+    context 'with image_name' do
+      let :params do
+        { :image_name       => 'cirros',
+          :image_name_alt   => 'cirros' }
+      end
+
+      it 'uses a resource to configure image_ref from image_name' do
+        should contain_tempest_glance_id_setter('image_ref').with_image_name('cirros')
+      end
+    end
+
+    context 'with image_ref and image_name parameters' do
+      let :params do
+        { :image_name       => 'cirros',
+          :image_name_alt   => 'cirros',
+          :image_ref        => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b',
+          :image_ref_alt    => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b' }
+      end
+
+      it 'raises a compilation error' do
+        expect { subject }.to raise_error Puppet::Error, /either image_name or image_ref/
+      end
+    end
+
+    context 'with public_network_id parameter' do
+      let :params do
+        { :neutron_available => true,
+          :configure_images  => false,
+          :public_network_id => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b' }
+      end
+
+      it 'configures public_network_id' do
+        should contain_tempest_config('network/public_network_id').with_value('4c423fc6-87f7-4e6d-9d3c-abc13058ae5b')
+      end
+    end
+
+    context 'with public_network_name parameter' do
+      let :params do
+        { :neutron_available   => true,
+          :configure_images    => false,
+          :public_network_name => 'public' }
+      end
+
+      it 'uses a resource to configure public_network_id from public_network_name' do
+        should contain_tempest_neutron_net_id_setter('public_network_id').with_network_name('public')
+      end
+    end
+
+    context 'with public_network_id and public_network_name' do
+      let :params do
+        { :neutron_available   => true,
+          :configure_images    => false,
+          :public_network_name => 'public',
+          :public_network_id   => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b' }
+      end
+      it 'raises a compilation error' do
+        expect { subject }.to raise_error Puppet::Error, /either public_network_id or public_network_name/
+      end
+    end
+
     context 'without configures images and neutron_available' do
       let :params do
         { :configure_images  => false,
