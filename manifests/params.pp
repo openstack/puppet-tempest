@@ -28,6 +28,7 @@ class tempest::params {
         'libxslt1-dev',
         'libxml2-dev',
         'libssl-dev',
+        'libffi-dev',
         'patch',
         'gcc',
       ]
