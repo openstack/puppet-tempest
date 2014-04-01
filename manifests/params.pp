@@ -13,6 +13,7 @@ class tempest::params {
         'libxslt-devel',
         'libxml2-devel',
         'openssl-devel',
+        'libffi-devel',
         'postgresql-devel',
         'patch',
         'gcc',
