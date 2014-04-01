@@ -108,6 +108,7 @@ class tempest(
       require => [
         Vcsrepo[$tempest_clone_path],
         Exec['install-tox'],
+        Package[$tempest::params::dev_packages],
       ],
     }
   }
