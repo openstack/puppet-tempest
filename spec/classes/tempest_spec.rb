@@ -1,0 +1,162 @@
+require 'spec_helper'
+
+describe 'tempest' do
+  shared_examples 'tempest' do
+    context 'without parameters' do
+      describe "should raise error" do
+        it { expect { should contain_class('tempest::params') }.to raise_error(Puppet::Error, /A value for either image_name or image_ref/) }
+      end
+    end
+
+    context 'with image_name parameters' do
+      let :params do
+        { :image_name => 'image_name' }
+      end
+
+      describe "should raise error" do
+        it { expect { should contain_class('tempest::params') }.to raise_error(Puppet::Error, /A value for either image_name_alt or image_ref_alt/) }
+      end
+    end
+
+    context 'without configures images and neutron_available' do
+      let :params do
+        { :configure_images  => false,
+          :neutron_available => true }
+      end
+
+      describe "should raise error" do
+        it { expect { should contain_class('tempest::params') }.to raise_error(Puppet::Error, /A value for either public_network_id or public_network_name/) }
+      end
+    end
+
+    context 'with parameters' do
+      let :params do
+        { :configure_images    => true,
+          :image_name          => 'image name',
+          :image_name_alt      => 'image name alt',
+          :public_network_name => 'network name',
+          :neutron_available   => true }
+      end
+
+      describe "should install tempest" do
+        it 'installs packages' do
+          should contain_class('tempest::params')
+
+          should contain_exec('install-pip').with(
+            :command => '/usr/bin/easy_install pip',
+            :unless  => '/usr/bin/which pip',
+            :require => 'Package[python-setuptools]'
+          )
+
+          should contain_exec('install-tox').with(
+            :command => /pip install -U tox$/,
+            :unless  => '/usr/bin/which tox',
+            :require => 'Exec[install-pip]'
+          )
+
+          should contain_vcsrepo('/var/lib/tempest').with(
+            :ensure   => 'present',
+            :source   => 'git://github.com/openstack/tempest.git',
+            :revision => nil,
+            :provider => 'git',
+            :require  => 'Package[git]',
+            :user     => 'root'
+          )
+        end
+
+        it 'load configuration' do
+          should contain_file('/var/lib/tempest/etc/tempest.conf').with(
+            :replace => false,
+            :source  => '/var/lib/tempest/etc/tempest.conf.sample',
+            :require => "Vcsrepo[/var/lib/tempest]",
+            :owner   => 'root'
+          )
+        end
+
+        it 'configure tempest config' do
+          should contain_tempest_config('compute/change_password_available').with(:value => nil)
+          should contain_tempest_config('compute/flavor_ref').with(:value => nil)
+          should contain_tempest_config('compute/flavor_ref_alt').with(:value => nil)
+          should contain_tempest_config('compute/image_alt_ssh_user').with(:value => nil)
+          should contain_tempest_config('compute/image_ref').with(:value => nil)
+          should contain_tempest_config('compute/image_ref_alt').with(:value => nil)
+          should contain_tempest_config('compute/image_ssh_user').with(:value => nil)
+          should contain_tempest_config('compute/resize_available').with(:value => nil)
+          should contain_tempest_config('identity/admin_password').with(:value => nil)
+          should contain_tempest_config('identity/admin_tenant_name').with(:value => nil)
+          should contain_tempest_config('identity/admin_username').with(:value => nil)
+          should contain_tempest_config('identity/admin_role').with(:value => nil)
+          should contain_tempest_config('identity/alt_password').with(:value => nil)
+          should contain_tempest_config('identity/alt_tenant_name').with(:value => nil)
+          should contain_tempest_config('identity/alt_username').with(:value => nil)
+          should contain_tempest_config('identity/password').with(:value => nil)
+          should contain_tempest_config('identity/tenant_name').with(:value => nil)
+          should contain_tempest_config('identity/uri').with(:value => nil)
+          should contain_tempest_config('identity/username').with(:value => nil)
+          should contain_tempest_config('network/public_network_id').with(:value => nil)
+          should contain_tempest_config('network/public_router_id').with(:value => '')
+          should contain_tempest_config('service_available/cinder').with(:value => true)
+          should contain_tempest_config('service_available/glance').with(:value => true)
+          should contain_tempest_config('service_available/heat').with(:value => false)
+          should contain_tempest_config('service_available/horizon').with(:value => true)
+          should contain_tempest_config('service_available/neutron').with(:value => true)
+          should contain_tempest_config('service_available/nova').with(:value => true)
+          should contain_tempest_config('service_available/swift').with(:value => false)
+          should contain_tempest_config('whitebox/db_uri').with(:value => nil)
+        end
+
+        it 'set glance id' do
+          should contain_tempest_glance_id_setter('image_ref').with(
+            :ensure            => 'present',
+            :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
+            :image_name        => 'image name',
+            :require           => 'File[/var/lib/tempest/etc/tempest.conf]'
+          )
+
+          should contain_tempest_glance_id_setter('image_ref_alt').with(
+            :ensure            => 'present',
+            :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
+            :image_name        => 'image name alt',
+            :require           => 'File[/var/lib/tempest/etc/tempest.conf]'
+          )
+        end
+
+        it 'neutron net id' do
+          should contain_tempest_neutron_net_id_setter('public_network_id').with(
+            :ensure            => 'present',
+            :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
+            :network_name      => 'network name',
+            :require           => 'File[/var/lib/tempest/etc/tempest.conf]'
+          )
+        end
+      end
+    end
+  end
+
+  context 'on Debian platforms' do
+    let :facts do
+      { :osfamily => 'Debian' }
+    end
+
+    it_behaves_like 'tempest'
+  end
+
+  context 'on RedHat platforms' do
+    let :facts do
+      { :osfamily => 'RedHat' }
+    end
+
+    it_behaves_like 'tempest'
+  end
+
+  context 'unsupported operating system' do
+    describe 'tempest class without any parameters on Solaris/Nexenta' do
+      let :facts do
+        { :osfamily => 'Solaris',
+        :operatingsystem => 'Nexenta' }
+      end
+
+      it { expect { should contain_package('tempest') }.to raise_error(Puppet::Error, /Unsupported osfamily: Solaris operatingsystem: Nexenta/) }
+    end
+  end
+end
