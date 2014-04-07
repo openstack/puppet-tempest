@@ -153,6 +153,7 @@ describe 'tempest' do
           should contain_tempest_config('compute/image_ref_alt').with(:value => nil)
           should contain_tempest_config('compute/image_ssh_user').with(:value => nil)
           should contain_tempest_config('compute/resize_available').with(:value => nil)
+          should contain_tempest_config('compute/allow_tenant_isolation').with(:value => nil)
           should contain_tempest_config('identity/admin_password').with(:value => nil)
           should contain_tempest_config('identity/admin_tenant_name').with(:value => nil)
           should contain_tempest_config('identity/admin_username').with(:value => nil)
