@@ -55,6 +55,7 @@ class tempest(
   # testing features that are supported
   $resize_available          = undef,
   $change_password_available = undef,
+  $allow_tenant_isolation    = undef,
   # neutron config
   $public_network_id         = undef,
   # Upstream has a bad default - set it to empty string.
@@ -136,6 +137,7 @@ class tempest(
     'compute/image_ref_alt':             value => $image_ref_alt;
     'compute/image_ssh_user':            value => $image_ssh_user;
     'compute/resize_available':          value => $resize_available;
+    'compute/allow_tenant_isolation':    value => $allow_tenant_isolation;
     'identity/admin_password':           value => $admin_password;
     'identity/admin_tenant_name':        value => $admin_tenant_name;
     'identity/admin_username':           value => $admin_username;
