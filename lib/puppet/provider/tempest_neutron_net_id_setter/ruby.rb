@@ -12,17 +12,9 @@ Puppet::Type.type(:tempest_neutron_net_id_setter).provide(:ruby) do
     handle_create_with_match
   end
 
-  def self.get_network_id(network_name)
-    network = Puppet::Type.type('neutron_network').instances.find do |i|
-      i.provider.name == network_name
-    end
-    if network
-      return network.provider.id
-    end
-  end
-
   def get_network_id
-    @network_id ||= self.class.get_network_id(@resource[:network_name])
+    @network_id ||= Puppet::Resource.indirection.find("Neutron_network/#{@resource[:network_name]}")[:id]
+    @network_id if @network_id != :absent
   end
 
   def should_line
