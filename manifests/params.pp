@@ -18,7 +18,7 @@ class tempest::params {
         'patch',
         'gcc',
       ]
-      $dev_packages = concat( $pkg_set1, $pkg_set2 )
+      $dev_packages = os_concat( $pkg_set1, $pkg_set2 )
     }
     'Debian': {
       $pip_bin_path = '/usr/local/bin'
