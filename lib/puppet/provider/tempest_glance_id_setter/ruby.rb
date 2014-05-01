@@ -13,7 +13,8 @@ Puppet::Type.type(:tempest_glance_id_setter).provide(:ruby) do
   end
 
   def get_image_id
-    @image_id ||= model.catalog.resource("Glance_image[#{resource[:image_name]}]").provider.id
+    @image_id ||= Puppet::Resource.indirection.find("Glance_image/#{resource[:image_name]}")[:id]
+    @image_id if @image_id != :absent
   end
 
   def should_line
