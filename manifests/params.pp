@@ -3,28 +3,19 @@ class tempest::params {
   case $::osfamily {
     'RedHat': {
       $pip_bin_path = '/usr/bin'
-      if $::operatingsystem == 'Fedora' and $::operatingsystemrelease >= 19 {
-        $pkg_set1 = [ 'mariadb-devel' ]
-      } else {
-        $pkg_set1 = [ 'mysql-devel' ]
-      }
-      $pkg_set2 = [
+      $dev_packages = [
         'python-devel',
         'libxslt-devel',
         'libxml2-devel',
         'openssl-devel',
         'libffi-devel',
-        'postgresql-devel',
         'patch',
         'gcc',
       ]
-      $dev_packages = os_concat( $pkg_set1, $pkg_set2 )
     }
     'Debian': {
       $pip_bin_path = '/usr/local/bin'
       $dev_packages = [
-        'libmysqlclient-dev',
-        'libpq-dev',
         'python-dev',
         'libxslt1-dev',
         'libxml2-dev',
