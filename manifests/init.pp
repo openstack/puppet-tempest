@@ -138,14 +138,14 @@ class tempest(
     'compute/image_ssh_user':            value => $image_ssh_user;
     'compute/resize_available':          value => $resize_available;
     'compute/allow_tenant_isolation':    value => $allow_tenant_isolation;
-    'identity/admin_password':           value => $admin_password;
+    'identity/admin_password':           value => $admin_password, secret => true;
     'identity/admin_tenant_name':        value => $admin_tenant_name;
     'identity/admin_username':           value => $admin_username;
     'identity/admin_role':               value => $admin_role;
-    'identity/alt_password':             value => $alt_password;
+    'identity/alt_password':             value => $alt_password, secret => true;
     'identity/alt_tenant_name':          value => $alt_tenant_name;
     'identity/alt_username':             value => $alt_username;
-    'identity/password':                 value => $password;
+    'identity/password':                 value => $password, secret => true;
     'identity/tenant_name':              value => $tenant_name;
     'identity/uri':                      value => $identity_uri;
     'identity/username':                 value => $username;
