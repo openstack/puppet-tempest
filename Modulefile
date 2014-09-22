@@ -8,5 +8,5 @@ project_page 'https://launchpad.net/puppet-tempest'
 source       'https://github.com/stackforge/puppet-tempest'
 
 dependency 'puppetlabs/inifile', '>=1.0.0 <2.0.0'
-dependency 'puppetlabs/stdlib', '>=3.2.0'
+dependency 'puppetlabs/stdlib', '>=4.0.0 <5.0.0'
 dependency 'puppetlabs/vcsrepo', '>=0.1.2 <1.0.0'
