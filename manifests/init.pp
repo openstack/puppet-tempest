@@ -64,6 +64,7 @@ class tempest(
   $cinder_available          = true,
   $glance_available          = true,
   $heat_available            = false,
+  $ceilometer_available      = false,
   $horizon_available         = true,
   $neutron_available         = false,
   $nova_available            = true,
@@ -154,6 +155,7 @@ class tempest(
     'service_available/cinder':          value => $cinder_available;
     'service_available/glance':          value => $glance_available;
     'service_available/heat':            value => $heat_available;
+    'service_available/ceilometer':      value => $ceilometer_available;
     'service_available/horizon':         value => $horizon_available;
     'service_available/neutron':         value => $neutron_available;
     'service_available/nova':            value => $nova_available;

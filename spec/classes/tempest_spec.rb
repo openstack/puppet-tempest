@@ -173,6 +173,7 @@ describe 'tempest' do
           should contain_tempest_config('service_available/cinder').with(:value => true)
           should contain_tempest_config('service_available/glance').with(:value => true)
           should contain_tempest_config('service_available/heat').with(:value => false)
+          should contain_tempest_config('service_available/ceilometer').with(:value => false)
           should contain_tempest_config('service_available/horizon').with(:value => true)
           should contain_tempest_config('service_available/neutron').with(:value => true)
           should contain_tempest_config('service_available/nova').with(:value => true)
