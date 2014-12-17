@@ -6,6 +6,9 @@
 # managed in tempest.conf.
 #
 class tempest(
+  $install_from_source       = true,
+  $tempest_config_file       = '/var/lib/tempest/etc/tempest.conf',
+
   # Clone config
   #
   $tempest_repo_uri          = 'git://github.com/openstack/tempest.git',
@@ -73,60 +76,66 @@ class tempest(
 
   include 'tempest::params'
 
-  ensure_packages([
-    'git',
-    'python-setuptools',
-  ])
+  if $install_from_source {
+    ensure_packages([
+      'git',
+      'python-setuptools',
+    ])
 
-  ensure_packages($tempest::params::dev_packages)
+    ensure_packages($tempest::params::dev_packages)
 
-  exec { 'install-pip':
-    command => '/usr/bin/easy_install pip',
-    unless  => '/usr/bin/which pip',
-    require => Package['python-setuptools'],
-  }
-
-  exec { 'install-tox':
-    command => "${tempest::params::pip_bin_path}/pip install -U tox",
-    unless  => '/usr/bin/which tox',
-    require => Exec['install-pip'],
-  }
-
-  vcsrepo { $tempest_clone_path:
-    ensure   => 'present',
-    source   => $tempest_repo_uri,
-    revision => $tempest_repo_revision,
-    provider => 'git',
-    require  => Package['git'],
-    user     => $tempest_clone_owner,
-  }
-
-  if $setup_venv {
-    # virtualenv will be installed along with tox
-    exec { 'setup-venv':
-      command => "/usr/bin/python ${tempest_clone_path}/tools/install_venv.py",
-      cwd     => $tempest_clone_path,
-      unless  => "/usr/bin/test -d ${tempest_clone_path}/.venv",
-      require => [
-        Vcsrepo[$tempest_clone_path],
-        Exec['install-tox'],
-        Package[$tempest::params::dev_packages],
-      ],
+    exec { 'install-pip':
+      command => '/usr/bin/easy_install pip',
+      unless  => '/usr/bin/which pip',
+      require => Package['python-setuptools'],
     }
-  }
 
-  $tempest_conf = "${tempest_clone_path}/etc/tempest.conf"
+    exec { 'install-tox':
+      command => "${tempest::params::pip_bin_path}/pip install -U tox",
+      unless  => '/usr/bin/which tox',
+      require => Exec['install-pip'],
+    }
 
-  file { $tempest_conf:
-    replace => false,
-    source  => "${tempest_conf}.sample",
-    require => Vcsrepo[$tempest_clone_path],
-    owner   => $tempest_clone_owner,
-  }
+    vcsrepo { $tempest_clone_path:
+      ensure   => 'present',
+      source   => $tempest_repo_uri,
+      revision => $tempest_repo_revision,
+      provider => 'git',
+      require  => Package['git'],
+      user     => $tempest_clone_owner,
+    }
 
-  Tempest_config {
-    path    => $tempest_conf,
-    require => File[$tempest_conf],
+    if $setup_venv {
+      # virtualenv will be installed along with tox
+      exec { 'setup-venv':
+        command => "/usr/bin/python ${tempest_clone_path}/tools/install_venv.py",
+        cwd     => $tempest_clone_path,
+        unless  => "/usr/bin/test -d ${tempest_clone_path}/.venv",
+        require => [
+          Vcsrepo[$tempest_clone_path],
+          Exec['install-tox'],
+          Package[$tempest::params::dev_packages],
+        ],
+      }
+    }
+
+    $tempest_conf = "${tempest_clone_path}/etc/tempest.conf"
+
+    file { $tempest_conf:
+      replace => false,
+      source  => "${tempest_conf}.sample",
+      require => Vcsrepo[$tempest_clone_path],
+      owner   => $tempest_clone_owner,
+    }
+
+    Tempest_config {
+      path    => $tempest_conf,
+      require => File[$tempest_conf],
+    }
+  } else {
+    Tempest_config {
+      path => $tempest_config_file,
+    }
   }
 
   tempest_config {
