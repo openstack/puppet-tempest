@@ -74,7 +74,7 @@ class tempest(
   $swift_available           = false
 ) {
 
-  include 'tempest::params'
+  include '::tempest::params'
 
   if $install_from_source {
     ensure_packages([
