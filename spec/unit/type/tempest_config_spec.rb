@@ -30,19 +30,19 @@ describe 'Puppet::Type.type(:tempest_config)' do
 
   it 'should accept a valid value' do
     @tempest_config[:value] = 'bar'
-    @tempest_config[:value].should == 'bar'
+    expect(@tempest_config[:value]).to eq('bar')
   end
 
   it 'should not accept a value with whitespace' do
     @tempest_config[:value] = 'b ar'
-    @tempest_config[:value].should == 'b ar'
+    expect(@tempest_config[:value]).to eq('b ar')
   end
 
   it 'should accept valid ensure values' do
     @tempest_config[:ensure] = :present
-    @tempest_config[:ensure].should == :present
+    expect(@tempest_config[:ensure]).to eq(:present)
     @tempest_config[:ensure] = :absent
-    @tempest_config[:ensure].should == :absent
+    expect(@tempest_config[:ensure]).to eq(:absent)
   end
 
   it 'should not accept invalid ensure values' do

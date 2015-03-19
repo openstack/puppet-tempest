@@ -18,9 +18,9 @@ describe 'Puppet::Type.type(:tempest_neutron_net_id_setter)' do
 
   it 'should accept valid ensure values' do
     @tempest_neutron_net_id_setter[:ensure] = :present
-    @tempest_neutron_net_id_setter[:ensure].should == :present
+    expect(@tempest_neutron_net_id_setter[:ensure]).to eq(:present)
     @tempest_neutron_net_id_setter[:ensure] = :absent
-    @tempest_neutron_net_id_setter[:ensure].should == :absent
+    expect(@tempest_neutron_net_id_setter[:ensure]).to eq(:absent)
   end
 
   it 'should not accept invalid ensure values' do
