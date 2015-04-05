@@ -103,11 +103,21 @@ describe 'tempest' do
           :image_name          => 'image name',
           :image_name_alt      => 'image name alt',
           :public_network_name => 'network name',
-          :neutron_available   => true }
+          :neutron_available   => true,
+          :install_from_source => true
+        }
       end
 
       describe "should install tempest" do
         it 'installs packages' do
+
+          is_expected.to contain_package('git')
+          is_expected.to contain_package('python-setuptools')
+
+          platform_params[:dev_packages].each do |package|
+            is_expected.to contain_package("#{package}")
+          end
+
           is_expected.to contain_class('tempest::params')
 
           is_expected.to contain_exec('install-pip').with(
@@ -176,6 +186,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('service_available/nova').with(:value => true)
           is_expected.to contain_tempest_config('service_available/swift').with(:value => false)
           is_expected.to contain_tempest_config('whitebox/db_uri').with(:value => nil)
+          is_expected.to contain_tempest_config('cli/cli_dir').with(:value => nil)
         end
 
         it 'set glance id' do
@@ -208,7 +219,17 @@ describe 'tempest' do
 
   context 'on Debian platforms' do
     let :facts do
-      { :osfamily => 'Debian' }
+      { :osfamily     => 'Debian' }
+    end
+
+    let :platform_params do
+      { :dev_packages => ['python-dev',
+                          'libxslt1-dev',
+                          'libxml2-dev',
+                          'libssl-dev',
+                          'libffi-dev',
+                          'patch',
+                          'gcc' ] }
     end
 
     it_behaves_like 'tempest'
@@ -217,6 +238,16 @@ describe 'tempest' do
   context 'on RedHat platforms' do
     let :facts do
       { :osfamily => 'RedHat' }
+    end
+
+    let :platform_params do
+      { :dev_packages => ['python-devel',
+                          'libxslt-devel',
+                          'libxml2-devel',
+                          'openssl-devel',
+                          'libffi-devel',
+                          'patch',
+                          'gcc' ] }
     end
 
     it_behaves_like 'tempest'
