@@ -28,17 +28,26 @@ Puppet::Type.type(:tempest_glance_id_setter).provide(:ruby) do
   def handle_create_with_match()
     regex = match
     match_count = lines.select { |l| regex.match(l) }.count
-    if match_count > 1
-      raise Puppet::Error, "More than one line in file '#{resource[:tempest_conf_path]}' matches pattern '#{regex.to_s}'"
-    end
-    File.open(resource[:tempest_conf_path], 'w') do |fh|
-      lines.each do |l|
-        fh.puts(regex.match(l) ? should_line : l)
-      end
 
-      if (match_count == 0)
-        fh.puts(should_line)
+    file = lines
+    case match_count
+    when 1
+      File.open(resource[:tempest_conf_path], 'w') do |fh|
+        lines.each do |l|
+          fh.puts(regex.match(l) ? "#{should_line}" : l)
+        end
       end
+    when 0
+      block_pos = lines.find_index { |l| /^\[compute\]/ =~ l }
+      if block_pos.nil?
+        file += ["[compute]\n", "#{should_line}\n"]
+      else
+        file.insert(block_pos+1, "#{should_line}\n")
+      end
+      File.write(resource[:tempest_conf_path], file.join)
+    else                        # cannot be negative.
+      raise Puppet::Error, "More than one line in file \
+'#{resource[:tempest_conf_path]}' matches pattern '#{regex}'"
     end
   end
 
