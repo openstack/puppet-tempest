@@ -11,6 +11,18 @@ tests on an installed openstack environment.
 This module assumes the provisioning of the initial OpenStack
 resources has been done beforehand.
 
+Beaker-Rspec
+------------
+
+This module has beaker-rspec tests
+
+To run:
+
+``shell
+bundle install
+bundle exec rspec spec/acceptance
+``
+
 Release Notes
 -------------
 
