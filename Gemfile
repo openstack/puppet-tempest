@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
 group :development, :test do
-  gem 'minitest', '~> 4.7', :require => 'minitest/unit'
   gem 'puppetlabs_spec_helper', :require => false
   gem 'rspec-puppet', '~> 2.1.0', :require => false
 
@@ -16,7 +15,7 @@ group :development, :test do
   gem 'puppet-lint-variable_contains_upcase'
   gem 'puppet-lint-numericvariable'
 
-  gem 'beaker-rspec', '~> 2.2.4', :require => false
+  gem 'beaker-rspec', :require => false
   gem 'json'
   gem 'webmock'
 end
