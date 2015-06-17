@@ -1,10 +1,10 @@
 {
   "name": "stackforge-tempest",
-  "version": "5.0.0",
-  "author": "StackForge Contributors",
+  "version": "5.1.0",
+  "author": "OpenStack Contributors",
   "summary": "Puppet module for OpenStack Tempest",
   "license": "Apache-2.0",
-  "source": "git://github.com/stackforge/puppet-tempest.git",
+  "source": "git://github.com/openstack/puppet-tempest.git",
   "project_page": "https://launchpad.net/puppet-tempest",
   "issues_url": "https://bugs.launchpad.net/puppet-tempest",
   "requirements": [
