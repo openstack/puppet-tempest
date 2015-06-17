@@ -1,7 +1,7 @@
 Tempest
 =======
 
-5.0.0 - 2014.2.0 - Juno
+5.1.0 - 2014.2 - Juno
 
 Module for installing and configuring tempest.
 
@@ -25,6 +25,13 @@ bundle exec rspec spec/acceptance
 
 Release Notes
 -------------
+
+** 5.1.0 **
+
+* spec: pin rspec-puppet to 1.0.1
+* Update .gitreview file for project rename
+* Allow to not manage Tempest code in Puppet
+* Allow to activate Ceilometer tests
 
 ** 5.0.0 **
 
