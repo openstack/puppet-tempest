@@ -175,6 +175,8 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('identity/tenant_name').with(:value => nil)
           is_expected.to contain_tempest_config('identity/uri').with(:value => nil)
           is_expected.to contain_tempest_config('identity/username').with(:value => nil)
+          is_expected.to contain_tempest_config('identity-feature-enabled/api_v2').with(:value => true)
+          is_expected.to contain_tempest_config('identity-feature-enabled/api_v3').with(:value => true)
           is_expected.to contain_tempest_config('network/public_network_id').with(:value => nil)
           is_expected.to contain_tempest_config('network/public_router_id').with(:value => '')
           is_expected.to contain_tempest_config('service_available/cinder').with(:value => true)
@@ -187,6 +189,12 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('service_available/swift').with(:value => false)
           is_expected.to contain_tempest_config('whitebox/db_uri').with(:value => nil)
           is_expected.to contain_tempest_config('cli/cli_dir').with(:value => nil)
+          is_expected.to contain_tempest_config('oslo_concurrency/lock_path').with(:value => '/var/lib/tempest')
+          is_expected.to contain_tempest_config('DEFAULT/debug').with(:value => false)
+          is_expected.to contain_tempest_config('DEFAULT/verbose').with(:value => false)
+          is_expected.to contain_tempest_config('DEFAULT/use_stderr').with(:value => true)
+          is_expected.to contain_tempest_config('DEFAULT/use_syslog').with(:value => false)
+          is_expected.to contain_tempest_config('DEFAULT/log_file').with(:value => nil)
         end
 
         it 'set glance id' do
