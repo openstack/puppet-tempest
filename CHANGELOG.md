@@ -1,3 +1,17 @@
+##2015-07-08 - 6.0.0
+###Summary
+
+This is a major release for OpenStack Kilo.
+
+####Features
+- Puppet 4.x support
+- Allow to activate Ceilometer tests
+- Allow to not manage Tempest code in Puppet
+- Implement more Tempest options
+
+####Maintenance
+- Acceptance tests with Beaker
+
 ##2015-06-17 - 5.1.0
 ###Summary
 
