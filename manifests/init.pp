@@ -32,6 +32,7 @@ class tempest(
   # tempest.conf parameters
   #
   $identity_uri              = undef,
+  $identity_uri_v3           = undef,
   $cli_dir                   = undef,
   $lock_path                 = '/var/lib/tempest',
   $debug                     = false,
@@ -52,6 +53,7 @@ class tempest(
   $admin_password            = undef,
   $admin_tenant_name         = undef,
   $admin_role                = undef,
+  $admin_domain_name         = undef,
   # image information
   $image_ref                 = undef,
   $image_ref_alt             = undef,
@@ -80,6 +82,7 @@ class tempest(
   $swift_available           = false,
   $keystone_v2               = true,
   $keystone_v3               = true,
+  $auth_version              = 'v2',
 ) {
 
   include '::tempest::params'
@@ -160,13 +163,16 @@ class tempest(
     'identity/admin_tenant_name':        value => $admin_tenant_name;
     'identity/admin_username':           value => $admin_username;
     'identity/admin_role':               value => $admin_role;
+    'identity/admin_domain_name':        value => $admin_domain_name;
     'identity/alt_password':             value => $alt_password, secret => true;
     'identity/alt_tenant_name':          value => $alt_tenant_name;
     'identity/alt_username':             value => $alt_username;
     'identity/password':                 value => $password, secret => true;
     'identity/tenant_name':              value => $tenant_name;
     'identity/uri':                      value => $identity_uri;
+    'identity/uri_v3':                   value => $identity_uri_v3;
     'identity/username':                 value => $username;
+    'identity/auth_version':             value => $auth_version;
     'identity-feature-enabled/api_v2':   value => $keystone_v2;
     'identity-feature-enabled/api_v3':   value => $keystone_v3;
     'network/public_network_id':         value => $public_network_id;
