@@ -5,6 +5,117 @@
 # Note that only parameters for which values are provided will be
 # managed in tempest.conf.
 #
+#  [*install_from_source*]
+#   Defaults to true
+#  [*tempest_config_file*]
+#   Defaults to '/var/lib/tempest/etc/tempest.conf'
+#  [*tempest_repo_uri*]
+#   Defaults to 'git://github.com/openstack/tempest.git'
+#  [*tempest_repo_revision*]
+#   Defaults to undef
+#  [*tempest_clone_path*]
+#   Defaults to '/var/lib/tempest'
+#  [*tempest_clone_owner*]
+#   Defaults to 'root'
+#  [*setup_venv*]
+#   Defaults to false
+#  [*configure_images*]
+#   Defaults to true
+#  [*image_name*]
+#   Defaults to undef
+#  [*image_name_alt*]
+#   Defaults to undef
+#  [*configure_networks*]
+#   Defaults to true
+#  [*public_network_name*]
+#   Defaults to undef
+#  [*identity_uri*]
+#   Defaults to undef
+#  [*identity_uri_v3*]
+#   Defaults to undef
+#  [*cli_dir*]
+#   Defaults to undef
+#  [*lock_path*]
+#   Defaults to '/var/lib/tempest'
+#  [*debug*]
+#   Defaults to false
+#  [*verbose*]
+#   Defaults to false
+#  [*use_stderr*]
+#   Defaults to true
+#  [*use_syslog*]
+#   Defaults to false
+#  [*log_file*]
+#   Defaults to undef
+#  [*username*]
+#   Defaults to undef
+#  [*password*]
+#   Defaults to undef
+#  [*tenant_name*]
+#   Defaults to undef
+#  [*alt_username*]
+#   Defaults to undef
+#  [*alt_password*]
+#   Defaults to undef
+#  [*alt_tenant_name*]
+#   Defaults to undef
+#  [*admin_username*]
+#   Defaults to undef
+#  [*admin_password*]
+#   Defaults to undef
+#  [*admin_tenant_name*]
+#   Defaults to undef
+#  [*admin_role*]
+#   Defaults to undef
+#  [*admin_domain_name*]
+#   Defaults to undef
+#  [*image_ref*]
+#   Defaults to undef
+#  [*image_ref_alt*]
+#   Defaults to undef
+#  [*image_ssh_user*]
+#   Defaults to undef
+#  [*image_alt_ssh_user*]
+#   Defaults to undef
+#  [*flavor_ref*]
+#   Defaults to undef
+#  [*flavor_ref_alt*]
+#   Defaults to undef
+#  [*whitebox_db_uri*]
+#   Defaults to undef
+#  [*resize_available*]
+#   Defaults to undef
+#  [*change_password_available*]
+#   Defaults to undef
+#  [*allow_tenant_isolation*]
+#   Defaults to undef
+#  [*public_network_id*]
+#   Defaults to undef
+#  [*public_router_id*]
+#   Defaults to ''
+#  [*cinder_available*]
+#   Defaults to true
+#  [*glance_available*]
+#   Defaults to true
+#  [*heat_available*]
+#   Defaults to false
+#  [*ceilometer_available*]
+#   Defaults to false
+#  [*horizon_available*]
+#   Defaults to true
+#  [*neutron_available*]
+#   Defaults to false
+#  [*nova_available*]
+#   Defaults to true
+#  [*swift_available*]
+#   Defaults to false
+#  [*keystone_v2*]
+#   Defaults to true
+#  [*keystone_v3*]
+#   Defaults to true
+#  [*auth_version*]
+#   Defaults to 'v2'
+#
 class tempest(
   $install_from_source       = true,
   $tempest_config_file       = '/var/lib/tempest/etc/tempest.conf',
