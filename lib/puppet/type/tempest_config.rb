@@ -14,6 +14,7 @@ Puppet::Type.newtype(:tempest_config) do
       value.capitalize! if value =~ /^(true|false)$/i
       value
     end
+    newvalues(/^[\S ]*$/)
 
     def is_to_s( currentvalue )
       if resource.secret?
@@ -47,6 +48,11 @@ Puppet::Type.newtype(:tempest_config) do
         raise(Puppet::Error, "File paths must be fully qualified, not '#{value}'")
       end
     end
+  end
+
+  newparam(:ensure_absent_val) do
+    desc 'A value that is specified as the value property will behave as if ensure => absent was specified'
+    defaultto('<SERVICE DEFAULT>')
   end
 
 end
