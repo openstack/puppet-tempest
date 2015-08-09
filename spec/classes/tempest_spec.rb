@@ -142,15 +142,6 @@ describe 'tempest' do
           )
         end
 
-        it 'load configuration' do
-          is_expected.to contain_file('/var/lib/tempest/etc/tempest.conf').with(
-            :replace => false,
-            :source  => '/var/lib/tempest/etc/tempest.conf.sample',
-            :require => "Vcsrepo[/var/lib/tempest]",
-            :owner   => 'root'
-          )
-        end
-
         it 'configure tempest config' do
           is_expected.to contain_tempest_config('compute/change_password_available').with(:value => nil)
           is_expected.to contain_tempest_config('compute/flavor_ref').with(:value => nil)
@@ -205,14 +196,12 @@ describe 'tempest' do
             :ensure            => 'present',
             :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
             :image_name        => 'image name',
-            :require           => 'File[/var/lib/tempest/etc/tempest.conf]'
           )
 
           is_expected.to contain_tempest_glance_id_setter('image_ref_alt').with(
             :ensure            => 'present',
             :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
             :image_name        => 'image name alt',
-            :require           => 'File[/var/lib/tempest/etc/tempest.conf]'
           )
         end
 
@@ -221,7 +210,6 @@ describe 'tempest' do
             :ensure            => 'present',
             :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
             :network_name      => 'network name',
-            :require           => 'File[/var/lib/tempest/etc/tempest.conf]'
           )
         end
       end

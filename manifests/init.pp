@@ -132,16 +132,9 @@ class tempest(
 
     $tempest_conf = "${tempest_clone_path}/etc/tempest.conf"
 
-    file { $tempest_conf:
-      replace => false,
-      source  => "${tempest_conf}.sample",
-      require => Vcsrepo[$tempest_clone_path],
-      owner   => $tempest_clone_owner,
-    }
-
     Tempest_config {
       path    => $tempest_conf,
-      require => File[$tempest_conf],
+      require => Vcsrepo[$tempest_clone_path],
     }
   } else {
     Tempest_config {
@@ -203,8 +196,8 @@ class tempest(
         ensure            => present,
         tempest_conf_path => $tempest_conf,
         image_name        => $image_name,
-        require           => File[$tempest_conf],
       }
+      Tempest_config<||> -> Tempest_glance_id_setter['image_ref']
     } elsif ($image_name and $image_ref) or (! $image_name and ! $image_ref) {
       fail('A value for either image_name or image_ref must be provided.')
     }
@@ -213,8 +206,8 @@ class tempest(
         ensure            => present,
         tempest_conf_path => $tempest_conf,
         image_name        => $image_name_alt,
-        require           => File[$tempest_conf],
       }
+      Tempest_config<||> -> Tempest_glance_id_setter['image_ref_alt']
     } elsif ($image_name_alt and $image_ref_alt) or (! $image_name_alt and ! $image_ref_alt) {
         fail('A value for either image_name_alt or image_ref_alt must \
 be provided.')
@@ -227,8 +220,8 @@ be provided.')
         ensure            => present,
         tempest_conf_path => $tempest_conf,
         network_name      => $public_network_name,
-        require           => File[$tempest_conf],
       }
+      Tempest_config<||> -> Tempest_neutron_net_id_setter['public_network_id']
     } elsif ($public_network_name and $public_network_id) or (! $public_network_name and ! $public_network_id) {
       fail('A value for either public_network_id or public_network_name \
   must be provided.')
