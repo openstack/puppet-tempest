@@ -2,6 +2,11 @@ require 'spec_helper'
 
 describe 'tempest' do
   shared_examples 'tempest' do
+
+    let :pre_condition do
+      "include ::glance"
+    end
+
     context 'without parameters' do
       describe "should raise error" do
         it { expect { is_expected.to contain_class('tempest::params') }.to raise_error(Puppet::Error, /A value for either image_name or image_ref/) }
