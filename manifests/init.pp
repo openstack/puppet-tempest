@@ -7,6 +7,8 @@
 #
 #  [*install_from_source*]
 #   Defaults to true
+#  [*git_clone*]
+#   Defaults to true
 #  [*tempest_config_file*]
 #   Defaults to '/var/lib/tempest/etc/tempest.conf'
 #  [*tempest_repo_uri*]
@@ -118,6 +120,7 @@
 #
 class tempest(
   $install_from_source       = true,
+  $git_clone                 = true,
   $tempest_config_file       = '/var/lib/tempest/etc/tempest.conf',
 
   # Clone config
@@ -218,13 +221,16 @@ class tempest(
       require => Exec['install-pip'],
     }
 
-    vcsrepo { $tempest_clone_path:
-      ensure   => 'present',
-      source   => $tempest_repo_uri,
-      revision => $tempest_repo_revision,
-      provider => 'git',
-      require  => Package['git'],
-      user     => $tempest_clone_owner,
+    if $git_clone {
+      vcsrepo { $tempest_clone_path:
+        ensure   => 'present',
+        source   => $tempest_repo_uri,
+        revision => $tempest_repo_revision,
+        provider => 'git',
+        require  => Package['git'],
+        user     => $tempest_clone_owner,
+      }
+      Vcsrepo<||> -> Tempest_config<||>
     }
 
     if $setup_venv {
@@ -234,10 +240,12 @@ class tempest(
         cwd     => $tempest_clone_path,
         unless  => "/usr/bin/test -d ${tempest_clone_path}/.venv",
         require => [
-          Vcsrepo[$tempest_clone_path],
           Exec['install-tox'],
           Package[$tempest::params::dev_packages],
         ],
+      }
+      if $git_clone {
+        Vcsrepo<||> -> Exec['setup-venv']
       }
     }
 
@@ -245,7 +253,6 @@ class tempest(
 
     Tempest_config {
       path    => $tempest_conf,
-      require => Vcsrepo[$tempest_clone_path],
     }
   } else {
     Tempest_config {
