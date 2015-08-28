@@ -4,7 +4,8 @@ describe 'tempest' do
   shared_examples 'tempest' do
 
     let :pre_condition do
-      "include ::glance"
+      "include ::glance
+       class { 'neutron': rabbit_password => 'passw0rd' }"
     end
 
     context 'without parameters' do
@@ -241,7 +242,8 @@ describe 'tempest' do
 
   context 'on RedHat platforms' do
     let :facts do
-      { :osfamily => 'RedHat' }
+      { :osfamily               => 'RedHat',
+        :operatingsystemrelease => '7' }
     end
 
     let :platform_params do

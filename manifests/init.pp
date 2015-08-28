@@ -341,6 +341,7 @@ be provided.')
         tempest_conf_path => $tempest_conf,
         network_name      => $public_network_name,
       }
+      Neutron_network<||> -> Tempest_neutron_net_id_setter['public_network_id']
       Tempest_config<||> -> Tempest_neutron_net_id_setter['public_network_id']
     } elsif ($public_network_name and $public_network_id) or (! $public_network_name and ! $public_network_id) {
       fail('A value for either public_network_id or public_network_name \
