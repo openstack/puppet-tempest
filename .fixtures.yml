@@ -4,6 +4,7 @@ fixtures:
     inifile: 'git://github.com/puppetlabs/puppetlabs-inifile'
     openstacklib: 'git://github.com/stackforge/puppet-openstacklib.git'
     glance: 'git://github.com/openstack/puppet-glance.git'
+    neutron: 'git://github.com/openstack/puppet-neutron.git'
     vcsrepo: 'git://github.com/puppetlabs/puppetlabs-vcsrepo'
   symlinks:
     tempest: "#{source_dir}"
