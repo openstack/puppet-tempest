@@ -121,6 +121,10 @@
 #   Defaults to '/var/lib/tempest'
 #  [*img_file*]
 #   Defaults to 'cirros-0.3.4-x86_64-disk.img'
+#  [*login_url*]
+#   Defaults to undef
+#  [*dashboard_url*]
+#   Defaults to undef
 #
 class tempest(
   $install_from_source       = true,
@@ -146,6 +150,10 @@ class tempest(
   #
   $configure_networks        = true,
   $public_network_name       = undef,
+
+  # Horizon dashboard config
+  $login_url                 = undef,
+  $dashboard_url             = undef,
 
   # tempest.conf parameters
   #
@@ -295,6 +303,8 @@ class tempest(
     'identity-feature-enabled/api_v3':   value => $keystone_v3;
     'network/public_network_id':         value => $public_network_id;
     'network/public_router_id':          value => $public_router_id;
+    'dashboard/login_url':               value => $login_url;
+    'dashboard/dashboard_url':           value => $dashboard_url;
     'service_available/cinder':          value => $cinder_available;
     'service_available/glance':          value => $glance_available;
     'service_available/heat':            value => $heat_available;

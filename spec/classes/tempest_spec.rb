@@ -179,6 +179,8 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('identity-feature-enabled/api_v3').with(:value => true)
           is_expected.to contain_tempest_config('network/public_network_id').with(:value => nil)
           is_expected.to contain_tempest_config('network/public_router_id').with(:value => '')
+          is_expected.to contain_tempest_config('dashboard/login_url').with(:value => nil)
+          is_expected.to contain_tempest_config('dashboard/dashboard_url').with(:value => nil)
           is_expected.to contain_tempest_config('service_available/cinder').with(:value => true)
           is_expected.to contain_tempest_config('service_available/glance').with(:value => true)
           is_expected.to contain_tempest_config('service_available/heat').with(:value => false)
