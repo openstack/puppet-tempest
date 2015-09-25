@@ -109,6 +109,8 @@
 #   Defaults to false
 #  [*nova_available*]
 #   Defaults to true
+#  [*sahara_available*]
+#   Defaults to false
 #  [*swift_available*]
 #   Defaults to false
 #  [*keystone_v2*]
@@ -205,6 +207,7 @@ class tempest(
   $horizon_available         = true,
   $neutron_available         = false,
   $nova_available            = true,
+  $sahara_available          = false,
   $swift_available           = false,
   $keystone_v2               = true,
   $keystone_v3               = true,
@@ -312,6 +315,7 @@ class tempest(
     'service_available/horizon':         value => $horizon_available;
     'service_available/neutron':         value => $neutron_available;
     'service_available/nova':            value => $nova_available;
+    'service_available/sahara':          value => $sahara_available;
     'service_available/swift':           value => $swift_available;
     'whitebox/db_uri':                   value => $whitebox_db_uri;
     'cli/cli_dir':                       value => $cli_dir;

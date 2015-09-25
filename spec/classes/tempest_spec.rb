@@ -188,6 +188,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('service_available/horizon').with(:value => true)
           is_expected.to contain_tempest_config('service_available/neutron').with(:value => true)
           is_expected.to contain_tempest_config('service_available/nova').with(:value => true)
+          is_expected.to contain_tempest_config('service_available/sahara').with(:value => false)
           is_expected.to contain_tempest_config('service_available/swift').with(:value => false)
           is_expected.to contain_tempest_config('whitebox/db_uri').with(:value => nil)
           is_expected.to contain_tempest_config('cli/cli_dir').with(:value => nil)
