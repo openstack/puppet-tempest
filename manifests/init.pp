@@ -113,6 +113,8 @@
 #   Defaults to false
 #  [*swift_available*]
 #   Defaults to false
+#  [*trove_available*]
+#   Defaults to false
 #  [*keystone_v2*]
 #   Defaults to true
 #  [*keystone_v3*]
@@ -209,6 +211,7 @@ class tempest(
   $nova_available            = true,
   $sahara_available          = false,
   $swift_available           = false,
+  $trove_available           = false,
   $keystone_v2               = true,
   $keystone_v3               = true,
   $auth_version              = 'v2',
@@ -317,6 +320,7 @@ class tempest(
     'service_available/nova':            value => $nova_available;
     'service_available/sahara':          value => $sahara_available;
     'service_available/swift':           value => $swift_available;
+    'service_available/trove':           value => $trove_available;
     'whitebox/db_uri':                   value => $whitebox_db_uri;
     'cli/cli_dir':                       value => $cli_dir;
     'oslo_concurrency/lock_path':        value => $lock_path;
