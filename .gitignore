@@ -7,3 +7,4 @@ pkg
 vendor
 .vagrant
 .project
+openstack/
