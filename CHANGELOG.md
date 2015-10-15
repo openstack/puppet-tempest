@@ -1,3 +1,21 @@
+##2015-10-10 - 6.1.0
+###Summary
+
+This is a maintenance and features release in Kilo series.
+
+The tempest.conf.sample does not exist anymore so we need to stop relying on
+this file to create the tempest.conf configuration file.
+
+####Features
+- Add tempest::config class
+- Add config parameters to run Keystone v3 tests
+
+####Maintenance
+- acceptance: checkout stable/kilo puppet modules
+
+####Bugfixes
+- do not create tempest.conf from .sample file
+
 ##2015-07-08 - 6.0.0
 ###Summary
 
