@@ -1,7 +1,7 @@
 Tempest
 =======
 
-6.0.0 - 2015.1 - Kilo
+6.1.0 - 2015.1 - Kilo
 
 Module for installing and configuring tempest.
 
