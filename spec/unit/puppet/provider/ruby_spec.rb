@@ -3,9 +3,9 @@ require 'puppet'
 
 describe 'Providers' do
   glance_provider_class =
-    Puppet::Type.type(:tempest_glance_id_setter).provider(:ruby)
+    Puppet::Type.type(:tempest_glance_id_setter).provider(:openstack)
   network_provider_class =
-    Puppet::Type.type(:tempest_neutron_net_id_setter).provider(:ruby)
+    Puppet::Type.type(:tempest_neutron_net_id_setter).provider(:openstack)
 
   include PuppetlabsSpec::Files
   let(:tmpfile) { tmpfilename('ini_setting_test') }

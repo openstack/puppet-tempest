@@ -1,6 +1,11 @@
-Puppet::Type.type(:tempest_glance_id_setter).provide(:ruby) do
+require File.join(File.dirname(__FILE__), '..','..','..', 'puppet/provider/tempest')
 
-  # almost entirely lifted from stdlib's file_line
+Puppet::Type.type(:tempest_glance_id_setter).provide(
+  :openstack,
+  :parent => Puppet::Provider::Tempest
+) do
+
+  @credentials = Puppet::Provider::Openstack::CredentialsV2_0.new
 
   def exists?
     lines.find do |line|
@@ -8,13 +13,32 @@ Puppet::Type.type(:tempest_glance_id_setter).provide(:ruby) do
     end
   end
 
+  def file_path
+    resource[:tempest_conf_path]
+  end
+
   def create
     handle_create_with_match
   end
 
+  def destroy
+    handle_create_with_match
+  end
+
   def get_image_id
-    @image_id ||= Puppet::Resource.indirection.find("Glance_image/#{resource[:image_name]}")[:id]
-    @image_id if @image_id != :absent
+    if resource[:ensure] == :present or resource[:ensure].nil?
+      if @image_id.nil?
+        images = self.class.request('image', 'list', file_path)
+        img = images.detect {|img| img[:name] == resource[:image_name]}
+        if img.nil?
+          raise(Puppet::Error, "Image #{resource[:image_name]} not found!")
+        end
+        @image_id = img[:id]
+      end
+    elsif resource[:ensure] != :absent
+      raise(Puppet::Error, "Cannot ensure to #{resource[:ensure]}")
+    end
+    @image_id
   end
 
   def should_line
@@ -32,7 +56,7 @@ Puppet::Type.type(:tempest_glance_id_setter).provide(:ruby) do
     file = lines
     case match_count
     when 1
-      File.open(resource[:tempest_conf_path], 'w') do |fh|
+      File.open(file_path, 'w') do |fh|
         lines.each do |l|
           fh.puts(regex.match(l) ? "#{should_line}" : l)
         end
@@ -44,10 +68,10 @@ Puppet::Type.type(:tempest_glance_id_setter).provide(:ruby) do
       else
         file.insert(block_pos+1, "#{should_line}\n")
       end
-      File.write(resource[:tempest_conf_path], file.join)
+      File.write(file_path, file.join)
     else                        # cannot be negative.
       raise Puppet::Error, "More than one line in file \
-'#{resource[:tempest_conf_path]}' matches pattern '#{regex}'"
+'#{file_path}' matches pattern '#{regex}'"
     end
   end
 
@@ -58,7 +82,7 @@ Puppet::Type.type(:tempest_glance_id_setter).provide(:ruby) do
     #  file; for now assuming that this type is only used on
     #  small-ish config files that can fit into memory without
     #  too much trouble.
-    @lines ||= File.readlines(resource[:tempest_conf_path])
+    @lines ||= File.readlines(file_path)
   end
 
 end

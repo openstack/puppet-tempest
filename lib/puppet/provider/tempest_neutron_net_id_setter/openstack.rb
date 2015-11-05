@@ -1,6 +1,11 @@
-Puppet::Type.type(:tempest_neutron_net_id_setter).provide(:ruby) do
+require File.join(File.dirname(__FILE__), '..','..','..', 'puppet/provider/tempest')
 
-  # almost entirely lifted from stdlib's file_line
+Puppet::Type.type(:tempest_neutron_net_id_setter).provide(
+  :openstack,
+  :parent => Puppet::Provider::Tempest
+) do
+
+  @credentials = Puppet::Provider::Openstack::CredentialsV2_0.new
 
   def exists?
     lines.find do |line|
@@ -8,13 +13,32 @@ Puppet::Type.type(:tempest_neutron_net_id_setter).provide(:ruby) do
     end
   end
 
+  def file_path
+    resource[:tempest_conf_path]
+  end
+
   def create
     handle_create_with_match
   end
 
+  def destroy
+    handle_create_with_match
+  end
+
   def get_network_id
-    @network_id ||= Puppet::Resource.indirection.find("Neutron_network/#{@resource[:network_name]}")[:id]
-    @network_id if @network_id != :absent
+    if resource[:ensure] == :present or resource[:ensure].nil?
+      if @network_id.nil?
+        nets = self.class.request('network', 'list', file_path)
+        net = nets.detect {|img| img[:name] == resource[:network_name]}
+        if net.nil?
+          raise(Puppet::Error, "Network #{resource[:network_name]} not found!")
+        end
+        @network_id = net[:id]
+      end
+    elsif resource[:ensure] != :absent
+      raise(Puppet::Error, "Cannot ensure to #{resource[:ensure]}")
+    end
+    @network_id
   end
 
   def should_line
@@ -31,7 +55,7 @@ Puppet::Type.type(:tempest_neutron_net_id_setter).provide(:ruby) do
     file = lines
     case match_count
     when 1
-      File.open(resource[:tempest_conf_path], 'w') do |fh|
+      File.open(file_path, 'w') do |fh|
         lines.each do |l|
           fh.puts(regex.match(l) ? should_line : l)
         end
@@ -43,10 +67,10 @@ Puppet::Type.type(:tempest_neutron_net_id_setter).provide(:ruby) do
       else
         file.insert(block_pos+1, "#{should_line}\n")
       end
-      File.write(resource[:tempest_conf_path], file.join)
+      File.write(file_path, file.join)
     else                        # cannot be negative.
       raise Puppet::Error, "More than one line in file \
-'#{resource[:tempest_conf_path]}' matches pattern '#{regex}'"
+'#{file_path}' matches pattern '#{regex}'"
     end
   end
 
@@ -57,7 +81,7 @@ Puppet::Type.type(:tempest_neutron_net_id_setter).provide(:ruby) do
     #  file; for now assuming that this type is only used on
     #  small-ish config files that can fit into memory without
     #  too much trouble.
-    @lines ||= File.readlines(resource[:tempest_conf_path])
+    @lines ||= File.readlines(file_path)
   end
 
 end
