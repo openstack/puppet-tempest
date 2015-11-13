@@ -111,6 +111,8 @@
 #   Defaults to false
 #  [*nova_available*]
 #   Defaults to true
+#  [*murano_available*]
+#   Defaults to false
 #  [*sahara_available*]
 #   Defaults to false
 #  [*swift_available*]
@@ -212,6 +214,7 @@ class tempest(
   $horizon_available         = true,
   $neutron_available         = false,
   $nova_available            = true,
+  $murano_available          = false,
   $sahara_available          = false,
   $swift_available           = false,
   $trove_available           = false,
@@ -322,6 +325,7 @@ class tempest(
     'service_available/horizon':         value => $horizon_available;
     'service_available/neutron':         value => $neutron_available;
     'service_available/nova':            value => $nova_available;
+    'service_available/murano':          value => $murano_available;
     'service_available/sahara':          value => $sahara_available;
     'service_available/swift':           value => $swift_available;
     'service_available/trove':           value => $trove_available;
