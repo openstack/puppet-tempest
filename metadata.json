@@ -1,6 +1,6 @@
 {
   "name": "openstack-tempest",
-  "version": "6.1.0",
+  "version": "7.0.0",
   "author": "OpenStack Contributors",
   "summary": "Puppet module for OpenStack Tempest",
   "license": "Apache-2.0",

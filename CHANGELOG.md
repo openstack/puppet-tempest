@@ -1,3 +1,27 @@
+##2015-11-25 - 7.0.0
+###Summary
+
+This is a backwards-compatible major release for OpenStack Liberty.
+
+####Features
+- allow to enable/disable Aodh service
+- allow to enable/disable Trove service
+- allow to enable/disable Sahara service
+- add dashboard parameters
+- add basic scenarios options
+- allow to optionally git clone tempest
+- reflect provider change in puppet-openstacklib
+
+####Bugfixes
+- make sure neutron network is created before Tempest_neutron_net_id_setter
+- glance_id_setter: execute after creating Glance image
+- fix ocnfiguration for glance/neutron setters
+
+####Maintenance
+- initial msync run for all Puppet OpenStack modules
+- try to use zuul-cloner to prepare fixtures
+- remove class_parameter_defaults puppet-lint check
+
 ##2015-10-10 - 6.1.0
 ###Summary
 
