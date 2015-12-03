@@ -203,6 +203,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('DEFAULT/log_file').with(:value => nil)
           is_expected.to contain_tempest_config('scenario/img_dir').with(:value => '/var/lib/tempest')
           is_expected.to contain_tempest_config('scenario/img_file').with(:value => 'cirros-0.3.4-x86_64-disk.img')
+          is_expected.to contain_tempest_config('service_broker/run_service_broker_tests').with(:value => false)
         end
 
         it 'set glance id' do

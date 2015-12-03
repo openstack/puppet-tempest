@@ -113,6 +113,8 @@
 #   Defaults to true
 #  [*murano_available*]
 #   Defaults to false
+#  [*run_service_broker_tests*]
+#   Defaults to false
 #  [*sahara_available*]
 #   Defaults to false
 #  [*swift_available*]
@@ -221,6 +223,7 @@ class tempest(
   $keystone_v2               = true,
   $keystone_v3               = true,
   $auth_version              = 'v2',
+  $run_service_broker_tests  = false,
   # scenario options
   $img_dir                   = '/var/lib/tempest',
   $img_file                  = 'cirros-0.3.4-x86_64-disk.img',
@@ -288,57 +291,58 @@ class tempest(
   }
 
   tempest_config {
-    'compute/change_password_available': value => $change_password_available;
-    'compute/flavor_ref':                value => $flavor_ref;
-    'compute/flavor_ref_alt':            value => $flavor_ref_alt;
-    'compute/image_alt_ssh_user':        value => $image_alt_ssh_user;
-    'compute/image_ref':                 value => $image_ref;
-    'compute/image_ref_alt':             value => $image_ref_alt;
-    'compute/image_ssh_user':            value => $image_ssh_user;
-    'compute/resize_available':          value => $resize_available;
-    'compute/allow_tenant_isolation':    value => $allow_tenant_isolation;
-    'identity/admin_password':           value => $admin_password, secret => true;
-    'identity/admin_tenant_name':        value => $admin_tenant_name;
-    'identity/admin_username':           value => $admin_username;
-    'identity/admin_role':               value => $admin_role;
-    'identity/admin_domain_name':        value => $admin_domain_name;
-    'identity/alt_password':             value => $alt_password, secret => true;
-    'identity/alt_tenant_name':          value => $alt_tenant_name;
-    'identity/alt_username':             value => $alt_username;
-    'identity/password':                 value => $password, secret => true;
-    'identity/tenant_name':              value => $tenant_name;
-    'identity/uri':                      value => $identity_uri;
-    'identity/uri_v3':                   value => $identity_uri_v3;
-    'identity/username':                 value => $username;
-    'identity/auth_version':             value => $auth_version;
-    'identity-feature-enabled/api_v2':   value => $keystone_v2;
-    'identity-feature-enabled/api_v3':   value => $keystone_v3;
-    'network/public_network_id':         value => $public_network_id;
-    'network/public_router_id':          value => $public_router_id;
-    'dashboard/login_url':               value => $login_url;
-    'dashboard/dashboard_url':           value => $dashboard_url;
-    'service_available/cinder':          value => $cinder_available;
-    'service_available/glance':          value => $glance_available;
-    'service_available/heat':            value => $heat_available;
-    'service_available/ceilometer':      value => $ceilometer_available;
-    'service_available/aodh':            value => $aodh_available;
-    'service_available/horizon':         value => $horizon_available;
-    'service_available/neutron':         value => $neutron_available;
-    'service_available/nova':            value => $nova_available;
-    'service_available/murano':          value => $murano_available;
-    'service_available/sahara':          value => $sahara_available;
-    'service_available/swift':           value => $swift_available;
-    'service_available/trove':           value => $trove_available;
-    'whitebox/db_uri':                   value => $whitebox_db_uri;
-    'cli/cli_dir':                       value => $cli_dir;
-    'oslo_concurrency/lock_path':        value => $lock_path;
-    'DEFAULT/debug':                     value => $debug;
-    'DEFAULT/verbose':                   value => $verbose;
-    'DEFAULT/use_stderr':                value => $use_stderr;
-    'DEFAULT/use_syslog':                value => $use_syslog;
-    'DEFAULT/log_file':                  value => $log_file;
-    'scenario/img_dir':                  value => $img_dir;
-    'scenario/img_file':                 value => $img_file;
+    'compute/change_password_available':       value => $change_password_available;
+    'compute/flavor_ref':                      value => $flavor_ref;
+    'compute/flavor_ref_alt':                  value => $flavor_ref_alt;
+    'compute/image_alt_ssh_user':              value => $image_alt_ssh_user;
+    'compute/image_ref':                       value => $image_ref;
+    'compute/image_ref_alt':                   value => $image_ref_alt;
+    'compute/image_ssh_user':                  value => $image_ssh_user;
+    'compute/resize_available':                value => $resize_available;
+    'compute/allow_tenant_isolation':          value => $allow_tenant_isolation;
+    'identity/admin_password':                 value => $admin_password, secret => true;
+    'identity/admin_tenant_name':              value => $admin_tenant_name;
+    'identity/admin_username':                 value => $admin_username;
+    'identity/admin_role':                     value => $admin_role;
+    'identity/admin_domain_name':              value => $admin_domain_name;
+    'identity/alt_password':                   value => $alt_password, secret => true;
+    'identity/alt_tenant_name':                value => $alt_tenant_name;
+    'identity/alt_username':                   value => $alt_username;
+    'identity/password':                       value => $password, secret => true;
+    'identity/tenant_name':                    value => $tenant_name;
+    'identity/uri':                            value => $identity_uri;
+    'identity/uri_v3':                         value => $identity_uri_v3;
+    'identity/username':                       value => $username;
+    'identity/auth_version':                   value => $auth_version;
+    'identity-feature-enabled/api_v2':         value => $keystone_v2;
+    'identity-feature-enabled/api_v3':         value => $keystone_v3;
+    'network/public_network_id':               value => $public_network_id;
+    'network/public_router_id':                value => $public_router_id;
+    'dashboard/login_url':                     value => $login_url;
+    'dashboard/dashboard_url':                 value => $dashboard_url;
+    'service_available/cinder':                value => $cinder_available;
+    'service_available/glance':                value => $glance_available;
+    'service_available/heat':                  value => $heat_available;
+    'service_available/ceilometer':            value => $ceilometer_available;
+    'service_available/aodh':                  value => $aodh_available;
+    'service_available/horizon':               value => $horizon_available;
+    'service_available/neutron':               value => $neutron_available;
+    'service_available/nova':                  value => $nova_available;
+    'service_available/murano':                value => $murano_available;
+    'service_available/sahara':                value => $sahara_available;
+    'service_available/swift':                 value => $swift_available;
+    'service_available/trove':                 value => $trove_available;
+    'whitebox/db_uri':                         value => $whitebox_db_uri;
+    'cli/cli_dir':                             value => $cli_dir;
+    'oslo_concurrency/lock_path':              value => $lock_path;
+    'DEFAULT/debug':                           value => $debug;
+    'DEFAULT/verbose':                         value => $verbose;
+    'DEFAULT/use_stderr':                      value => $use_stderr;
+    'DEFAULT/use_syslog':                      value => $use_syslog;
+    'DEFAULT/log_file':                        value => $log_file;
+    'scenario/img_dir':                        value => $img_dir;
+    'scenario/img_file':                       value => $img_file;
+    'service_broker/run_service_broker_tests': value => $run_service_broker_tests;
   }
 
   if $configure_images {
