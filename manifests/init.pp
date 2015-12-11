@@ -352,6 +352,7 @@ class tempest(
       }
       Glance_image<||> -> Tempest_glance_id_setter['image_ref']
       Tempest_config<||> -> Tempest_glance_id_setter['image_ref']
+      Keystone_user_role<||> -> Tempest_glance_id_setter['image_ref']
     } elsif ($image_name and $image_ref) or (! $image_name and ! $image_ref) {
       fail('A value for either image_name or image_ref must be provided.')
     }
@@ -363,6 +364,7 @@ class tempest(
       }
       Glance_image<||> -> Tempest_glance_id_setter['image_ref_alt']
       Tempest_config<||> -> Tempest_glance_id_setter['image_ref_alt']
+      Keystone_user_role<||> -> Tempest_glance_id_setter['image_ref_alt']
     } elsif ($image_name_alt and $image_ref_alt) or (! $image_name_alt and ! $image_ref_alt) {
         fail('A value for either image_name_alt or image_ref_alt must \
 be provided.')
@@ -378,6 +380,7 @@ be provided.')
       }
       Neutron_network<||> -> Tempest_neutron_net_id_setter['public_network_id']
       Tempest_config<||> -> Tempest_neutron_net_id_setter['public_network_id']
+      Keystone_user_role<||> -> Tempest_neutron_net_id_setter['public_network_id']
     } elsif ($public_network_name and $public_network_id) or (! $public_network_name and ! $public_network_id) {
       fail('A value for either public_network_id or public_network_name \
   must be provided.')
