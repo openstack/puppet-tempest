@@ -194,6 +194,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('service_available/swift').with(:value => false)
           is_expected.to contain_tempest_config('service_available/trove').with(:value => false)
           is_expected.to contain_tempest_config('service_available/ironic').with(:value => false)
+          is_expected.to contain_tempest_config('service_available/zaqar').with(:value => false)
           is_expected.to contain_tempest_config('whitebox/db_uri').with(:value => nil)
           is_expected.to contain_tempest_config('cli/cli_dir').with(:value => nil)
           is_expected.to contain_tempest_config('oslo_concurrency/lock_path').with(:value => '/var/lib/tempest')
