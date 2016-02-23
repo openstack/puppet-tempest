@@ -158,6 +158,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('compute/image_ssh_user').with(:value => nil)
           is_expected.to contain_tempest_config('compute/resize_available').with(:value => nil)
           is_expected.to contain_tempest_config('compute/allow_tenant_isolation').with(:value => nil)
+          is_expected.to contain_tempest_config('compute/build_interval').with(:value => nil)
           is_expected.to contain_tempest_config('identity/admin_password').with(:value => nil)
           is_expected.to contain_tempest_config('identity/admin_domain_name').with(:value => nil)
           is_expected.to contain_tempest_config('identity/admin_password').with_secret( true )

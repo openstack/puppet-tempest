@@ -141,6 +141,8 @@
 #   Defaults to undef
 #  [*dashboard_url*]
 #   Defaults to undef
+#  [*compute_build_interval*]
+#   Defaults to undef
 #
 class tempest(
   $install_from_source           = true,
@@ -204,6 +206,7 @@ class tempest(
   $image_alt_ssh_user            = undef,
   $flavor_ref                    = undef,
   $flavor_ref_alt                = undef,
+  $compute_build_interval        = undef,
   # whitebox
   $whitebox_db_uri               = undef,
   # testing features that are     supported
@@ -309,6 +312,7 @@ class tempest(
     'compute/image_ssh_user':                  value => $image_ssh_user;
     'compute/resize_available':                value => $resize_available;
     'compute/allow_tenant_isolation':          value => $allow_tenant_isolation;
+    'compute/build_interval':                  value => $compute_build_interval;
     'identity/admin_password':                 value => $admin_password, secret => true;
     'identity/admin_tenant_name':              value => $admin_tenant_name;
     'identity/admin_username':                 value => $admin_username;
