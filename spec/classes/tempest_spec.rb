@@ -103,6 +103,18 @@ describe 'tempest' do
       end
     end
 
+    context 'with sahara_plugins' do
+      let :params do
+        { :configure_images => false,
+          :sahara_available => true,
+          :sahara_plugins   => ['vanilla'] }
+      end
+
+      it 'properly configures Sahara plugins in tempest.conf' do
+        is_expected.to contain_tempest_config('data-processing-feature-enabled/plugins').with_value(['vanilla'])
+      end
+    end
+
     context 'with parameters' do
       let :params do
         { :configure_images    => true,

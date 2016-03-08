@@ -97,6 +97,9 @@
 #   Defaults to undef
 #  [*public_router_id*]
 #   Defaults to ''
+#  [*sahara_plugins*]
+#   (optional) List of enabled Sahara plugins
+#   Defaults to undef
 #  [*cinder_available*]
 #   Defaults to true
 #  [*glance_available*]
@@ -221,6 +224,8 @@ class tempest(
   $public_network_id             = undef,
   # Upstream has a bad defaul    t - set it to empty string.
   $public_router_id              = '',
+  # Sahara config
+  $sahara_plugins                = undef,
   # Service configuration
   $cinder_available              = true,
   $glance_available              = true,
@@ -412,6 +417,12 @@ be provided.')
     } elsif ($public_network_name and $public_network_id) or (! $public_network_name and ! $public_network_id) {
       fail('A value for either public_network_id or public_network_name \
   must be provided.')
+    }
+  }
+
+  if $sahara_available {
+    tempest_config {
+      'data-processing-feature-enabled/plugins': value => $sahara_plugins,
     }
   }
 
