@@ -6,12 +6,14 @@ describe 'basic tempest' do
 
     it 'should work with no errors' do
       pp= <<-EOS
-      Exec { logoutput => 'on_failure' }
+      include ::openstack_integration
+      include ::openstack_integration::repos
 
       class { '::tempest':
-        setup_venv         => true,
-        configure_images   => false,
-        configure_networks => false,
+        setup_venv            => true,
+        configure_images      => false,
+        configure_networks    => false,
+        manage_tests_packages => true,
       }
       EOS
 

@@ -150,6 +150,8 @@
 #   Defaults to undef
 #  [*disable_ssl_validation*]
 #   Defaults to undef
+#  [*manage_tests_packages*]
+#   Defaults to false
 #
 class tempest(
   $install_from_source           = true,
@@ -247,12 +249,13 @@ class tempest(
   $run_service_broker_tests      = false,
   $ca_certificates_file          = undef,
   $disable_ssl_validation        = undef,
+  $manage_tests_packages         = false,
   # scenario options
   $img_dir                       = '/var/lib/tempest',
   $img_file                      = 'cirros-0.3.4-x86_64-disk.img',
 ) {
 
-  include '::tempest::params'
+  include ::tempest::params
 
   if $install_from_source {
     ensure_packages([
@@ -372,6 +375,107 @@ class tempest(
     'scenario/img_dir':                            value => $img_dir;
     'scenario/img_file':                           value => $img_file;
     'service_broker/run_service_broker_tests':     value => $run_service_broker_tests;
+  }
+
+  if $manage_tests_packages {
+    if $aodh_available and $::tempest::params::python_aodh_tests {
+      package { 'python-aodh-tests':
+        ensure => present,
+        name   => $::tempest::params::python_aodh_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $ceilometer_available and $::tempest::params::python_ceilometer_tests {
+      package { 'python-ceilometer-tests':
+        ensure => present,
+        name   => $::tempest::params::python_ceilometer_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $cinder_available and $::tempest::params::python_cinder_tests {
+      package { 'python-cinder-tests':
+        ensure => present,
+        name   => $::tempest::params::python_cinder_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $glance_available and $::tempest::params::python_glance_tests {
+      package { 'python-glance-tests':
+        ensure => present,
+        name   => $::tempest::params::python_glance_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $heat_available and $::tempest::params::python_heat_tests {
+      package { 'python-heat-tests':
+        ensure => present,
+        name   => $::tempest::params::python_heat_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $ironic_available and $::tempest::params::python_ironic_tests {
+      package { 'python-ironic-tests':
+        ensure => present,
+        name   => $::tempest::params::python_ironic_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $::tempest::params::python_keystone_tests {
+      package { 'python-keystone-tests':
+        ensure => present,
+        name   => $::tempest::params::python_keystone_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $murano_available and $::tempest::params::python_murano_tests {
+      package { 'python-murano-tests':
+        ensure => present,
+        name   => $::tempest::params::python_murano_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $neutron_available and $::tempest::params::python_neutron_tests {
+      package { 'python-neutron-tests':
+        ensure => present,
+        name   => $::tempest::params::python_neutron_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $nova_available and $::tempest::params::python_nova_tests {
+      package { 'python-nova-tests':
+        ensure => present,
+        name   => $::tempest::params::python_nova_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $sahara_available and $::tempest::params::python_sahara_tests {
+      package { 'python-sahara-tests':
+        ensure => present,
+        name   => $::tempest::params::python_sahara_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $swift_available and $::tempest::params::python_swift_tests {
+      package { 'python-swift-tests':
+        ensure => present,
+        name   => $::tempest::params::python_swift_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $trove_available and $::tempest::params::python_trove_tests {
+      package { 'python-trove-tests':
+        ensure => present,
+        name   => $::tempest::params::python_trove_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $zaqar_available and $::tempest::params::python_zaqar_tests {
+      package { 'python-zaqar-tests':
+        ensure => present,
+        name   => $::tempest::params::python_zaqar_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
   }
 
   if $configure_images {

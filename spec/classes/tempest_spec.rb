@@ -249,6 +249,36 @@ describe 'tempest' do
     end
   end
 
+  shared_examples 'tempest with plugins packages' do
+    let :pre_condition do
+      "include ::glance
+       class { 'neutron': rabbit_password => 'passw0rd' }"
+    end
+
+    context 'with when managing tests packages for keystone (required service)' do
+      let :params do
+        { :manage_tests_packages => true }
+      end
+
+      describe "should install keystone tests package" do
+        it { expect { is_expected.to contain_package('python-keystone-tests') } }
+        it { expect { is_expected.to_not contain_package('python-aodh-tests') } }
+      end
+    end
+
+    context 'with when managing tests packages for aodh (optional service)' do
+      let :params do
+        { :manage_tests_packages => true,
+          :aodh_available        => true }
+      end
+
+      describe "should install keystone tests package" do
+        it { expect { is_expected.to contain_package('python-aodh-tests') } }
+      end
+    end
+  end
+
+
   context 'on Debian platforms' do
     let :facts do
       { :osfamily     => 'Debian' }
@@ -284,6 +314,7 @@ describe 'tempest' do
     end
 
     it_behaves_like 'tempest'
+    it_behaves_like 'tempest with plugins packages'
   end
 
   context 'unsupported operating system' do
