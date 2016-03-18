@@ -1,0 +1,7 @@
+---
+features:
+  - Add support for Tempest plugin packages.
+  - Add new services support for Sahara, Zaqar, Ironic, Murano.
+  - Add parameters needed when running SSL deployments.
+  - Allow to run puppet-tempest on standalone, by switching id setters
+    to openstackclient instead of catalog resource indirections.
