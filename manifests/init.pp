@@ -440,6 +440,21 @@ class tempest(
         name   => $::tempest::params::python_neutron_tests,
         tag    => ['openstack', 'tempest-package'],
       }
+      package { 'python-neutron-fwaas-tests':
+        ensure => present,
+        name   => $::tempest::params::python_fwaas_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+      package { 'python-neutron-lbaas-tests':
+        ensure => present,
+        name   => $::tempest::params::python_lbaas_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+      package { 'python-neutron-vpnaas-tests':
+        ensure => present,
+        name   => $::tempest::params::python_vpnaas_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
     }
     if $nova_available and $::tempest::params::python_nova_tests {
       package { 'python-nova-tests':
