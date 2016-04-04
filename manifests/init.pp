@@ -257,6 +257,8 @@ class tempest(
 
   include ::tempest::params
 
+  include ::openstacklib::openstackclient
+
   if $install_from_source {
     ensure_packages([
       'git',

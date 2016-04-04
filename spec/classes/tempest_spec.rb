@@ -160,6 +160,12 @@ describe 'tempest' do
           )
         end
 
+        it 'installs python-openstackclient package' do
+          is_expected.to contain_package('python-openstackclient').with(
+            :tag => 'openstack'
+          )
+        end
+
         it 'configure tempest config' do
           is_expected.to contain_tempest_config('compute/change_password_available').with(:value => nil)
           is_expected.to contain_tempest_config('compute/flavor_ref').with(:value => nil)

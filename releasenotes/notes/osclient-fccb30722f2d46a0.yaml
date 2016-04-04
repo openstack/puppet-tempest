@@ -1,0 +1,5 @@
+---
+features:
+  - Installation of python-openstackclient by default and make sure the
+    package is installed before executing our providers that use OpenStack
+    APIs.

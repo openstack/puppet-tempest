@@ -20,4 +20,7 @@ Puppet::Type.newtype(:tempest_glance_id_setter) do
     desc 'name of glance image'
   end
 
+  autorequire(:package) do
+    ['python-openstackclient']
+  end
 end
