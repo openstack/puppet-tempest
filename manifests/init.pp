@@ -292,7 +292,7 @@ class tempest(
     if $setup_venv {
       # virtualenv will be installed along with tox
       exec { 'setup-venv':
-        command => "/usr/bin/python ${tempest_clone_path}/tools/install_venv.py",
+        command => "/usr/bin/virtualenv ${tempest_clone_path}/.venv && ${tempest_clone_path}/.venv/bin/pip install -U -r requirements.txt",
         cwd     => $tempest_clone_path,
         unless  => "/usr/bin/test -d ${tempest_clone_path}/.venv",
         require => [

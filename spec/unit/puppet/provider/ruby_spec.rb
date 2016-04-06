@@ -17,8 +17,8 @@ describe 'Providers' do
       end
     end
 
-    def validate_file(expected_content, tmpfile = tmpfile)
-      expect(File.read(tmpfile)).to eq(expected_content)
+    def validate_file(expected_content, file = tmpfile)
+      expect(File.read(file)).to eq(expected_content)
     end
 
     let(:glance_params) do
