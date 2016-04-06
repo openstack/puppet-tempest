@@ -298,53 +298,39 @@ describe 'tempest' do
     end
   end
 
-
-  context 'on Debian platforms' do
-    let :facts do
-      { :osfamily     => 'Debian' }
-    end
-
-    let :platform_params do
-      { :dev_packages => ['python-dev',
-                          'libxslt1-dev',
-                          'libxml2-dev',
-                          'libssl-dev',
-                          'libffi-dev',
-                          'patch',
-                          'gcc' ] }
-    end
-
-    it_behaves_like 'tempest'
-  end
-
-  context 'on RedHat platforms' do
-    let :facts do
-      { :osfamily               => 'RedHat',
-        :operatingsystemrelease => '7' }
-    end
-
-    let :platform_params do
-      { :dev_packages => ['python-devel',
-                          'libxslt-devel',
-                          'libxml2-devel',
-                          'openssl-devel',
-                          'libffi-devel',
-                          'patch',
-                          'gcc' ] }
-    end
-
-    it_behaves_like 'tempest'
-    it_behaves_like 'tempest with plugins packages'
-  end
-
-  context 'unsupported operating system' do
-    describe 'tempest class without any parameters on Solaris/Nexenta' do
-      let :facts do
-        { :osfamily => 'Solaris',
-        :operatingsystem => 'Nexenta' }
+  on_supported_os({
+    :supported_os => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts({
+          :concat_basedir => '/var/lib/puppet/concat',
+          :processorcount => 2
+        }))
+      end
+      let(:platform_params) do
+        case facts[:osfamily]
+        when 'Debian'
+          { :dev_packages => ['python-dev',
+                              'libxslt1-dev',
+                              'libxml2-dev',
+                              'libssl-dev',
+                              'libffi-dev',
+                              'patch',
+                              'gcc' ] }
+        when 'RedHat'
+          { :dev_packages => ['python-devel',
+                              'libxslt-devel',
+                              'libxml2-devel',
+                              'openssl-devel',
+                              'libffi-devel',
+                              'patch',
+                              'gcc' ] }
+        end
       end
 
-      it { expect { is_expected.to contain_package('tempest') }.to raise_error(Puppet::Error, /Unsupported osfamily: Solaris operatingsystem: Nexenta/) }
+      it_behaves_like 'tempest'
+      it_behaves_like 'tempest with plugins packages'
     end
   end
 end
