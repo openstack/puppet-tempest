@@ -120,6 +120,8 @@
 #   Defaults to false
 #  [*zaqar_available*]
 #   Defaults to false
+#  [*mistral_available*]
+#   Defaults to false
 #  [*run_service_broker_tests*]
 #   Defaults to false
 #  [*sahara_available*]
@@ -243,6 +245,7 @@ class tempest(
   $trove_available               = false,
   $ironic_available              = false,
   $zaqar_available               = false,
+  $mistral_available             = false,
   $keystone_v2                   = true,
   $keystone_v3                   = true,
   $auth_version                  = 'v2',
@@ -490,6 +493,13 @@ class tempest(
       package { 'python-zaqar-tests':
         ensure => present,
         name   => $::tempest::params::python_zaqar_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $mistral_available and $::tempest::params::python_mistral_tests {
+      package { 'python-mistral-tests':
+        ensure => present,
+        name   => $::tempest::params::python_mistral_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
