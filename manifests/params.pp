@@ -10,7 +10,7 @@ class tempest::params {
         'openssl-devel',
         'libffi-devel',
         'patch',
-        'gcc',
+        'gcc'
       ]
       $python_aodh_tests       = 'python-aodh-tests'
       $python_ceilometer_tests = 'python-ceilometer-tests'
@@ -41,6 +41,7 @@ class tempest::params {
         'libffi-dev',
         'patch',
         'gcc',
+        'python-virtualenv',
       ]
       $python_aodh_tests       = false
       $python_ceilometer_tests = false

@@ -317,7 +317,8 @@ describe 'tempest' do
                               'libssl-dev',
                               'libffi-dev',
                               'patch',
-                              'gcc' ] }
+                              'gcc',
+                              'python-virtualenv' ] }
         when 'RedHat'
           { :dev_packages => ['python-devel',
                               'libxslt-devel',
@@ -325,7 +326,7 @@ describe 'tempest' do
                               'openssl-devel',
                               'libffi-devel',
                               'patch',
-                              'gcc' ] }
+                              'gcc'] }
         end
       end
 
