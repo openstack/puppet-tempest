@@ -241,7 +241,8 @@ describe 'tempest' do
                           'libssl-dev',
                           'libffi-dev',
                           'patch',
-                          'gcc' ] }
+                          'gcc',
+                          'python-virtualenv' ] }
     end
 
     it_behaves_like 'tempest'

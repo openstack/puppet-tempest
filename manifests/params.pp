@@ -10,7 +10,7 @@ class tempest::params {
         'openssl-devel',
         'libffi-devel',
         'patch',
-        'gcc',
+        'gcc'
       ]
     }
     'Debian': {
@@ -23,6 +23,7 @@ class tempest::params {
         'libffi-dev',
         'patch',
         'gcc',
+        'python-virtualenv',
       ]
     }
     default: {
