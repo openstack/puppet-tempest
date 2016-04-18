@@ -41,8 +41,6 @@
 #   Defaults to '/var/lib/tempest'
 #  [*debug*]
 #   Defaults to false
-#  [*verbose*]
-#   Defaults to false
 #  [*use_stderr*]
 #   Defaults to true
 #  [*use_syslog*]
@@ -155,6 +153,9 @@
 #  [*manage_tests_packages*]
 #   Defaults to false
 #
+# DEPREACTED PARAMETERS
+#  [*verbose*]
+#   Defaults to false
 class tempest(
   $install_from_source           = true,
   $git_clone                     = true,
@@ -191,7 +192,6 @@ class tempest(
   $cli_dir                       = undef,
   $lock_path                     = '/var/lib/tempest',
   $debug                         = false,
-  $verbose                       = false,
   $use_stderr                    = true,
   $use_syslog                    = false,
   $log_file                      = undef,
@@ -256,7 +256,13 @@ class tempest(
   # scenario options
   $img_dir                       = '/var/lib/tempest',
   $img_file                      = 'cirros-0.3.4-x86_64-disk.img',
+  # DEPRECATED PARAMETERS
+  $verbose                       = false,
 ) {
+
+  if $verbose {
+    warning('verbose is deprecated and does nothing. Will be remove in a future release.')
+  }
 
   include ::tempest::params
 
@@ -372,7 +378,6 @@ class tempest(
     'cli/cli_dir':                                 value => $cli_dir;
     'oslo_concurrency/lock_path':                  value => $lock_path;
     'DEFAULT/debug':                               value => $debug;
-    'DEFAULT/verbose':                             value => $verbose;
     'DEFAULT/use_stderr':                          value => $use_stderr;
     'DEFAULT/use_syslog':                          value => $use_syslog;
     'DEFAULT/log_file':                            value => $log_file;
