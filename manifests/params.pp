@@ -16,6 +16,7 @@ class tempest::params {
       $python_ceilometer_tests = 'python-ceilometer-tests'
       $python_cinder_tests     = 'python-cinder-tests'
       $python_glance_tests     = 'python-glance-tests'
+      $python_gnocchi_tests    = 'python-gnocchi-tests'
       $python_heat_tests       = 'python-heat-tests'
       $python_ironic_tests     = 'python-ironic-tests'
       $python_keystone_tests   = 'python-keystone-tests'
@@ -47,6 +48,7 @@ class tempest::params {
       $python_ceilometer_tests = false
       $python_cinder_tests     = false
       $python_glance_tests     = false
+      $python_gnocchi_tests    = false
       $python_heat_tests       = false
       $python_ironic_tests     = false
       $python_keystone_tests   = false

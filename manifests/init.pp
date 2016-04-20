@@ -108,6 +108,8 @@
 #   Defaults to false
 #  [*aodh_available*]
 #   Defaults to false
+#  [*gnocchi_available*]
+#   Defaults to false
 #  [*horizon_available*]
 #   Defaults to true
 #  [*neutron_available*]
@@ -236,6 +238,7 @@ class tempest(
   $heat_available                = false,
   $ceilometer_available          = false,
   $aodh_available                = false,
+  $gnocchi_available             = false,
   $horizon_available             = true,
   $neutron_available             = false,
   $nova_available                = true,
@@ -365,6 +368,7 @@ class tempest(
     'service_available/heat':                      value => $heat_available;
     'service_available/ceilometer':                value => $ceilometer_available;
     'service_available/aodh':                      value => $aodh_available;
+    'service_available/gnocchi':                   value => $gnocchi_available;
     'service_available/horizon':                   value => $horizon_available;
     'service_available/neutron':                   value => $neutron_available;
     'service_available/nova':                      value => $nova_available;
@@ -413,6 +417,13 @@ class tempest(
       package { 'python-glance-tests':
         ensure => present,
         name   => $::tempest::params::python_glance_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $gnocchi_available and $::tempest::params::python_gnocchi_tests {
+      package { 'python-gnocchi-tests':
+        ensure => present,
+        name   => $::tempest::params::python_gnocchi_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
