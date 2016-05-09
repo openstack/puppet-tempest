@@ -39,16 +39,16 @@
 #   Defaults to undef
 #  [*lock_path*]
 #   Defaults to '/var/lib/tempest'
+#  [*log_file*]
+#   Defaults to $::os_service_default
 #  [*debug*]
 #   Defaults to false
 #  [*use_stderr*]
 #   Defaults to true
 #  [*use_syslog*]
 #   Defaults to false
-#  [*log_file*]
-#   Defaults to undef
 #  [*logging_context_format_string*]
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #  [*username*]
 #   Defaults to undef
 #  [*password*]
@@ -158,6 +158,7 @@
 # DEPREACTED PARAMETERS
 #  [*verbose*]
 #   Defaults to false
+#
 class tempest(
   $install_from_source           = true,
   $git_clone                     = true,
@@ -193,11 +194,11 @@ class tempest(
   $identity_uri_v3               = undef,
   $cli_dir                       = undef,
   $lock_path                     = '/var/lib/tempest',
+  $log_file                      = $::os_service_default,
   $debug                         = false,
   $use_stderr                    = true,
   $use_syslog                    = false,
-  $log_file                      = undef,
-  $logging_context_format_string = undef,
+  $logging_context_format_string = $::os_service_default,
   # non admin user
   $username                      = undef,
   $password                      = undef,
@@ -264,7 +265,7 @@ class tempest(
 ) {
 
   if $verbose {
-    warning('verbose is deprecated and does nothing. Will be remove in a future release.')
+    warning('verbose is deprecated and does nothing. Will be removed in a future release.')
   }
 
   include ::tempest::params
@@ -380,15 +381,19 @@ class tempest(
     'service_available/zaqar':                     value => $zaqar_available;
     'whitebox/db_uri':                             value => $whitebox_db_uri;
     'cli/cli_dir':                                 value => $cli_dir;
-    'oslo_concurrency/lock_path':                  value => $lock_path;
-    'DEFAULT/debug':                               value => $debug;
-    'DEFAULT/use_stderr':                          value => $use_stderr;
-    'DEFAULT/use_syslog':                          value => $use_syslog;
-    'DEFAULT/log_file':                            value => $log_file;
-    'DEFAULT/logging_context_format_string':       value => $logging_context_format_string;
     'scenario/img_dir':                            value => $img_dir;
     'scenario/img_file':                           value => $img_file;
     'service_broker/run_service_broker_tests':     value => $run_service_broker_tests;
+  }
+
+  oslo::concurrency { 'tempest_config': lock_path => $lock_path }
+
+  oslo::log { 'tempest_config':
+    debug                         => $debug,
+    log_file                      => $log_file,
+    use_stderr                    => $use_stderr,
+    use_syslog                    => $use_syslog,
+    logging_context_format_string => $logging_context_format_string
   }
 
   if $manage_tests_packages {
