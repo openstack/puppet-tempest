@@ -1,0 +1,4 @@
+---
+deprecations:
+  - Rename deprecated configuration options including the
+    "tenant" term.

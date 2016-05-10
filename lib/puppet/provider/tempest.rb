@@ -25,7 +25,7 @@ class Puppet::Provider::Tempest < Puppet::Provider::Openstack
   def self.tempest_request(service, action, error, properties=nil)
     @credentials.username = tempest_credentials['admin_user']
     @credentials.password = tempest_credentials['admin_password']
-    @credentials.project_name = tempest_credentials['admin_tenant_name']
+    @credentials.project_name = tempest_credentials['admin_project_name']
     @credentials.auth_url = tempest_credentials['auth_endpoint']
     raise error unless @credentials.set?
     Puppet::Provider::Openstack.request(service, action, properties, @credentials)
@@ -33,9 +33,9 @@ class Puppet::Provider::Tempest < Puppet::Provider::Openstack
 
   def self.tempest_credentials
     t = {}
-    t['admin_user'] = tempest_file['identity']['admin_username']
-    t['admin_password'] = tempest_file['identity']['admin_password']
-    t['admin_tenant_name'] = tempest_file['identity']['admin_tenant_name']
+    t['admin_user'] = tempest_file['auth']['admin_username']
+    t['admin_password'] = tempest_file['auth']['admin_password']
+    t['admin_project_name'] = tempest_file['auth']['admin_project_name']
     t['auth_endpoint'] = tempest_file['identity']['uri']
     return t
   end

@@ -53,19 +53,19 @@
 #   Defaults to undef
 #  [*password*]
 #   Defaults to undef
-#  [*tenant_name*]
+#  [*project_name*]
 #   Defaults to undef
 #  [*alt_username*]
 #   Defaults to undef
 #  [*alt_password*]
 #   Defaults to undef
-#  [*alt_tenant_name*]
+#  [*alt_project_name*]
 #   Defaults to undef
 #  [*admin_username*]
 #   Defaults to undef
 #  [*admin_password*]
 #   Defaults to undef
-#  [*admin_tenant_name*]
+#  [*admin_project_name*]
 #   Defaults to undef
 #  [*admin_role*]
 #   Defaults to undef
@@ -89,7 +89,7 @@
 #   Defaults to undef
 #  [*change_password_available*]
 #   Defaults to undef
-#  [*allow_tenant_isolation*]
+#  [*use_dynamic_credentials*]
 #   Defaults to undef
 #  [*public_network_id*]
 #   Defaults to undef
@@ -158,7 +158,16 @@
 # DEPREACTED PARAMETERS
 #  [*verbose*]
 #   Defaults to false
+#  [*tenant_name*]
+#   Defaults to undef
+#  [*alt_tenant_name*]
+#   Defaults to undef
+#  [*admin_tenant_name*]
+#   Defaults to undef
+#  [*allow_tenant_isolation*]
+#   Defaults to undef
 #
+
 class tempest(
   $install_from_source           = true,
   $git_clone                     = true,
@@ -202,15 +211,15 @@ class tempest(
   # non admin user
   $username                      = undef,
   $password                      = undef,
-  $tenant_name                   = undef,
+  $project_name                  = undef,
   # another non-admin user
   $alt_username                  = undef,
   $alt_password                  = undef,
-  $alt_tenant_name               = undef,
+  $alt_project_name              = undef,
   # admin user
   $admin_username                = undef,
   $admin_password                = undef,
-  $admin_tenant_name             = undef,
+  $admin_project_name            = undef,
   $admin_role                    = undef,
   $admin_domain_name             = undef,
   # image information
@@ -226,7 +235,7 @@ class tempest(
   # testing features that are     supported
   $resize_available              = undef,
   $change_password_available     = undef,
-  $allow_tenant_isolation        = undef,
+  $use_dynamic_credentials       = undef,
   # neutron config
   $public_network_id             = undef,
   # Upstream has a bad defaul    t - set it to empty string.
@@ -262,10 +271,46 @@ class tempest(
   $img_file                      = 'cirros-0.3.4-x86_64-disk.img',
   # DEPRECATED PARAMETERS
   $verbose                       = false,
+  $tenant_name                   = undef,
+  $alt_tenant_name               = undef,
+  $admin_tenant_name             = undef,
+  $allow_tenant_isolation        = undef,
 ) {
 
   if $verbose {
     warning('verbose is deprecated and does nothing. Will be removed in a future release.')
+  }
+
+  if $tenant_name {
+    warning('The tempest::tenant_name parameter is deprecated, use tempest::project_name instead.')
+    $project_name_real = $tenant_name
+  }
+  else {
+    $project_name_real = $project_name
+  }
+
+  if $alt_tenant_name {
+    warning('The tempest::alt_tenant_name parameter is deprecated, use tempest::alt_project_name instead.')
+    $alt_project_name_real = $alt_tenant_name
+  }
+  else {
+    $alt_project_name_real = $alt_project_name
+  }
+
+  if $admin_tenant_name {
+    warning('The tempest::admin_tenant_name parameter is deprecated, use tempest::admin_project_name instead.')
+    $admin_project_name_real = $admin_tenant_name
+  }
+  else {
+    $admin_project_name_real = $admin_project_name
+  }
+
+  if $allow_tenant_isolation {
+    warning('The tempest::allow_tenant_isolation parameter is deprecated, use tempest::use_dynamic_credentials instead.')
+    $use_dynamic_credentials_real = $allow_tenant_isolation
+  }
+  else {
+    $use_dynamic_credentials_real = $use_dynamic_credentials
   }
 
   include ::tempest::params
@@ -332,6 +377,11 @@ class tempest(
   }
 
   tempest_config {
+    'auth/admin_domain_name':                      value => $admin_domain_name;
+    'auth/admin_password':                         value => $admin_password, secret => true;
+    'auth/admin_project_name':                     value => $admin_project_name_real;
+    'auth/admin_username':                         value => $admin_username;
+    'auth/use_dynamic_credentials':                value => $use_dynamic_credentials_real;
     'compute/change_password_available':           value => $change_password_available;
     'compute/flavor_ref':                          value => $flavor_ref;
     'compute/flavor_ref_alt':                      value => $flavor_ref_alt;
@@ -340,18 +390,13 @@ class tempest(
     'compute/image_ref_alt':                       value => $image_ref_alt;
     'compute/image_ssh_user':                      value => $image_ssh_user;
     'compute/resize_available':                    value => $resize_available;
-    'compute/allow_tenant_isolation':              value => $allow_tenant_isolation;
     'compute/build_interval':                      value => $compute_build_interval;
-    'identity/admin_password':                     value => $admin_password, secret => true;
-    'identity/admin_tenant_name':                  value => $admin_tenant_name;
-    'identity/admin_username':                     value => $admin_username;
     'identity/admin_role':                         value => $admin_role;
-    'identity/admin_domain_name':                  value => $admin_domain_name;
     'identity/alt_password':                       value => $alt_password, secret => true;
-    'identity/alt_tenant_name':                    value => $alt_tenant_name;
+    'identity/alt_project_name':                   value => $alt_project_name_real;
     'identity/alt_username':                       value => $alt_username;
     'identity/password':                           value => $password, secret => true;
-    'identity/tenant_name':                        value => $tenant_name;
+    'identity/project_name':                       value => $project_name_real;
     'identity/uri':                                value => $identity_uri;
     'identity/uri_v3':                             value => $identity_uri_v3;
     'identity/username':                           value => $username;
