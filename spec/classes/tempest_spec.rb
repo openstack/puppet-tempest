@@ -122,7 +122,8 @@ describe 'tempest' do
           :image_name_alt      => 'image name alt',
           :public_network_name => 'network name',
           :neutron_available   => true,
-          :install_from_source => true
+          :install_from_source => true,
+          :setup_venv          => true
         }
       end
 
@@ -139,14 +140,16 @@ describe 'tempest' do
           is_expected.to contain_class('tempest::params')
 
           is_expected.to contain_exec('install-pip').with(
-            :command => '/usr/bin/easy_install pip',
-            :unless  => '/usr/bin/which pip',
+            :command => 'easy_install pip',
+            :unless  => 'which pip',
+            :path    => ['/bin', '/usr/bin', '/usr/local/bin'],
             :require => 'Package[python-setuptools]'
           )
 
           is_expected.to contain_exec('install-tox').with(
-            :command => /pip install -U tox$/,
-            :unless  => '/usr/bin/which tox',
+            :command => 'pip install -U tox',
+            :unless  => 'which tox',
+            :path    => ['/bin', '/usr/bin', '/usr/local/bin'],
             :require => 'Exec[install-pip]'
           )
 
@@ -248,6 +251,15 @@ describe 'tempest' do
             :ensure            => 'present',
             :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
             :network_name      => 'network name',
+          )
+        end
+
+        it 'sets up virtualenv for tempest' do
+          is_expected.to contain_exec('setup-venv').with(
+              :command => 'virtualenv /var/lib/tempest/.venv && /var/lib/tempest/.venv/bin/pip install -U -r requirements.txt',
+              :cwd     => '/var/lib/tempest',
+              :unless  => 'test -d /var/lib/tempest/.venv',
+              :path    => ['/bin', '/usr/bin', '/usr/local/bin']
           )
         end
       end
