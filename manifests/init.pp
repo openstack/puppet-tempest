@@ -157,7 +157,8 @@
 #
 # DEPREACTED PARAMETERS
 #  [*verbose*]
-#   Defaults to false
+#   Deprecated.
+#   Defaults to undef
 #  [*tenant_name*]
 #   Defaults to undef
 #  [*alt_tenant_name*]
@@ -270,7 +271,7 @@ class tempest(
   $img_dir                       = '/var/lib/tempest',
   $img_file                      = 'cirros-0.3.4-x86_64-disk.img',
   # DEPRECATED PARAMETERS
-  $verbose                       = false,
+  $verbose                       = undef,
   $tenant_name                   = undef,
   $alt_tenant_name               = undef,
   $admin_tenant_name             = undef,
@@ -278,7 +279,7 @@ class tempest(
 ) {
 
   if $verbose {
-    warning('verbose is deprecated and does nothing. Will be removed in a future release.')
+    warning('verbose is deprecated, has no effect and will be removed after Newton cycle.')
   }
 
   if $tenant_name {
