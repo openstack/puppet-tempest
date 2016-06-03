@@ -1,8 +1,6 @@
 Tempest
 =======
 
-7.0.0 - 2015.2 - Liberty
-
 Module for installing and configuring tempest.
 
 Tempest is the test suite that can be used to run integration
