@@ -327,14 +327,16 @@ class tempest(
     ensure_packages($tempest::params::dev_packages)
 
     exec { 'install-pip':
-      command => '/usr/bin/easy_install pip',
-      unless  => '/usr/bin/which pip',
+      command => 'easy_install pip',
+      unless  => 'which pip',
+      path    => ['/bin','/usr/bin','/usr/local/bin'],
       require => Package['python-setuptools'],
     }
 
     exec { 'install-tox':
-      command => "${tempest::params::pip_bin_path}/pip install -U tox",
-      unless  => '/usr/bin/which tox',
+      command => 'pip install -U tox',
+      unless  => 'which tox',
+      path    => ['/bin','/usr/bin','/usr/local/bin'],
       require => Exec['install-pip'],
     }
 
@@ -353,9 +355,10 @@ class tempest(
     if $setup_venv {
       # virtualenv will be installed along with tox
       exec { 'setup-venv':
-        command => "/usr/bin/virtualenv ${tempest_clone_path}/.venv && ${tempest_clone_path}/.venv/bin/pip install -U -r requirements.txt",
+        command => "virtualenv ${tempest_clone_path}/.venv && ${tempest_clone_path}/.venv/bin/pip install -U -r requirements.txt",
         cwd     => $tempest_clone_path,
-        unless  => "/usr/bin/test -d ${tempest_clone_path}/.venv",
+        unless  => "test -d ${tempest_clone_path}/.venv",
+        path    => ['/bin','/usr/bin','/usr/local/bin'],
         require => [
           Exec['install-tox'],
           Package[$tempest::params::dev_packages],

@@ -2,7 +2,6 @@
 class tempest::params {
   case $::osfamily {
     'RedHat': {
-      $pip_bin_path = '/usr/bin'
       $dev_packages = [
         'python-devel',
         'libxslt-devel',
@@ -33,7 +32,6 @@ class tempest::params {
       $python_zaqar_tests      = 'python-zaqar-tests'
     }
     'Debian': {
-      $pip_bin_path = '/usr/local/bin'
       $dev_packages = [
         'python-dev',
         'libxslt1-dev',
