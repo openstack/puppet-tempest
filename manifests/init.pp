@@ -110,6 +110,8 @@
 #   Defaults to false
 #  [*gnocchi_available*]
 #   Defaults to false
+#  [*designate_available*]
+#   Defaults to false
 #  [*horizon_available*]
 #   Defaults to true
 #  [*neutron_available*]
@@ -151,6 +153,8 @@
 #  [*ca_certificates_file*]
 #   Defaults to undef
 #  [*disable_ssl_validation*]
+#   Defaults to undef
+#  [*designate_nameservers*]
 #   Defaults to undef
 #  [*manage_tests_packages*]
 #   Defaults to false
@@ -250,6 +254,7 @@ class tempest(
   $ceilometer_available          = false,
   $aodh_available                = false,
   $gnocchi_available             = false,
+  $designate_available           = false,
   $horizon_available             = true,
   $neutron_available             = false,
   $nova_available                = true,
@@ -270,6 +275,8 @@ class tempest(
   # scenario options
   $img_dir                       = '/var/lib/tempest',
   $img_file                      = 'cirros-0.3.4-x86_64-disk.img',
+  # designate options
+  $designate_nameservers         = undef,
   # DEPRECATED PARAMETERS
   $verbose                       = undef,
   $tenant_name                   = undef,
@@ -419,6 +426,7 @@ class tempest(
     'service_available/ceilometer':                value => $ceilometer_available;
     'service_available/aodh':                      value => $aodh_available;
     'service_available/gnocchi':                   value => $gnocchi_available;
+    'service_available/designate':                 value => $designate_available;
     'service_available/horizon':                   value => $horizon_available;
     'service_available/neutron':                   value => $neutron_available;
     'service_available/nova':                      value => $nova_available;
@@ -433,6 +441,7 @@ class tempest(
     'scenario/img_dir':                            value => $img_dir;
     'scenario/img_file':                           value => $img_file;
     'service_broker/run_service_broker_tests':     value => $run_service_broker_tests;
+    'dns/nameservers':                             value => $designate_nameservers;
   }
 
   oslo::concurrency { 'tempest_config': lock_path => $lock_path }
@@ -570,6 +579,13 @@ class tempest(
       package { 'python-mistral-tests':
         ensure => present,
         name   => $::tempest::params::python_mistral_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $designate_available and $::tempest::params::python_designate_tests {
+      package { 'python-designate-tests':
+        ensure => present,
+        name   => $::tempest::params::python_designate_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
