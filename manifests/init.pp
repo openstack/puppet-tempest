@@ -329,7 +329,7 @@ class tempest(
     ensure_packages([
       'git',
       'python-setuptools',
-    ])
+    ], { allow_virtual => true })
 
     ensure_packages($tempest::params::dev_packages)
 
