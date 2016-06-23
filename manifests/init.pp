@@ -258,10 +258,18 @@ class tempest(
   include ::tempest::params
 
   if $install_from_source {
-    ensure_packages([
-      'git',
-      'python-setuptools',
-    ])
+    if versioncmp($::puppetversion, '3.6.0') >= 0 {
+      ensure_packages([
+        'git',
+        'python-setuptools',
+      ], { allow_virtual => true })
+    }
+    else {
+      ensure_packages([
+        'git',
+        'python-setuptools',
+      ])
+    }
 
     ensure_packages($tempest::params::dev_packages)
 
