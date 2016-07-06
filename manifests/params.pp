@@ -14,7 +14,7 @@ class tempest::params {
       $python_aodh_tests       = 'python-aodh-tests'
       $python_ceilometer_tests = 'python-ceilometer-tests'
       $python_cinder_tests     = 'python-cinder-tests'
-      $python_designate_tests  = 'python-designate-tests'
+      $python_designate_tests  = 'python-designate-tests-tempest'
       $python_glance_tests     = 'python-glance-tests'
       $python_gnocchi_tests    = 'python-gnocchi-tests'
       $python_heat_tests       = 'python-heat-tests'
