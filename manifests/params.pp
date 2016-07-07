@@ -1,5 +1,6 @@
 #
 class tempest::params {
+  include ::openstacklib::defaults
   case $::osfamily {
     'RedHat': {
       $dev_packages = [
