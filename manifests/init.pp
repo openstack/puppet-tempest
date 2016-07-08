@@ -158,6 +158,8 @@
 #   Defaults to undef
 #  [*manage_tests_packages*]
 #   Defaults to false
+#  [*attach_encrypted_volume*]
+#   Defaults to false
 #
 # DEPREACTED PARAMETERS
 #  [*verbose*]
@@ -213,6 +215,7 @@ class tempest(
   $use_stderr                    = true,
   $use_syslog                    = false,
   $logging_context_format_string = $::os_service_default,
+  $attach_encrypted_volume       = false,
   # non admin user
   $username                      = undef,
   $password                      = undef,
@@ -388,60 +391,61 @@ class tempest(
   }
 
   tempest_config {
-    'auth/admin_domain_name':                      value => $admin_domain_name;
-    'auth/admin_password':                         value => $admin_password, secret => true;
-    'auth/admin_project_name':                     value => $admin_project_name_real;
-    'auth/admin_username':                         value => $admin_username;
-    'auth/use_dynamic_credentials':                value => $use_dynamic_credentials_real;
-    'compute/change_password_available':           value => $change_password_available;
-    'compute/flavor_ref':                          value => $flavor_ref;
-    'compute/flavor_ref_alt':                      value => $flavor_ref_alt;
-    'compute/image_alt_ssh_user':                  value => $image_alt_ssh_user;
-    'compute/image_ref':                           value => $image_ref;
-    'compute/image_ref_alt':                       value => $image_ref_alt;
-    'compute/image_ssh_user':                      value => $image_ssh_user;
-    'compute/resize_available':                    value => $resize_available;
-    'compute/build_interval':                      value => $compute_build_interval;
-    'identity/admin_role':                         value => $admin_role;
-    'identity/alt_password':                       value => $alt_password, secret => true;
-    'identity/alt_project_name':                   value => $alt_project_name_real;
-    'identity/alt_username':                       value => $alt_username;
-    'identity/password':                           value => $password, secret => true;
-    'identity/project_name':                       value => $project_name_real;
-    'identity/uri':                                value => $identity_uri;
-    'identity/uri_v3':                             value => $identity_uri_v3;
-    'identity/username':                           value => $username;
-    'identity/auth_version':                       value => $auth_version;
-    'identity/ca_certificates_file':               value => $ca_certificates_file;
-    'identity/disable_ssl_certificate_validation': value => $disable_ssl_validation;
-    'identity-feature-enabled/api_v2':             value => $keystone_v2;
-    'identity-feature-enabled/api_v3':             value => $keystone_v3;
-    'network/public_network_id':                   value => $public_network_id;
-    'network/public_router_id':                    value => $public_router_id;
-    'dashboard/login_url':                         value => $login_url;
-    'dashboard/dashboard_url':                     value => $dashboard_url;
-    'service_available/cinder':                    value => $cinder_available;
-    'service_available/glance':                    value => $glance_available;
-    'service_available/heat':                      value => $heat_available;
-    'service_available/ceilometer':                value => $ceilometer_available;
-    'service_available/aodh':                      value => $aodh_available;
-    'service_available/gnocchi':                   value => $gnocchi_available;
-    'service_available/designate':                 value => $designate_available;
-    'service_available/horizon':                   value => $horizon_available;
-    'service_available/neutron':                   value => $neutron_available;
-    'service_available/nova':                      value => $nova_available;
-    'service_available/murano':                    value => $murano_available;
-    'service_available/sahara':                    value => $sahara_available;
-    'service_available/swift':                     value => $swift_available;
-    'service_available/trove':                     value => $trove_available;
-    'service_available/ironic':                    value => $ironic_available;
-    'service_available/zaqar':                     value => $zaqar_available;
-    'whitebox/db_uri':                             value => $whitebox_db_uri;
-    'cli/cli_dir':                                 value => $cli_dir;
-    'scenario/img_dir':                            value => $img_dir;
-    'scenario/img_file':                           value => $img_file;
-    'service_broker/run_service_broker_tests':     value => $run_service_broker_tests;
-    'dns/nameservers':                             value => $designate_nameservers;
+    'auth/admin_domain_name':                          value => $admin_domain_name;
+    'auth/admin_password':                             value => $admin_password, secret => true;
+    'auth/admin_project_name':                         value => $admin_project_name_real;
+    'auth/admin_username':                             value => $admin_username;
+    'auth/use_dynamic_credentials':                    value => $use_dynamic_credentials_real;
+    'compute/change_password_available':               value => $change_password_available;
+    'compute/flavor_ref':                              value => $flavor_ref;
+    'compute/flavor_ref_alt':                          value => $flavor_ref_alt;
+    'compute/image_alt_ssh_user':                      value => $image_alt_ssh_user;
+    'compute/image_ref':                               value => $image_ref;
+    'compute/image_ref_alt':                           value => $image_ref_alt;
+    'compute/image_ssh_user':                          value => $image_ssh_user;
+    'compute/resize_available':                        value => $resize_available;
+    'compute/build_interval':                          value => $compute_build_interval;
+    'identity/admin_role':                             value => $admin_role;
+    'identity/alt_password':                           value => $alt_password, secret => true;
+    'identity/alt_project_name':                       value => $alt_project_name_real;
+    'identity/alt_username':                           value => $alt_username;
+    'identity/password':                               value => $password, secret => true;
+    'identity/project_name':                           value => $project_name_real;
+    'identity/uri':                                    value => $identity_uri;
+    'identity/uri_v3':                                 value => $identity_uri_v3;
+    'identity/username':                               value => $username;
+    'identity/auth_version':                           value => $auth_version;
+    'identity/ca_certificates_file':                   value => $ca_certificates_file;
+    'identity/disable_ssl_certificate_validation':     value => $disable_ssl_validation;
+    'identity-feature-enabled/api_v2':                 value => $keystone_v2;
+    'identity-feature-enabled/api_v3':                 value => $keystone_v3;
+    'network/public_network_id':                       value => $public_network_id;
+    'network/public_router_id':                        value => $public_router_id;
+    'dashboard/login_url':                             value => $login_url;
+    'dashboard/dashboard_url':                         value => $dashboard_url;
+    'service_available/cinder':                        value => $cinder_available;
+    'service_available/glance':                        value => $glance_available;
+    'service_available/heat':                          value => $heat_available;
+    'service_available/ceilometer':                    value => $ceilometer_available;
+    'service_available/aodh':                          value => $aodh_available;
+    'service_available/gnocchi':                       value => $gnocchi_available;
+    'service_available/designate':                     value => $designate_available;
+    'service_available/horizon':                       value => $horizon_available;
+    'service_available/neutron':                       value => $neutron_available;
+    'service_available/nova':                          value => $nova_available;
+    'service_available/murano':                        value => $murano_available;
+    'service_available/sahara':                        value => $sahara_available;
+    'service_available/swift':                         value => $swift_available;
+    'service_available/trove':                         value => $trove_available;
+    'service_available/ironic':                        value => $ironic_available;
+    'service_available/zaqar':                         value => $zaqar_available;
+    'whitebox/db_uri':                                 value => $whitebox_db_uri;
+    'cli/cli_dir':                                     value => $cli_dir;
+    'scenario/img_dir':                                value => $img_dir;
+    'scenario/img_file':                               value => $img_file;
+    'service_broker/run_service_broker_tests':         value => $run_service_broker_tests;
+    'dns/nameservers':                                 value => $designate_nameservers;
+    'compute-feature-enabled/attach_encrypted_volume': value => $attach_encrypted_volume;
   }
 
   oslo::concurrency { 'tempest_config': lock_path => $lock_path }

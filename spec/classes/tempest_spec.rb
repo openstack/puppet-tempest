@@ -185,6 +185,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('compute/image_ssh_user').with(:value => nil)
           is_expected.to contain_tempest_config('compute/resize_available').with(:value => nil)
           is_expected.to contain_tempest_config('compute/build_interval').with(:value => nil)
+          is_expected.to contain_tempest_config('compute-feature-enabled/attach_encrypted_volume').with(:value => false)
           is_expected.to contain_tempest_config('identity/admin_role').with(:value => nil)
           is_expected.to contain_tempest_config('identity/auth_version').with(:value => 'v2')
           is_expected.to contain_tempest_config('identity/alt_password').with(:value => nil)
