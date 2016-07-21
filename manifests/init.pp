@@ -160,6 +160,8 @@
 #   Defaults to false
 #  [*attach_encrypted_volume*]
 #   Defaults to false
+#  [*tempest_roles*]
+#   Defaults to undef
 #
 # DEPREACTED PARAMETERS
 #  [*verbose*]
@@ -230,6 +232,8 @@ class tempest(
   $admin_project_name            = undef,
   $admin_role                    = undef,
   $admin_domain_name             = undef,
+  # roles fo the users created by tempest
+  $tempest_roles                 = undef,
   # image information
   $image_ref                     = undef,
   $image_ref_alt                 = undef,
@@ -395,6 +399,7 @@ class tempest(
     'auth/admin_password':                             value => $admin_password, secret => true;
     'auth/admin_project_name':                         value => $admin_project_name_real;
     'auth/admin_username':                             value => $admin_username;
+    'auth/tempest_roles':                              value => $tempest_roles;
     'auth/use_dynamic_credentials':                    value => $use_dynamic_credentials_real;
     'compute/change_password_available':               value => $change_password_available;
     'compute/flavor_ref':                              value => $flavor_ref;

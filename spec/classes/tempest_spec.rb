@@ -174,6 +174,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('auth/admin_password').with_secret( true )
           is_expected.to contain_tempest_config('auth/admin_project_name').with(:value => nil)
           is_expected.to contain_tempest_config('auth/admin_username').with(:value => nil)
+          is_expected.to contain_tempest_config('auth/tempest_roles').with(:value => nil)
           is_expected.to contain_tempest_config('auth/use_dynamic_credentials').with(:value => nil)
           is_expected.to contain_tempest_config('dns/nameservers').with(:value => nil)
           is_expected.to contain_tempest_config('compute/change_password_available').with(:value => nil)
