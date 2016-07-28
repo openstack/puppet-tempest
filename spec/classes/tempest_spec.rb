@@ -115,6 +115,17 @@ describe 'tempest' do
       end
     end
 
+    context 'with tempest_roles' do
+      let :params do
+        { :configure_images => false,
+          :tempest_roles    => ['Member', 'creator'], }
+      end
+
+      it 'properly sets  tempest_roles in tempest.conf' do
+        is_expected.to contain_tempest_config('auth/tempest_roles').with_value('Member,creator')
+      end
+    end
+
     context 'with parameters' do
       let :params do
         { :configure_images    => true,
