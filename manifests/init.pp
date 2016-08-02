@@ -116,6 +116,12 @@
 #   Defaults to true
 #  [*neutron_available*]
 #   Defaults to false
+#  [*neutron_fwaas_available*]
+#   Defaults to true
+#  [*neutron_lbaas_available*]
+#   Defaults to true
+#  [*neutron_vpnaas_available*]
+#   Defaults to false
 #  [*nova_available*]
 #   Defaults to true
 #  [*murano_available*]
@@ -265,6 +271,9 @@ class tempest(
   $designate_available           = false,
   $horizon_available             = true,
   $neutron_available             = false,
+  $neutron_fwaas_available       = true,
+  $neutron_lbaas_available       = true,
+  $neutron_vpnaas_available      = false,
   $nova_available                = true,
   $murano_available              = false,
   $sahara_available              = false,
@@ -541,20 +550,26 @@ class tempest(
         name   => $::tempest::params::python_neutron_tests,
         tag    => ['openstack', 'tempest-package'],
       }
-      package { 'python-neutron-fwaas-tests':
-        ensure => present,
-        name   => $::tempest::params::python_fwaas_tests,
-        tag    => ['openstack', 'tempest-package'],
+      if $neutron_fwaas_available {
+        package { 'python-neutron-fwaas-tests':
+          ensure => present,
+          name   => $::tempest::params::python_fwaas_tests,
+          tag    => ['openstack', 'tempest-package'],
+        }
       }
-      package { 'python-neutron-lbaas-tests':
-        ensure => present,
-        name   => $::tempest::params::python_lbaas_tests,
-        tag    => ['openstack', 'tempest-package'],
+      if $neutron_lbaas_available {
+        package { 'python-neutron-lbaas-tests':
+          ensure => present,
+          name   => $::tempest::params::python_lbaas_tests,
+          tag    => ['openstack', 'tempest-package'],
+        }
       }
-      package { 'python-neutron-vpnaas-tests':
-        ensure => present,
-        name   => $::tempest::params::python_vpnaas_tests,
-        tag    => ['openstack', 'tempest-package'],
+      if $neutron_vpnaas_available {
+        package { 'python-neutron-vpnaas-tests':
+          ensure => present,
+          name   => $::tempest::params::python_vpnaas_tests,
+          tag    => ['openstack', 'tempest-package'],
+        }
       }
     }
     if $nova_available and $::tempest::params::python_nova_tests {
