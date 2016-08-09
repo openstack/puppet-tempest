@@ -226,6 +226,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('service_available/gnocchi').with(:value => false)
           is_expected.to contain_tempest_config('service_available/horizon').with(:value => true)
           is_expected.to contain_tempest_config('service_available/neutron').with(:value => true)
+          is_expected.to contain_tempest_config('service_available/mistral').with(:value => false)
           is_expected.to contain_tempest_config('service_available/nova').with(:value => true)
           is_expected.to contain_tempest_config('service_available/sahara').with(:value => false)
           is_expected.to contain_tempest_config('service_available/murano').with(:value => false)
