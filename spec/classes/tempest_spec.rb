@@ -223,6 +223,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('service_available/heat').with(:value => false)
           is_expected.to contain_tempest_config('service_available/ceilometer').with(:value => false)
           is_expected.to contain_tempest_config('service_available/aodh').with(:value => false)
+          is_expected.to contain_tempest_config('service_available/aodh_plugin').with(:value => false)
           is_expected.to contain_tempest_config('service_available/gnocchi').with(:value => false)
           is_expected.to contain_tempest_config('service_available/horizon').with(:value => true)
           is_expected.to contain_tempest_config('service_available/neutron').with(:value => true)

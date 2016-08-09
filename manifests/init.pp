@@ -450,6 +450,8 @@ class tempest(
     'service_available/heat':                          value => $heat_available;
     'service_available/ceilometer':                    value => $ceilometer_available;
     'service_available/aodh':                          value => $aodh_available;
+    # https://bugs.launchpad.net/aodh/+bug/1611406
+    'service_available/aodh_plugin':                   value => $aodh_available;
     'service_available/gnocchi':                       value => $gnocchi_available;
     'service_available/designate':                     value => $designate_available;
     'service_available/horizon':                       value => $horizon_available;
