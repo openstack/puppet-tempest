@@ -456,6 +456,7 @@ class tempest(
     'service_available/designate':                     value => $designate_available;
     'service_available/horizon':                       value => $horizon_available;
     'service_available/neutron':                       value => $neutron_available;
+    'service_available/mistral':                       value => $mistral_available;
     'service_available/nova':                          value => $nova_available;
     'service_available/murano':                        value => $murano_available;
     'service_available/sahara':                        value => $sahara_available;
