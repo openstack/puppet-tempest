@@ -128,6 +128,8 @@
 #   Defaults to false
 #  [*zaqar_available*]
 #   Defaults to false
+#  [*ec2api_available*]
+#   Defaults to false
 #  [*mistral_available*]
 #   Defaults to false
 #  [*run_service_broker_tests*]
@@ -281,6 +283,7 @@ class tempest(
   $trove_available               = false,
   $ironic_available              = false,
   $zaqar_available               = false,
+  $ec2api_available              = false,
   $mistral_available             = false,
   $keystone_v2                   = true,
   $keystone_v3                   = true,
@@ -464,6 +467,7 @@ class tempest(
     'service_available/trove':                         value => $trove_available;
     'service_available/ironic':                        value => $ironic_available;
     'service_available/zaqar':                         value => $zaqar_available;
+    'service_available/ec2api':                        value => $ec2api_available;
     'whitebox/db_uri':                                 value => $whitebox_db_uri;
     'cli/cli_dir':                                     value => $cli_dir;
     'scenario/img_dir':                                value => $img_dir;
