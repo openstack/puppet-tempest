@@ -171,6 +171,9 @@
 #  [*tempest_roles*]
 #   Should be an array.
 #   Defaults to $::os_service_default
+#  [*db_flavor_ref*]
+#   Valid primary flavor to use in Trove tests.
+#   Defaults to $::os_service_default
 #
 # DEPREACTED PARAMETERS
 #  [*verbose*]
@@ -263,6 +266,8 @@ class tempest(
   $public_router_id              = '',
   # Sahara config
   $sahara_plugins                = undef,
+  # Trove config
+  $db_flavor_ref                 = $::os_service_default,
   # Service configuration
   $cinder_available              = true,
   $glance_available              = true,
@@ -448,6 +453,7 @@ class tempest(
     'network/public_router_id':                        value => $public_router_id;
     'dashboard/login_url':                             value => $login_url;
     'dashboard/dashboard_url':                         value => $dashboard_url;
+    'database/db_flavor_ref':                          value => $db_flavor_ref;
     'service_available/cinder':                        value => $cinder_available;
     'service_available/glance':                        value => $glance_available;
     'service_available/heat':                          value => $heat_available;
