@@ -126,6 +126,30 @@ describe 'tempest' do
       end
     end
 
+    context 'with ec2api_available parameter' do
+      let :params do
+        { :ec2api_available => true,
+          :configure_images => false,
+          :username         => "testuser",
+          :project_name     => "testproject",
+        }
+      end
+
+      it 'sets aws configs' do
+        is_expected.to contain_tempest_config('aws/ec2_url').with_value('http://127.0.0.1:8788/')
+      end
+
+      it 'creates ec2 credentials' do
+        is_expected.to contain_tempest_ec2_credentials('ec2_test_creds').with(
+          :ensure               => 'present',
+          :tempest_conf_path    => '/var/lib/tempest/etc/tempest.conf',
+          :user                 => 'testuser',
+          :project              => 'testproject'
+        )
+      end
+
+    end
+
     context 'with parameters' do
       let :params do
         { :configure_images    => true,
@@ -236,7 +260,6 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('service_available/trove').with(:value => false)
           is_expected.to contain_tempest_config('service_available/ironic').with(:value => false)
           is_expected.to contain_tempest_config('service_available/zaqar').with(:value => false)
-          is_expected.to contain_tempest_config('service_available/ec2api').with(:value => false)
           is_expected.to contain_tempest_config('service_available/designate').with(:value => false)
           is_expected.to contain_tempest_config('whitebox/db_uri').with(:value => nil)
           is_expected.to contain_tempest_config('cli/cli_dir').with(:value => nil)
