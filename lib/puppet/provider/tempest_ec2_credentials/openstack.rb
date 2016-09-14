@@ -35,8 +35,10 @@ Puppet::Type.type(:tempest_ec2_credentials).provide(
   def get_ec2_credentials
     if resource[:ensure] == :present or resource[:ensure].nil?
       if @ec2_credentials.nil?
-        @ec2_credentials = self.class.request('ec2', 'credentials', 'create',
-          "--user #{resource[:user]}", "--project #{resource[:project]}")
+        @ec2_credentials = self.class.request('ec2 credentials', 'create',
+                                          ["--user #{resource[:user]}",
+                                           "--project #{resource[:project]}"],
+                                          file_path)
       end
     elsif resource[:ensure] != :absent
       raise(Puppet::Error, "Cannot ensure to #{resource[:ensure]}")
