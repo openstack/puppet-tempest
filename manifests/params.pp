@@ -29,7 +29,7 @@ class tempest::params {
       $python_lbaas_tests      = 'python-neutron-lbaas-tests'
       $python_vpnaas_tests     = 'python-neutron-vpnaas-tests'
       $python_nova_tests       = 'python-nova-tests'
-      $python_sahara_tests     = 'python-sahara-tests'
+      $python_sahara_tests     = 'python-sahara-tests-tempest'
       $python_swift_tests      = 'python-swift-tests'
       $python_trove_tests      = 'python-trove-tests'
       $python_zaqar_tests      = 'python-zaqar-tests'

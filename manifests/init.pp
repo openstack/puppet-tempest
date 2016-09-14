@@ -592,7 +592,7 @@ class tempest(
       }
     }
     if $sahara_available and $::tempest::params::python_sahara_tests {
-      package { 'python-sahara-tests':
+      package { 'python-sahara-tests-tempest':
         ensure => present,
         name   => $::tempest::params::python_sahara_tests,
         tag    => ['openstack', 'tempest-package'],

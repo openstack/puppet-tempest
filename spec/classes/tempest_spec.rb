@@ -336,6 +336,17 @@ describe 'tempest' do
       end
     end
 
+    context 'with when managing tests packages for sahara (optional service)' do
+      let :params do
+        { :manage_tests_packages => true,
+          :sahara_available        => true }
+      end
+
+      describe "should install sahara tests package" do
+        it { expect { is_expected.to contain_package('python-sahara-tests-tempest') } }
+      end
+    end
+
     context 'with when managing tests packages for neutron (optional service)' do
       let :params do
         { :manage_tests_packages => true,
@@ -347,7 +358,7 @@ describe 'tempest' do
         it { expect { is_expected.to contain_package('python-neutron-fwaas-tests') } }
         it { expect { is_expected.to contain_package('python-neutron-lbaas-tests') } }
         it { expect { is_expected.to contain_package('python-neutron-vpnaas-tests') } }
-        it { expect { is_expected.to contain_package('python-horizon-tests') } }
+        it { expect { is_expected.to contain_package('python-horizon-tests-tempest') } }
       end
     end
   end
