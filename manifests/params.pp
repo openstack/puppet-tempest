@@ -65,7 +65,8 @@ class tempest::params {
       $python_zaqar_tests      = false
     }
     default: {
-      fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, module ${module_name} only support osfamily RedHat and Debian")
+      fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, \
+            module ${module_name} only support osfamily RedHat and Debian")
     }
   }
 }
