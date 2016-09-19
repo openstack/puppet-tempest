@@ -130,21 +130,15 @@ describe 'tempest' do
       let :params do
         { :ec2api_available => true,
           :configure_images => false,
-          :username         => "testuser",
-          :project_name     => "testproject",
         }
-      end
-
-      it 'sets aws configs' do
-        is_expected.to contain_tempest_config('aws/ec2_url').with_value('http://127.0.0.1:8788/')
       end
 
       it 'creates ec2 credentials' do
         is_expected.to contain_tempest_ec2_credentials('ec2_test_creds').with(
           :ensure               => 'present',
           :tempest_conf_path    => '/var/lib/tempest/etc/tempest.conf',
-          :user                 => 'testuser',
-          :project              => 'testproject'
+          :user                 => 'ec2api-tester',
+          :project              => 'openstack'
         )
       end
 
