@@ -176,9 +176,6 @@
 #   Defaults to $::os_service_default
 #
 # DEPREACTED PARAMETERS
-#  [*verbose*]
-#   Deprecated.
-#   Defaults to undef
 #  [*tenant_name*]
 #   Defaults to undef
 #  [*alt_tenant_name*]
@@ -188,7 +185,6 @@
 #  [*allow_tenant_isolation*]
 #   Defaults to undef
 #
-
 class tempest(
   $install_from_source           = true,
   $git_clone                     = true,
@@ -303,7 +299,6 @@ class tempest(
   # designate options
   $designate_nameservers         = undef,
   # DEPRECATED PARAMETERS
-  $verbose                       = undef,
   $tenant_name                   = undef,
   $alt_tenant_name               = undef,
   $admin_tenant_name             = undef,
@@ -315,10 +310,6 @@ class tempest(
     $tempest_roles_real = join($tempest_roles, ',')
   } else {
     $tempest_roles_real = $::os_service_default
-  }
-
-  if $verbose {
-    warning('verbose is deprecated, has no effect and will be removed after Newton cycle.')
   }
 
   if $tenant_name {
