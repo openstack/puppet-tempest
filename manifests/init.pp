@@ -100,6 +100,8 @@
 #   Defaults to undef
 #  [*cinder_available*]
 #   Defaults to true
+#  [*cinder_backup_available*]
+#   Defaults to false
 #  [*glance_available*]
 #   Defaults to true
 #  [*heat_available*]
@@ -256,13 +258,13 @@ class tempest(
   $compute_build_interval        = undef,
   # whitebox
   $whitebox_db_uri               = undef,
-  # testing features that are     supported
+  # testing features that are supported
   $resize_available              = undef,
   $change_password_available     = undef,
   $use_dynamic_credentials       = undef,
   # neutron config
   $public_network_id             = undef,
-  # Upstream has a bad defaul    t - set it to empty string.
+  # Upstream has a bad default - set it to empty string.
   $public_router_id              = '',
   # Sahara config
   $sahara_plugins                = undef,
@@ -270,6 +272,7 @@ class tempest(
   $db_flavor_ref                 = $::os_service_default,
   # Service configuration
   $cinder_available              = true,
+  $cinder_backup_available       = true,
   $glance_available              = true,
   $heat_available                = false,
   $ceilometer_available          = false,
@@ -455,6 +458,7 @@ class tempest(
     'dashboard/dashboard_url':                         value => $dashboard_url;
     'database/db_flavor_ref':                          value => $db_flavor_ref;
     'service_available/cinder':                        value => $cinder_available;
+    'volume_feature_enabled/backup':                   value => $cinder_backup_available;
     'service_available/glance':                        value => $glance_available;
     'service_available/heat':                          value => $heat_available;
     'service_available/ceilometer':                    value => $ceilometer_available;
