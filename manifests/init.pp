@@ -272,7 +272,7 @@ class tempest(
   $db_flavor_ref                 = $::os_service_default,
   # Service configuration
   $cinder_available              = true,
-  $cinder_backup_available       = true,
+  $cinder_backup_available       = false,
   $glance_available              = true,
   $heat_available                = false,
   $ceilometer_available          = false,
