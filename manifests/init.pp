@@ -458,7 +458,7 @@ class tempest(
     'dashboard/dashboard_url':                         value => $dashboard_url;
     'database/db_flavor_ref':                          value => $db_flavor_ref;
     'service_available/cinder':                        value => $cinder_available;
-    'volume_feature_enabled/backup':                   value => $cinder_backup_available;
+    'volume-feature-enabled/backup':                   value => $cinder_backup_available;
     'service_available/glance':                        value => $glance_available;
     'service_available/heat':                          value => $heat_available;
     'service_available/ceilometer':                    value => $ceilometer_available;

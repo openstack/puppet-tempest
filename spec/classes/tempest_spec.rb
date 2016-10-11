@@ -244,6 +244,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('dashboard/dashboard_url').with(:value => nil)
           is_expected.to contain_tempest_config('database/db_flavor_ref').with_value('<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('service_available/cinder').with(:value => true)
+          is_expected.to contain_tempest_config('volume-feature-enabled/backup').with(:value => false)
           is_expected.to contain_tempest_config('service_available/glance').with(:value => true)
           is_expected.to contain_tempest_config('service_available/heat').with(:value => false)
           is_expected.to contain_tempest_config('service_available/ceilometer').with(:value => false)
