@@ -8,12 +8,14 @@ Puppet::Type.type(:tempest_ec2_credentials).provide(
   @credentials = Puppet::Provider::Openstack::CredentialsV3.new
 
   def exists?
-    lines.each do |l|
-      l.chomp!
-      if access_line == l
+    access_found = false
+    secret_found = false
+    lines.each do |line|
+      l = line.chomp
+      if /^aws_access *=/ =~ l
         access_found = true
       end
-      if secret_line == l
+      if /^aws_secret *=/ =~ l
         secret_found = true
       end
     end
@@ -36,9 +38,9 @@ Puppet::Type.type(:tempest_ec2_credentials).provide(
     if resource[:ensure] == :present or resource[:ensure].nil?
       if @ec2_credentials.nil?
         @ec2_credentials = self.class.request('ec2 credentials', 'create',
-                                          ["--user #{resource[:user]}",
-                                           "--project #{resource[:project]}"],
-                                          file_path)
+                                      ['--user', "#{resource[:user]}",
+                                       '--project', "#{resource[:project]}"],
+                                      file_path)
       end
     elsif resource[:ensure] != :absent
       raise(Puppet::Error, "Cannot ensure to #{resource[:ensure]}")

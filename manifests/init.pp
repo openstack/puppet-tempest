@@ -477,6 +477,7 @@ class tempest(
     'service_available/trove':                         value => $trove_available;
     'service_available/ironic':                        value => $ironic_available;
     'service_available/zaqar':                         value => $zaqar_available;
+    'service_available/ec2api':                        value => $ec2api_available;
     'whitebox/db_uri':                                 value => $whitebox_db_uri;
     'cli/cli_dir':                                     value => $cli_dir;
     'scenario/img_dir':                                value => $img_dir;
@@ -699,15 +700,22 @@ be provided.')
   }
 
   if $ec2api_available {
-    tempest_config {
-      'aws/ec2_url': value => 'http://127.0.0.1:8788/';
+    keystone_user { 'ec2api-tester' :
+      ensure  => present,
+      enabled => true,
+    }
+    keystone_user_role { 'ec2api-tester@openstack' :
+      ensure => present,
+      roles  => ['Member'],
     }
     tempest_ec2_credentials { 'ec2_test_creds':
       ensure            => present,
       tempest_conf_path => $tempest_conf,
-      user              => $username,
-      project           => $project_name_real,
+      user              => 'ec2api-tester',
+      project           => 'openstack',
     }
+    Tempest_config<||> -> Tempest_ec2_credentials['ec2_test_creds']
+    Keystone_user_role<||> -> Tempest_ec2_credentials['ec2_test_creds']
   }
 
 }
