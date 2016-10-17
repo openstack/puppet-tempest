@@ -27,6 +27,11 @@ class Puppet::Provider::Tempest < Puppet::Provider::Openstack
     @credentials.password = tempest_credentials['admin_password']
     @credentials.project_name = tempest_credentials['admin_project_name']
     @credentials.auth_url = tempest_credentials['auth_endpoint']
+    if @credentials.version == '3'
+      @credentials.user_domain_name = tempest_credentials['admin_domain_name']
+      @credentials.project_domain_name = tempest_credentials['admin_domain_name']
+      @credentials.auth_url = tempest_credentials['auth_endpoint_v3']
+    end
     raise error unless @credentials.set?
     Puppet::Provider::Openstack.request(service, action, properties, @credentials)
   end
@@ -37,6 +42,8 @@ class Puppet::Provider::Tempest < Puppet::Provider::Openstack
     t['admin_password'] = tempest_file['auth']['admin_password']
     t['admin_project_name'] = tempest_file['auth']['admin_project_name']
     t['auth_endpoint'] = tempest_file['identity']['uri']
+    t['auth_endpoint_v3'] = tempest_file['identity']['uri_v3']
+    t['admin_domain_name'] = tempest_file['auth']['admin_domain_name']
     return t
   end
 
