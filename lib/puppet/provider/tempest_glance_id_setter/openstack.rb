@@ -5,7 +5,7 @@ Puppet::Type.type(:tempest_glance_id_setter).provide(
   :parent => Puppet::Provider::Tempest
 ) do
 
-  @credentials = Puppet::Provider::Openstack::CredentialsV2_0.new
+  @credentials = Puppet::Provider::Openstack::CredentialsV3.new
 
   def exists?
     lines.find do |line|
