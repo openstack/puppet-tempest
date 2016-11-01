@@ -134,6 +134,8 @@
 #   Defaults to false
 #  [*mistral_available*]
 #   Defaults to false
+#  [*vitrage_available*]
+#   Defaults to false
 #  [*run_service_broker_tests*]
 #   Defaults to false
 #  [*sahara_available*]
@@ -289,6 +291,7 @@ class tempest(
   $zaqar_available               = false,
   $ec2api_available              = false,
   $mistral_available             = false,
+  $vitrage_available             = false,
   $keystone_v2                   = true,
   $keystone_v3                   = true,
   $auth_version                  = 'v2',
@@ -461,6 +464,7 @@ class tempest(
     'service_available/horizon':                       value => $horizon_available;
     'service_available/neutron':                       value => $neutron_available;
     'service_available/mistral':                       value => $mistral_available;
+    'service_available/vitrage':                       value => $vitrage_available;
     'service_available/nova':                          value => $nova_available;
     'service_available/murano':                        value => $murano_available;
     'service_available/sahara':                        value => $sahara_available;
@@ -619,6 +623,13 @@ class tempest(
       package { 'python-mistral-tests':
         ensure => present,
         name   => $::tempest::params::python_mistral_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $vitrage_available and $::tempest::params::python_vitrage_tests {
+      package { 'python-vitrage-tests':
+        ensure => present,
+        name   => $::tempest::params::python_vitrage_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
