@@ -26,8 +26,8 @@ describe 'tempest' do
 
     context 'with image_ref parameters' do
       let :params do
-        { :image_ref        => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b',
-          :image_ref_alt    => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b' }
+        { :image_ref     => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b',
+          :image_ref_alt => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b' }
       end
 
       it 'configures image_ref' do
@@ -37,8 +37,8 @@ describe 'tempest' do
 
     context 'with image_name' do
       let :params do
-        { :image_name       => 'cirros',
-          :image_name_alt   => 'cirros' }
+        { :image_name     => 'cirros',
+          :image_name_alt => 'cirros' }
       end
 
       it 'uses a resource to configure image_ref from image_name' do
@@ -48,10 +48,10 @@ describe 'tempest' do
 
     context 'with image_ref and image_name parameters' do
       let :params do
-        { :image_name       => 'cirros',
-          :image_name_alt   => 'cirros',
-          :image_ref        => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b',
-          :image_ref_alt    => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b' }
+        { :image_name     => 'cirros',
+          :image_name_alt => 'cirros',
+          :image_ref      => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b',
+          :image_ref_alt  => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b' }
       end
 
       it_raises 'a Puppet::Error', /either image_name or image_ref/
@@ -135,10 +135,10 @@ describe 'tempest' do
 
       it 'creates ec2 credentials' do
         is_expected.to contain_tempest_ec2_credentials('ec2_test_creds').with(
-          :ensure               => 'present',
-          :tempest_conf_path    => '/var/lib/tempest/etc/tempest.conf',
-          :user                 => 'ec2api-tester',
-          :project              => 'openstack'
+          :ensure            => 'present',
+          :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
+          :user              => 'ec2api-tester',
+          :project           => 'openstack'
         )
       end
 
@@ -212,10 +212,10 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('compute/image_alt_ssh_user').with(:value => nil)
           is_expected.to contain_tempest_config('compute/image_ref').with(:value => nil)
           is_expected.to contain_tempest_config('compute/image_ref_alt').with(:value => nil)
-          is_expected.to contain_tempest_config('compute/image_ssh_user').with(:value => nil)
           is_expected.to contain_tempest_config('compute/resize_available').with(:value => nil)
           is_expected.to contain_tempest_config('compute/build_interval').with(:value => nil)
           is_expected.to contain_tempest_config('compute-feature-enabled/attach_encrypted_volume').with(:value => false)
+          is_expected.to contain_tempest_config('validation/image_ssh_user').with(:value => nil)
           is_expected.to contain_tempest_config('identity/admin_role').with(:value => nil)
           is_expected.to contain_tempest_config('identity/auth_version').with(:value => 'v2')
           is_expected.to contain_tempest_config('identity/alt_password').with(:value => nil)
@@ -335,7 +335,7 @@ describe 'tempest' do
     context 'with when managing tests packages for sahara (optional service)' do
       let :params do
         { :manage_tests_packages => true,
-          :sahara_available        => true }
+          :sahara_available      => true }
       end
 
       describe "should install sahara tests package" do
@@ -346,7 +346,7 @@ describe 'tempest' do
     context 'with when managing tests packages for neutron (optional service)' do
       let :params do
         { :manage_tests_packages => true,
-          :neutron_available        => true }
+          :neutron_available     => true }
       end
 
       describe "should install neutron and *aas tests packages" do

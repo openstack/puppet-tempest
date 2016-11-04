@@ -429,9 +429,9 @@ class tempest(
     'compute/image_alt_ssh_user':                      value => $image_alt_ssh_user;
     'compute/image_ref':                               value => $image_ref;
     'compute/image_ref_alt':                           value => $image_ref_alt;
-    'compute/image_ssh_user':                          value => $image_ssh_user;
     'compute/resize_available':                        value => $resize_available;
     'compute/build_interval':                          value => $compute_build_interval;
+    'validation/image_ssh_user':                       value => $image_ssh_user;
     'identity/admin_role':                             value => $admin_role;
     'identity/alt_password':                           value => $alt_password, secret => true;
     'identity/alt_project_name':                       value => $alt_project_name_real;
