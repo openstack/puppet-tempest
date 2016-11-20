@@ -33,6 +33,7 @@ class tempest::params {
       $python_sahara_tests     = 'python-sahara-tests-tempest'
       $python_swift_tests      = 'python-swift-tests'
       $python_trove_tests      = 'python-trove-tests'
+      $python_watcher_tests    = 'python-watcher-tests-tempest'
       $python_zaqar_tests      = 'python-zaqar-tests'
     }
     'Debian': {
@@ -64,6 +65,7 @@ class tempest::params {
       $python_sahara_tests     = false
       $python_swift_tests      = false
       $python_trove_tests      = false
+      $python_watcher_tests    = false
       $python_zaqar_tests      = false
     }
     default: {

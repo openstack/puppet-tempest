@@ -128,6 +128,8 @@
 #   Defaults to true
 #  [*murano_available*]
 #   Defaults to false
+#  [*watcher_available*]
+#   Defaults to false
 #  [*zaqar_available*]
 #   Defaults to false
 #  [*ec2api_available*]
@@ -288,6 +290,7 @@ class tempest(
   $swift_available               = false,
   $trove_available               = false,
   $ironic_available              = false,
+  $watcher_available             = false,
   $zaqar_available               = false,
   $ec2api_available              = false,
   $mistral_available             = false,
@@ -471,6 +474,7 @@ class tempest(
     'service_available/swift':                         value => $swift_available;
     'service_available/trove':                         value => $trove_available;
     'service_available/ironic':                        value => $ironic_available;
+    'service_available/watcher':                       value => $watcher_available;
     'service_available/zaqar':                         value => $zaqar_available;
     'service_available/ec2api':                        value => $ec2api_available;
     'whitebox/db_uri':                                 value => $whitebox_db_uri;
@@ -609,6 +613,13 @@ class tempest(
       package { 'python-trove-tests':
         ensure => present,
         name   => $::tempest::params::python_trove_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $watcher_available and $::tempest::params::python_watcher_tests {
+      package { 'python-watcher-tests-tempest':
+        ensure => present,
+        name   => $::tempest::params::python_watcher_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
