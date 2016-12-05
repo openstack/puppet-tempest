@@ -148,6 +148,8 @@
 #   Defaults to false
 #  [*ironic_available*]
 #   Defaults to false
+#  [*congress_available*]
+#   Defaults to false
 #  [*keystone_v2*]
 #   Defaults to true
 #  [*keystone_v3*]
@@ -295,6 +297,7 @@ class tempest(
   $ec2api_available              = false,
   $mistral_available             = false,
   $vitrage_available             = false,
+  $congress_available            = false,
   $keystone_v2                   = true,
   $keystone_v3                   = true,
   $auth_version                  = 'v2',
@@ -477,6 +480,7 @@ class tempest(
     'service_available/watcher':                       value => $watcher_available;
     'service_available/zaqar':                         value => $zaqar_available;
     'service_available/ec2api':                        value => $ec2api_available;
+    'service_available/congress':                      value => $congress_available;
     'whitebox/db_uri':                                 value => $whitebox_db_uri;
     'cli/cli_dir':                                     value => $cli_dir;
     'scenario/img_dir':                                value => $img_dir;
@@ -627,6 +631,13 @@ class tempest(
       package { 'python-zaqar-tests':
         ensure => present,
         name   => $::tempest::params::python_zaqar_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $congress_available and $::tempest::params::congress_congress_tests {
+      package { 'python-congress-tests':
+        ensure => present,
+        name   => $::tempest::params::python_congress_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }

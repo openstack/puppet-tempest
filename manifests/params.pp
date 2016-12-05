@@ -35,6 +35,7 @@ class tempest::params {
       $python_trove_tests      = 'python-trove-tests'
       $python_watcher_tests    = 'python-watcher-tests-tempest'
       $python_zaqar_tests      = 'python-zaqar-tests'
+      $python_congress_tests   = 'python-congress-tests'
     }
     'Debian': {
       $dev_packages = [
@@ -67,6 +68,7 @@ class tempest::params {
       $python_trove_tests      = false
       $python_watcher_tests    = false
       $python_zaqar_tests      = false
+      $python_congress_tests   = false
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, \
