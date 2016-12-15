@@ -27,6 +27,10 @@
 #   Defaults to undef
 #  [*image_name_alt*]
 #   Defaults to undef
+#  [*glance_v1*]
+#   Defaults to true
+#  [*glance_v2*]
+#   Defaults to true
 #  [*configure_networks*]
 #   Defaults to true
 #  [*public_network_name*]
@@ -212,6 +216,8 @@ class tempest(
   $configure_images              = true,
   $image_name                    = undef,
   $image_name_alt                = undef,
+  $glance_v1                     = true,
+  $glance_v2                     = true,
 
   # Neutron network config
   #
@@ -452,6 +458,8 @@ class tempest(
     'identity/disable_ssl_certificate_validation':     value => $disable_ssl_validation;
     'identity-feature-enabled/api_v2':                 value => $keystone_v2;
     'identity-feature-enabled/api_v3':                 value => $keystone_v3;
+    'image-feature-enabled/api_v1':                    value => $glance_v1;
+    'image-feature-enabled/api_v2':                    value => $glance_v2;
     'network/public_network_id':                       value => $public_network_id;
     'network/public_router_id':                        value => $public_router_id;
     'dashboard/login_url':                             value => $login_url;
