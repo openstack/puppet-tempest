@@ -116,6 +116,8 @@
 #   Defaults to false
 #  [*gnocchi_available*]
 #   Defaults to false
+#  [*panko_available*]
+#   Defaults to false
 #  [*designate_available*]
 #   Defaults to false
 #  [*horizon_available*]
@@ -286,6 +288,7 @@ class tempest(
   $ceilometer_available          = false,
   $aodh_available                = false,
   $gnocchi_available             = false,
+  $panko_available               = false,
   $designate_available           = false,
   $horizon_available             = true,
   $neutron_available             = false,
@@ -474,6 +477,7 @@ class tempest(
     # https://bugs.launchpad.net/aodh/+bug/1611406
     'service_available/aodh_plugin':                   value => $aodh_available;
     'service_available/gnocchi':                       value => $gnocchi_available;
+    'service_available/panko':                         value => $panko_available;
     'service_available/designate':                     value => $designate_available;
     'service_available/horizon':                       value => $horizon_available;
     'service_available/neutron':                       value => $neutron_available;
@@ -541,6 +545,13 @@ class tempest(
       package { 'python-gnocchi-tests':
         ensure => present,
         name   => $::tempest::params::python_gnocchi_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $panko_available and $::tempest::params::python_panko_tests {
+      package { 'python-panko-tests':
+        ensure => present,
+        name   => $::tempest::params::python_panko_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
