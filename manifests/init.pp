@@ -5,6 +5,11 @@
 # Note that only parameters for which values are provided will be
 # managed in tempest.conf.
 #
+#  [*ensure_package*]
+#  (optional) The state of tempest packages
+#   Defaults to 'present'
+#  [*tempest_workspace*]
+#   Deafults to '/var/lib/tempest'
 #  [*install_from_source*]
 #   Defaults to true
 #  [*git_clone*]
@@ -200,6 +205,8 @@
 #   Defaults to undef
 #
 class tempest(
+  $ensure_package                = 'present',
+  $tempest_workspace             = '/var/lib/tempest',
   $install_from_source           = true,
   $git_clone                     = true,
   $tempest_config_file           = '/var/lib/tempest/etc/tempest.conf',
@@ -430,6 +437,31 @@ class tempest(
       path => $tempest_config_file,
     }
   }
+
+  if ! $install_from_source {
+    package { 'tempest':
+      ensure => $ensure_package,
+      name   => $::tempest::params::package_name,
+      tag    => ['openstack', 'tempest-package'],
+    }
+
+    $tempest_conf = "${tempest_workspace}/etc/tempest.conf"
+
+    # Create tempest workspace by running tempest init.
+    # It will generate etc/tempest.conf, logs and tempest_lock folder
+    # in tempest workspace
+    exec {'tempest-workspace':
+      command     => "tempest init ${tempest_workspace}",
+      cwd         => $tempest_workspace,
+      path        => ['/bin', '/usr/bin'],
+      refreshonly => true,
+      require     => Package['tempest'],
+    }
+
+    Package['tempest'] ~> Exec['tempest-workspace']
+    Exec['tempest-workspace'] -> Tempest_config<||>
+  }
+
 
   tempest_config {
     'auth/admin_domain_name':                          value => $admin_domain_name;

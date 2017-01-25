@@ -307,6 +307,46 @@ describe 'tempest' do
         end
       end
     end
+
+    context 'install Tempest from package' do
+      let :params do
+        {:install_from_source => false,
+        :image_name           => 'image name',
+        :image_name_alt       => 'image name alt'}
+      end
+
+      it 'checks for tempest package' do
+          is_expected.to contain_package('tempest').with(
+            :ensure => 'present',
+            :name   => platform_params[:package_name],
+            :tag    => ['openstack', 'tempest-package'],
+          )
+      end
+      it 'creates tempest workspace' do
+          is_expected.to contain_exec('tempest-workspace').with(
+            :command     => 'tempest init /var/lib/tempest',
+            :cwd         => '/var/lib/tempest',
+            :path        => ['/bin', '/usr/bin'],
+            :refreshonly => true,
+            :require     => 'Package[tempest]'
+       )
+      end
+    end
+
+    context 'tempest workspace customization' do
+      let :params do
+        {:tempest_workspace => '/tmp/tempest',
+         :image_name        => 'image name',
+         :image_name_alt    => 'image name alt',
+         :install_from_source => false}
+      end
+
+      it 'supports customizes tempest workspace' do
+         is_expected.to contain_exec('tempest-workspace').with(
+           :command     => 'tempest init /tmp/tempest',
+       )
+      end
+    end
   end
 
   shared_examples 'tempest with plugins packages' do
@@ -383,7 +423,8 @@ describe 'tempest' do
                               'libffi-dev',
                               'patch',
                               'gcc',
-                              'python-virtualenv' ] }
+                              'python-virtualenv' ],
+            :package_name => 'tempest'}
         when 'RedHat'
           { :dev_packages => ['python-devel',
                               'libxslt-devel',
@@ -391,7 +432,8 @@ describe 'tempest' do
                               'openssl-devel',
                               'libffi-devel',
                               'patch',
-                              'gcc'] }
+                              'gcc'],
+            :package_name => 'openstack-tempest'}
         end
       end
 
