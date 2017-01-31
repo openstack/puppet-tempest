@@ -55,4 +55,8 @@ Puppet::Type.newtype(:tempest_config) do
     defaultto('<SERVICE DEFAULT>')
   end
 
+  autorequire(:package) do
+    'tempest'
+  end
+
 end

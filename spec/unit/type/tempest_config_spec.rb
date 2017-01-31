@@ -50,4 +50,14 @@ describe 'Puppet::Type.type(:tempest_config)' do
       @tempest_config[:ensure] = :latest
     }.to raise_error(Puppet::Error, /Invalid value/)
   end
+
+  it 'should autorequire the package that install the file' do
+    catalog = Puppet::Resource::Catalog.new
+    package = Puppet::Type.type(:package).new(:name => 'tempest')
+    catalog.add_resource package, @tempest_config
+    dependency = @tempest_config.autorequire
+    expect(dependency.size).to eq(1)
+    expect(dependency[0].target).to eq(@tempest_config)
+    expect(dependency[0].source).to eq(package)
+  end
 end
