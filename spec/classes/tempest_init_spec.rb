@@ -325,7 +325,6 @@ describe 'tempest' do
       it 'creates tempest workspace' do
           is_expected.to contain_exec('tempest-workspace').with(
             :command     => 'tempest init /var/lib/tempest',
-            :cwd         => '/var/lib/tempest',
             :path        => ['/bin', '/usr/bin'],
             :refreshonly => true,
             :require     => 'Package[tempest]'

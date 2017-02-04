@@ -452,7 +452,6 @@ class tempest(
     # in tempest workspace
     exec {'tempest-workspace':
       command     => "tempest init ${tempest_workspace}",
-      cwd         => $tempest_workspace,
       path        => ['/bin', '/usr/bin'],
       refreshonly => true,
       require     => Package['tempest'],
