@@ -161,6 +161,8 @@
 #   Defaults to false
 #  [*congress_available*]
 #   Defaults to false
+#  [*octavia_available*]
+#   Defaults to false
 #  [*keystone_v2*]
 #   Defaults to true
 #  [*keystone_v3*]
@@ -314,6 +316,7 @@ class tempest(
   $mistral_available             = false,
   $vitrage_available             = false,
   $congress_available            = false,
+  $octavia_available             = false,
   $keystone_v2                   = true,
   $keystone_v3                   = true,
   $auth_version                  = 'v2',
@@ -524,6 +527,7 @@ class tempest(
     'service_available/zaqar':                         value => $zaqar_available;
     'service_available/ec2api':                        value => $ec2api_available;
     'service_available/congress':                      value => $congress_available;
+    'service_available/octavia':                       value => $octavia_available;
     'whitebox/db_uri':                                 value => $whitebox_db_uri;
     'cli/cli_dir':                                     value => $cli_dir;
     'scenario/img_dir':                                value => $img_dir;
@@ -716,6 +720,13 @@ class tempest(
       package { 'python-horizon-tests':
         ensure => present,
         name   => $::tempest::params::python_horizon_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $octavia_available and $::tempest::params::python_octavia_tests {
+      package { 'python-octavia-tests':
+        ensure => present,
+        name   => $::tempest::params::python_octavia_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
