@@ -40,6 +40,8 @@
 #   Defaults to true
 #  [*public_network_name*]
 #   Defaults to undef
+#  [*neutron_api_extensions*]
+#   Defaults to undef
 #  [*identity_uri*]
 #   Defaults to undef
 #  [*identity_uri_v3*]
@@ -232,6 +234,7 @@ class tempest(
   #
   $configure_networks            = true,
   $public_network_name           = undef,
+  $neutron_api_extensions        = undef,
 
   # Horizon dashboard config
   $login_url                     = undef,
@@ -494,6 +497,7 @@ class tempest(
     'identity-feature-enabled/api_v3':                 value => $keystone_v3;
     'image-feature-enabled/api_v1':                    value => $glance_v1;
     'image-feature-enabled/api_v2':                    value => $glance_v2;
+    'network-feature-enabled/api_extensions':          value => $neutron_api_extensions;
     'network/public_network_id':                       value => $public_network_id;
     'network/public_router_id':                        value => $public_router_id;
     'dashboard/login_url':                             value => $login_url;

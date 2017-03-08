@@ -234,6 +234,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('identity-feature-enabled/api_v3').with(:value => true)
           is_expected.to contain_tempest_config('image-feature-enabled/api_v1').with(:value => true)
           is_expected.to contain_tempest_config('image-feature-enabled/api_v2').with(:value => true)
+          is_expected.to contain_tempest_config('network-feature-enabled/api_extensions').with(:value => nil)
           is_expected.to contain_tempest_config('network/public_network_id').with(:value => nil)
           is_expected.to contain_tempest_config('network/public_router_id').with(:value => '')
           is_expected.to contain_tempest_config('dashboard/login_url').with(:value => nil)
