@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    The new ``neutron_api_extensions`` parameter allows to configure
+    ``tempest`` to execute only tests that don't rely on anything beyond the
+    list of API extensions specified by the parameter.
