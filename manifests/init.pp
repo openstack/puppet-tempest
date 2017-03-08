@@ -5,7 +5,7 @@
 # Note that only parameters for which values are provided will be
 # managed in tempest.conf.
 #
-#  [*ensure_package*]
+#  [*package_ensure*]
 #  (optional) The state of tempest packages
 #   Defaults to 'present'
 #  [*tempest_workspace*]
@@ -205,9 +205,12 @@
 #   Defaults to undef
 #  [*allow_tenant_isolation*]
 #   Defaults to undef
+#  [*ensure_package*]
+#  (optional) The state of tempest packages
+#   Defaults to undef
 #
 class tempest(
-  $ensure_package                = 'present',
+  $package_ensure                = 'present',
   $tempest_workspace             = '/var/lib/tempest',
   $install_from_source           = true,
   $git_clone                     = true,
@@ -334,6 +337,7 @@ class tempest(
   $alt_tenant_name               = undef,
   $admin_tenant_name             = undef,
   $allow_tenant_isolation        = undef,
+  $ensure_package                = 'present',
 ) {
 
   if !is_service_default($tempest_roles) and !empty($tempest_roles){
@@ -373,6 +377,14 @@ class tempest(
   }
   else {
     $use_dynamic_credentials_real = $use_dynamic_credentials
+  }
+
+  if $ensure_package {
+    warning("tempest::ensure_package is deprecated and will be removed in \
+the future release. Please use tempest::package_ensure instead.")
+    $package_ensure_real = $ensure_package
+  } else {
+    $package_ensure_real = $package_ensure
   }
 
   include ::tempest::params
@@ -443,7 +455,7 @@ class tempest(
 
   if ! $install_from_source {
     package { 'tempest':
-      ensure => $ensure_package,
+      ensure => $package_ensure_real,
       name   => $::tempest::params::package_name,
       tag    => ['openstack', 'tempest-package'],
     }

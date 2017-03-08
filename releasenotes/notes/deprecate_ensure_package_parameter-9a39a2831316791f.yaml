@@ -1,0 +1,4 @@
+---
+deprecations:
+  - tempest::ensure_package is now deprecated and will be removed in the
+    future release. Please use tempest::package_ensure instead.
