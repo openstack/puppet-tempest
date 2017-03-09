@@ -88,6 +88,8 @@
 #   Defaults to undef
 #  [*image_alt_ssh_user*]
 #   Defaults to undef
+#  [*run_ssh*]
+#   Defaults to false
 #  [*flavor_ref*]
 #   Defaults to undef
 #  [*flavor_ref_alt*]
@@ -275,6 +277,7 @@ class tempest(
   $flavor_ref                    = undef,
   $flavor_ref_alt                = undef,
   $compute_build_interval        = undef,
+  $run_ssh                       = false,
   # whitebox
   $whitebox_db_uri               = undef,
   # testing features that are supported
@@ -481,6 +484,7 @@ class tempest(
     'compute/resize_available':                        value => $resize_available;
     'compute/build_interval':                          value => $compute_build_interval;
     'validation/image_ssh_user':                       value => $image_ssh_user;
+    'validation/run_validation':                       value => $run_ssh;
     'identity/admin_role':                             value => $admin_role;
     'identity/alt_password':                           value => $alt_password, secret => true;
     'identity/alt_project_name':                       value => $alt_project_name_real;
