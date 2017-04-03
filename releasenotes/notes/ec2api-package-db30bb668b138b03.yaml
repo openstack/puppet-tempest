@@ -1,0 +1,3 @@
+---
+features:
+  - When ec2api is enabled, install the tests packages from RDO.
