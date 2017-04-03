@@ -38,6 +38,7 @@ class tempest::params {
       $python_congress_tests   = 'python-congress-tests'
       $python_panko_tests      = 'python-panko-tests'
       $python_octavia_tests    = 'python-octavia-tests'
+      $python_ec2api_tests     = 'python-ec2-api-tests'
       $package_name            = 'openstack-tempest'
     }
     'Debian': {
@@ -74,6 +75,7 @@ class tempest::params {
       $python_congress_tests   = false
       $python_panko_tests      = false
       $python_octavia_tests    = false
+      $python_ec2api_tests     = false
       $package_name            = 'tempest'
     }
     default: {

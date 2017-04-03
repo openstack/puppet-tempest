@@ -750,6 +750,13 @@ the future release. Please use tempest::package_ensure instead.")
         tag    => ['openstack', 'tempest-package'],
       }
     }
+    if $ec2api_available and $::tempest::params::python_ec2api_tests {
+      package { 'python-ec2-api-tests':
+        ensure => present,
+        name   => $::tempest::params::python_ec2api_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
   }
 
   if $configure_images {
