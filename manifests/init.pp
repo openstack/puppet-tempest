@@ -812,6 +812,10 @@ be provided.')
   }
 
   if $ec2api_available {
+    tempest_config {
+      'aws/instance_type':     value => $flavor_ref;
+      'aws/instance_type_alt': value => $flavor_ref_alt;
+    }
     keystone_user { 'ec2api-tester' :
       ensure  => present,
       enabled => true,
