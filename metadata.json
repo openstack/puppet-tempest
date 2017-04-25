@@ -1,31 +1,53 @@
 {
-  "name": "openstack-tempest",
-  "version": "8.2.0",
-  "author": "OpenStack Contributors",
-  "summary": "Puppet module for OpenStack Tempest",
-  "license": "Apache-2.0",
-  "source": "git://github.com/openstack/puppet-tempest.git",
-  "project_page": "https://launchpad.net/puppet-tempest",
-  "issues_url": "https://bugs.launchpad.net/puppet-tempest",
-  "requirements": [
-    { "name": "pe", "version_requirement": ">= 3.2.0 <= 2016.1.0" },
-    { "name": "puppet", "version_requirement": ">= 3.0.0 < 5.0.0" }
-  ],
-  "operatingsystem_support": [
-    {
-      "operatingsystem": "RedHat",
-      "operatingsystemrelease": ["7"]
-    },
-    {
-      "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": ["14.04"]
-    }
-  ],
-  "description": "Installs and configures OpenStack Tempest (Quality Assurance).",
-  "dependencies": [
-    { "name": "puppetlabs/inifile", "version_requirement": ">=1.4.0 <2.0.0" },
-    { "name": "puppetlabs/stdlib", "version_requirement": ">=4.9.0 <5.0.0" },
-    { "name": "puppetlabs/vcsrepo", "version_requirement": ">=1.3.0 <2.0.0"},
-    { "name": "openstack/openstacklib", "version_requirement": ">= 8.2.0 <9.0.0" }
-  ]
+    "author": "OpenStack Contributors",
+    "dependencies": [
+        {
+            "name": "puppetlabs/inifile",
+            "version_requirement": ">=1.4.0 <2.0.0"
+        },
+        {
+            "name": "puppetlabs/stdlib",
+            "version_requirement": ">=4.9.0 <5.0.0"
+        },
+        {
+            "name": "puppetlabs/vcsrepo",
+            "version_requirement": ">=1.3.0 <2.0.0"
+        },
+        {
+            "name": "openstack/openstacklib",
+            "version_requirement": ">=8.3.0 <9.0.0"
+        }
+    ],
+    "description": "Installs and configures OpenStack Tempest (Quality Assurance).",
+    "issues_url": "https://bugs.launchpad.net/puppet-tempest",
+    "license": "Apache-2.0",
+    "name": "openstack-tempest",
+    "operatingsystem_support": [
+        {
+            "operatingsystem": "RedHat",
+            "operatingsystemrelease": [
+                "7"
+            ]
+        },
+        {
+            "operatingsystem": "Ubuntu",
+            "operatingsystemrelease": [
+                "14.04"
+            ]
+        }
+    ],
+    "project_page": "https://launchpad.net/puppet-tempest",
+    "requirements": [
+        {
+            "name": "pe",
+            "version_requirement": ">= 3.2.0 <= 2016.1.0"
+        },
+        {
+            "name": "puppet",
+            "version_requirement": ">= 3.0.0 < 5.0.0"
+        }
+    ],
+    "source": "git://github.com/openstack/puppet-tempest.git",
+    "summary": "Puppet module for OpenStack Tempest",
+    "version": "8.3.0"
 }
