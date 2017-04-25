@@ -252,6 +252,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('service_available/gnocchi').with(:value => false)
           is_expected.to contain_tempest_config('service_available/panko').with(:value => false)
           is_expected.to contain_tempest_config('service_available/horizon').with(:value => true)
+          is_expected.to contain_tempest_config('service_available/l2gw').with(:value => false)
           is_expected.to contain_tempest_config('service_available/neutron').with(:value => true)
           is_expected.to contain_tempest_config('service_available/mistral').with(:value => false)
           is_expected.to contain_tempest_config('service_available/vitrage').with(:value => false)
@@ -403,6 +404,7 @@ describe 'tempest' do
         it { expect { is_expected.to contain_package('python-neutron-lbaas-tests') } }
         it { expect { is_expected.to contain_package('python-neutron-vpnaas-tests') } }
         it { expect { is_expected.to contain_package('python-networking-bgpvpn-tests') } }
+        it { expect { is_expected.to contain_package('python-networking-l2gw-tests') } }
         it { expect { is_expected.to contain_package('python-horizon-tests-tempest') } }
       end
     end

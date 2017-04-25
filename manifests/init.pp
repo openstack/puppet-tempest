@@ -139,6 +139,8 @@
 #   Defaults to true
 #  [*neutron_lbaas_available*]
 #   Defaults to true
+#  [*neutron_l2gw_available*]
+#   Defaults to true
 #  [*neutron_vpnaas_available*]
 #   Defaults to false
 #  [*nova_available*]
@@ -315,6 +317,7 @@ class tempest(
   $neutron_bgpvpn_available      = false,
   $neutron_fwaas_available       = true,
   $neutron_lbaas_available       = true,
+  $neutron_l2gw_available        = false,
   $neutron_vpnaas_available      = false,
   $nova_available                = true,
   $murano_available              = false,
@@ -538,6 +541,7 @@ the future release. Please use tempest::package_ensure instead.")
     'service_available/panko':                         value => $panko_available;
     'service_available/designate':                     value => $designate_available;
     'service_available/horizon':                       value => $horizon_available;
+    'service_available/l2gw':                          value => $neutron_l2gw_available;
     'service_available/neutron':                       value => $neutron_available;
     'service_available/mistral':                       value => $mistral_available;
     'service_available/vitrage':                       value => $vitrage_available;
@@ -666,6 +670,13 @@ the future release. Please use tempest::package_ensure instead.")
         package { 'python-neutron-lbaas-tests':
           ensure => present,
           name   => $::tempest::params::python_lbaas_tests,
+          tag    => ['openstack', 'tempest-package'],
+        }
+      }
+      if $neutron_l2gw_available and $::tempest::params::python_l2gw_tests {
+        package { 'python-networking-l2gw-tests':
+          ensure => present,
+          name   => $::tempest::params::python_l2gw_tests,
           tag    => ['openstack', 'tempest-package'],
         }
       }
