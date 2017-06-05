@@ -38,6 +38,8 @@
 #   Defaults to true
 #  [*configure_networks*]
 #   Defaults to true
+#  [*l2gw_switch*]
+#   Defaults to undef
 #  [*public_network_name*]
 #   Defaults to undef
 #  [*neutron_api_extensions*]
@@ -294,6 +296,7 @@ class tempest(
   $resize_available              = undef,
   $change_password_available     = undef,
   $use_dynamic_credentials       = undef,
+  $l2gw_switch                   = undef,
   # neutron config
   $public_network_id             = undef,
   # Upstream has a bad default - set it to empty string.
@@ -523,6 +526,7 @@ the future release. Please use tempest::package_ensure instead.")
     'image-feature-enabled/api_v1':                    value => $glance_v1;
     'image-feature-enabled/api_v2':                    value => $glance_v2;
     'network-feature-enabled/api_extensions':          value => $neutron_api_extensions;
+    'network/l2gw_switch':                             value => $l2gw_switch;
     'network/public_network_id':                       value => $public_network_id;
     'network/public_router_id':                        value => $public_router_id;
     'dashboard/login_url':                             value => $login_url;
