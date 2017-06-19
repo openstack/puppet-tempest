@@ -525,8 +525,8 @@ the future release. Please use tempest::package_ensure instead.")
     'identity-feature-enabled/api_v3':                 value => $keystone_v3;
     'image-feature-enabled/api_v1':                    value => $glance_v1;
     'image-feature-enabled/api_v2':                    value => $glance_v2;
+    'l2gw/l2gw_switch':                                value => $l2gw_switch;
     'network-feature-enabled/api_extensions':          value => $neutron_api_extensions;
-    'network/l2gw_switch':                             value => $l2gw_switch;
     'network/public_network_id':                       value => $public_network_id;
     'network/public_router_id':                        value => $public_router_id;
     'dashboard/login_url':                             value => $login_url;
