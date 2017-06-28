@@ -101,7 +101,7 @@
 #  [*whitebox_db_uri*]
 #   Defaults to undef
 #  [*resize_available*]
-#   Defaults to undef
+#   Defaults to false
 #  [*change_password_available*]
 #   Defaults to undef
 #  [*use_dynamic_credentials*]
@@ -293,7 +293,7 @@ class tempest(
   # whitebox
   $whitebox_db_uri               = undef,
   # testing features that are supported
-  $resize_available              = undef,
+  $resize_available              = false,
   $change_password_available     = undef,
   $use_dynamic_credentials       = undef,
   $l2gw_switch                   = undef,
@@ -505,7 +505,6 @@ the future release. Please use tempest::package_ensure instead.")
     'compute/image_alt_ssh_user':                      value => $image_alt_ssh_user;
     'compute/image_ref':                               value => $image_ref;
     'compute/image_ref_alt':                           value => $image_ref_alt;
-    'compute/resize_available':                        value => $resize_available;
     'compute/build_interval':                          value => $compute_build_interval;
     'validation/image_ssh_user':                       value => $image_ssh_user;
     'validation/run_validation':                       value => $run_ssh;
@@ -567,6 +566,7 @@ the future release. Please use tempest::package_ensure instead.")
     'service_broker/run_service_broker_tests':         value => $run_service_broker_tests;
     'dns/nameservers':                                 value => $designate_nameservers;
     'compute-feature-enabled/attach_encrypted_volume': value => $attach_encrypted_volume;
+    'compute-feature-enabled/resize':                  value => $resize_available;
   }
 
   oslo::concurrency { 'tempest_config': lock_path => $lock_path }
