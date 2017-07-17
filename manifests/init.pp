@@ -678,7 +678,7 @@ the future release. Please use tempest::package_ensure instead.")
         }
       }
       if $neutron_l2gw_available and $::tempest::params::python_l2gw_tests {
-        package { 'python-networking-l2gw-tests':
+        package { 'python-networking-l2gw-tests-tempest':
           ensure => present,
           name   => $::tempest::params::python_l2gw_tests,
           tag    => ['openstack', 'tempest-package'],
