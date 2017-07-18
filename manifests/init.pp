@@ -657,7 +657,7 @@ the future release. Please use tempest::package_ensure instead.")
         tag    => ['openstack', 'tempest-package'],
       }
       if $neutron_bgpvpn_available and $::tempest::params::python_bgpvpn_tests {
-        package { 'python-networking-bgpvpn-tests':
+        package { 'python-networking-bgpvpn-tests-tempest':
           ensure => present,
           name   => $::tempest::params::python_bgpvpn_tests,
           tag    => ['openstack', 'tempest-package'],

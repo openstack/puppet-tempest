@@ -13,7 +13,7 @@ class tempest::params {
         'gcc'
       ]
       $python_aodh_tests       = 'python-aodh-tests'
-      $python_bgpvpn_tests     = 'python-networking-bgpvpn-tests'
+      $python_bgpvpn_tests     = 'python-networking-bgpvpn-tests-tempest'
       $python_ceilometer_tests = 'python-ceilometer-tests'
       $python_cinder_tests     = 'python-cinder-tests'
       $python_designate_tests  = 'python-designate-tests-tempest'
