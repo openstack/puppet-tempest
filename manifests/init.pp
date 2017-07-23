@@ -173,6 +173,8 @@
 #   Defaults to false
 #  [*octavia_available*]
 #   Defaults to false
+#  [*barbican_available*]
+#   Defaults to false
 #  [*keystone_v2*]
 #   Defaults to true
 #  [*keystone_v3*]
@@ -335,6 +337,7 @@ class tempest(
   $vitrage_available             = false,
   $congress_available            = false,
   $octavia_available             = false,
+  $barbican_available            = false,
   $keystone_v2                   = true,
   $keystone_v3                   = true,
   $auth_version                  = 'v2',
@@ -783,6 +786,14 @@ the future release. Please use tempest::package_ensure instead.")
         tag    => ['openstack', 'tempest-package'],
       }
     }
+    if $barbican_available and $::tempest::params::python_barbican_tests {
+      package { 'python-barbican-tests-tempest':
+        ensure => present,
+        name   => $::tempest::params::python_barbican_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+
   }
 
   if $configure_images {
