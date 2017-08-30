@@ -542,6 +542,7 @@ the future release. Please use tempest::package_ensure instead.")
     'service_available/aodh':                          value => $aodh_available;
     # https://bugs.launchpad.net/aodh/+bug/1611406
     'service_available/aodh_plugin':                   value => $aodh_available;
+    'service_available/barbican':                      value => $barbican_available;
     'service_available/bgpvpn':                        value => $neutron_bgpvpn_available;
     'service_available/gnocchi':                       value => $gnocchi_available;
     'service_available/panko':                         value => $panko_available;
