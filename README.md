@@ -23,7 +23,7 @@ This module has beaker-rspec tests
 
 To run:
 
-``shell
+```shell
 bundle install
 bundle exec rspec spec/acceptance
-``
+```
