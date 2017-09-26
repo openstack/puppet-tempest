@@ -1,0 +1,6 @@
+---
+deprecations:
+  - |
+    The Keystone project is removing the API v2 code in the Queens cycle. To
+    adapt to this, the keystone_v2 and auth_version default values have been
+    changed to false and v3, respectively.

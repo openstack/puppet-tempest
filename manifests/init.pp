@@ -176,11 +176,11 @@
 #  [*barbican_available*]
 #   Defaults to false
 #  [*keystone_v2*]
-#   Defaults to true
+#   Defaults to false
 #  [*keystone_v3*]
 #   Defaults to true
 #  [*auth_version*]
-#   Defaults to 'v2'
+#   Defaults to 'v3'
 #  [*img_dir*]
 #   Defaults to '/var/lib/tempest'
 #  [*img_file*]
@@ -338,9 +338,9 @@ class tempest(
   $congress_available            = false,
   $octavia_available             = false,
   $barbican_available            = false,
-  $keystone_v2                   = true,
+  $keystone_v2                   = false,
   $keystone_v3                   = true,
-  $auth_version                  = 'v2',
+  $auth_version                  = 'v3',
   $run_service_broker_tests      = false,
   $ca_certificates_file          = undef,
   $disable_ssl_validation        = undef,
