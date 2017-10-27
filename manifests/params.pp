@@ -37,7 +37,7 @@ class tempest::params {
       $python_swift_tests      = 'python-swift-tests'
       $python_trove_tests      = 'python-trove-tests'
       $python_watcher_tests    = 'python-watcher-tests-tempest'
-      $python_zaqar_tests      = 'python-zaqar-tests'
+      $python_zaqar_tests      = 'python-zaqar-tests-tempest'
       $python_congress_tests   = 'python-congress-tests'
       $python_panko_tests      = 'python-panko-tests'
       $python_octavia_tests    = 'python-octavia-tests'
