@@ -184,7 +184,7 @@
 #  [*img_dir*]
 #   Defaults to '/var/lib/tempest'
 #  [*img_file*]
-#   Defaults to 'cirros-0.3.4-x86_64-disk.img'
+#   Defaults to 'cirros-0.3.5-x86_64-disk.img'
 #  [*login_url*]
 #   Defaults to undef
 #  [*dashboard_url*]
@@ -347,7 +347,7 @@ class tempest(
   $manage_tests_packages         = false,
   # scenario options
   $img_dir                       = '/var/lib/tempest',
-  $img_file                      = 'cirros-0.3.4-x86_64-disk.img',
+  $img_file                      = 'cirros-0.3.5-x86_64-disk.img',
   # designate options
   $designate_nameservers         = undef,
   # DEPRECATED PARAMETERS

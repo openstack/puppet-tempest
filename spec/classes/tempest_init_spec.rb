@@ -278,7 +278,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('DEFAULT/use_syslog').with(:value => false)
           is_expected.to contain_tempest_config('DEFAULT/logging_context_format_string').with_value('<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('scenario/img_dir').with(:value => '/var/lib/tempest')
-          is_expected.to contain_tempest_config('scenario/img_file').with(:value => 'cirros-0.3.4-x86_64-disk.img')
+          is_expected.to contain_tempest_config('scenario/img_file').with(:value => 'cirros-0.3.5-x86_64-disk.img')
           is_expected.to contain_tempest_config('service_broker/run_service_broker_tests').with(:value => false)
 
           is_expected.not_to contain_tempest_config('magnum/keypair_id').with_value('default')
