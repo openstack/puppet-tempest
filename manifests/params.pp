@@ -27,7 +27,7 @@ class tempest::params {
       $python_mistral_tests    = 'python-mistral-tests'
       $python_vitrage_tests    = 'python-vitrage-tests'
       $python_murano_tests     = 'python-murano-tests'
-      $python_neutron_tests    = 'python-neutron-tests'
+      $python_neutron_tests    = 'python-neutron-tests-tempest'
       $python_fwaas_tests      = 'python-neutron-fwaas-tests'
       $python_lbaas_tests      = 'python-neutron-lbaas-tests'
       $python_l2gw_tests       = 'python-networking-l2gw-tests-tempest'
