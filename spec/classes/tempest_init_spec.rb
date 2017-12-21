@@ -272,14 +272,15 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('whitebox/db_uri').with(:value => nil)
           is_expected.to contain_tempest_config('cli/cli_dir').with(:value => nil)
           is_expected.to contain_tempest_config('oslo_concurrency/lock_path').with(:value => '/var/lib/tempest')
-          is_expected.to contain_tempest_config('DEFAULT/debug').with(:value => false)
-          is_expected.to contain_tempest_config('DEFAULT/log-file').with_value('<SERVICE DEFAULT>')
-          is_expected.to contain_tempest_config('DEFAULT/use_stderr').with(:value => true)
-          is_expected.to contain_tempest_config('DEFAULT/use-syslog').with(:value => false)
-          is_expected.to contain_tempest_config('DEFAULT/logging_context_format_string').with_value('<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('scenario/img_dir').with(:value => '/var/lib/tempest')
           is_expected.to contain_tempest_config('scenario/img_file').with(:value => 'cirros-0.3.5-x86_64-disk.img')
           is_expected.to contain_tempest_config('service_broker/run_service_broker_tests').with(:value => false)
+          is_expected.to contain_oslo__log('tempest_config').with(
+              :debug => false,
+              :log_file => '<SERVICE DEFAULT>',
+              :use_stderr => true,
+              :use_syslog => false,
+              :logging_context_format_string => '<SERVICE DEFAULT>')
 
           is_expected.not_to contain_tempest_config('magnum/keypair_id').with_value('default')
         end
