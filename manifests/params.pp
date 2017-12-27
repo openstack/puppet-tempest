@@ -24,7 +24,7 @@ class tempest::params {
       $python_ironic_tests     = 'python-ironic-tests'
       $python_keystone_tests   = 'python-keystone-tests'
       $python_magnum_tests     = 'python-magnum-tests-tempest'
-      $python_mistral_tests    = 'python-mistral-tests'
+      $python_mistral_tests    = 'python-mistral-tests-tempest'
       $python_vitrage_tests    = 'python-vitrage-tests'
       $python_murano_tests     = 'python-murano-tests-tempest'
       $python_neutron_tests    = 'python-neutron-tests-tempest'
