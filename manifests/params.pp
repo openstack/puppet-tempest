@@ -21,7 +21,7 @@ class tempest::params {
       $python_gnocchi_tests    = 'python-gnocchi-tests'
       $python_heat_tests       = 'python-heat-tests'
       $python_horizon_tests    = 'python-horizon-tests-tempest'
-      $python_ironic_tests     = 'python-ironic-tests'
+      $python_ironic_tests     = 'python-ironic-tests-tempest'
       $python_keystone_tests   = 'python-keystone-tests'
       $python_magnum_tests     = 'python-magnum-tests-tempest'
       $python_mistral_tests    = 'python-mistral-tests-tempest'
