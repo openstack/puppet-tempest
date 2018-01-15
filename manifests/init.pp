@@ -584,17 +584,10 @@ the future release. Please use tempest::package_ensure instead.")
   }
 
   if $manage_tests_packages {
-    if $aodh_available and $::tempest::params::python_aodh_tests {
-      package { 'python-aodh-tests':
+    if ($aodh_available or $ceilometer_available or $panko_available or $gnocchi_available) and $::tempest::params::python_telemetry_tests {
+      package { 'python-telemetry-tests':
         ensure => present,
-        name   => $::tempest::params::python_aodh_tests,
-        tag    => ['openstack', 'tempest-package'],
-      }
-    }
-    if $ceilometer_available and $::tempest::params::python_ceilometer_tests {
-      package { 'python-ceilometer-tests':
-        ensure => present,
-        name   => $::tempest::params::python_ceilometer_tests,
+        name   => $::tempest::params::python_telemetry_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
@@ -609,20 +602,6 @@ the future release. Please use tempest::package_ensure instead.")
       package { 'python-glance-tests':
         ensure => present,
         name   => $::tempest::params::python_glance_tests,
-        tag    => ['openstack', 'tempest-package'],
-      }
-    }
-    if $gnocchi_available and $::tempest::params::python_gnocchi_tests {
-      package { 'python-gnocchi-tests':
-        ensure => present,
-        name   => $::tempest::params::python_gnocchi_tests,
-        tag    => ['openstack', 'tempest-package'],
-      }
-    }
-    if $panko_available and $::tempest::params::python_panko_tests {
-      package { 'python-panko-tests':
-        ensure => present,
-        name   => $::tempest::params::python_panko_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
