@@ -38,7 +38,7 @@ class tempest::params {
       $python_zaqar_tests      = 'python-zaqar-tests-tempest'
       $python_congress_tests   = 'python-congress-tests-tempest'
       $python_octavia_tests    = 'python-octavia-tests-tempest'
-      $python_ec2api_tests     = 'python-ec2-api-tests'
+      $python_ec2api_tests     = 'python-ec2api-tests-tempest'
       $python_barbican_tests   = 'python-barbican-tests-tempest'
       $package_name            = 'openstack-tempest'
     }
