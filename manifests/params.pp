@@ -17,7 +17,7 @@ class tempest::params {
       $python_cinder_tests     = 'python-cinder-tests'
       $python_designate_tests  = 'python-designate-tests-tempest'
       $python_glance_tests     = 'python-glance-tests'
-      $python_heat_tests       = 'python-heat-tests'
+      $python_heat_tests       = 'python-heat-tests-tempest'
       $python_horizon_tests    = 'python-horizon-tests-tempest'
       $python_ironic_tests     = 'python-ironic-tests-tempest'
       $python_keystone_tests   = 'python-keystone-tests'
