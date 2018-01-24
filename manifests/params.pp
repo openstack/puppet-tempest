@@ -14,7 +14,7 @@ class tempest::params {
       ]
       $python_telemetry_tests  = 'python-telemetry-tests-tempest'
       $python_bgpvpn_tests     = 'python-networking-bgpvpn-tests-tempest'
-      $python_cinder_tests     = 'python-cinder-tests'
+      $python_cinder_tests     = 'python-cinder-tests-tempest'
       $python_designate_tests  = 'python-designate-tests-tempest'
       $python_glance_tests     = 'python-glance-tests'
       $python_heat_tests       = 'python-heat-tests-tempest'
@@ -36,7 +36,7 @@ class tempest::params {
       $python_trove_tests      = 'python-trove-tests-tempest'
       $python_watcher_tests    = 'python-watcher-tests-tempest'
       $python_zaqar_tests      = 'python-zaqar-tests-tempest'
-      $python_congress_tests   = 'python-congress-tests'
+      $python_congress_tests   = 'python-congress-tests-tempest'
       $python_octavia_tests    = 'python-octavia-tests-tempest'
       $python_ec2api_tests     = 'python-ec2-api-tests'
       $python_barbican_tests   = 'python-barbican-tests-tempest'
