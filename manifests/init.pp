@@ -219,9 +219,6 @@
 #   Defaults to undef
 #  [*allow_tenant_isolation*]
 #   Defaults to undef
-#  [*ensure_package*]
-#  (optional) The state of tempest packages
-#   Defaults to undef
 #
 class tempest(
   $package_ensure                   = 'present',
@@ -358,7 +355,6 @@ class tempest(
   $alt_tenant_name                  = undef,
   $admin_tenant_name                = undef,
   $allow_tenant_isolation           = undef,
-  $ensure_package                   = 'present',
 ) {
 
   if !is_service_default($tempest_roles) and !empty($tempest_roles){
@@ -398,14 +394,6 @@ class tempest(
   }
   else {
     $use_dynamic_credentials_real = $use_dynamic_credentials
-  }
-
-  if $ensure_package {
-    warning("tempest::ensure_package is deprecated and will be removed in \
-the future release. Please use tempest::package_ensure instead.")
-    $package_ensure_real = $ensure_package
-  } else {
-    $package_ensure_real = $package_ensure
   }
 
   include ::tempest::params
@@ -476,7 +464,7 @@ the future release. Please use tempest::package_ensure instead.")
 
   if ! $install_from_source {
     package { 'tempest':
-      ensure => $package_ensure_real,
+      ensure => $package_ensure,
       name   => $::tempest::params::package_name,
       tag    => ['openstack', 'tempest-package'],
     }

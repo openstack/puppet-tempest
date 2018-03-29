@@ -1,0 +1,3 @@
+---
+upgrade:
+  - Deprecated ensure_package option has been removed.
