@@ -215,6 +215,8 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('compute/build_interval').with(:value => nil)
           is_expected.to contain_tempest_config('compute-feature-enabled/attach_encrypted_volume').with(:value => false)
           is_expected.to contain_tempest_config('compute-feature-enabled/resize').with(:value => false)
+          is_expected.to contain_tempest_config('baremetal/driver').with(:value => 'fake')
+          is_expected.to contain_tempest_config('baremetal/enabled_hardware_types').with(:value => 'ipmi')
           is_expected.to contain_tempest_config('validation/image_ssh_user').with(:value => nil)
           is_expected.to contain_tempest_config('validation/run_validation').with(:value => false)
           is_expected.to contain_tempest_config('identity/admin_role').with(:value => nil)

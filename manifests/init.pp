@@ -209,6 +209,10 @@
 #  [*db_flavor_ref*]
 #   Valid primary flavor to use in Trove tests.
 #   Defaults to $::os_service_default
+#  [*baremetal_driver*]
+#   Defaults to 'fake'
+#  [*baremetal_enabled_hardware_types*]
+#   Defaults to 'ipmi'
 #
 # DEPREACTED PARAMETERS
 #  [*tenant_name*]
@@ -350,6 +354,9 @@ class tempest(
   $img_file                         = 'cirros-0.4.0-x86_64-disk.img',
   # designate options
   $designate_nameservers            = undef,
+  # ironic options
+  $baremetal_driver                 = 'fake',
+  $baremetal_enabled_hardware_types = 'ipmi',
   # DEPRECATED PARAMETERS
   $tenant_name                      = undef,
   $alt_tenant_name                  = undef,
@@ -563,6 +570,8 @@ class tempest(
     'dns/nameservers':                                 value => $designate_nameservers;
     'compute-feature-enabled/attach_encrypted_volume': value => $attach_encrypted_volume;
     'compute-feature-enabled/resize':                  value => $resize_available;
+    'baremetal/driver':                                value => $baremetal_driver;
+    'baremetal/enabled_hardware_types':                value => $baremetal_enabled_hardware_types;
   }
 
   oslo::concurrency { 'tempest_config': lock_path => $lock_path }

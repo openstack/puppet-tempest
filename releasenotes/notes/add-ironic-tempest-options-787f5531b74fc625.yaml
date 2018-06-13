@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Add some options to configure tempest for ironic.
