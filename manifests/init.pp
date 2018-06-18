@@ -213,6 +213,8 @@
 #   Defaults to 'fake'
 #  [*baremetal_enabled_hardware_types*]
 #   Defaults to 'ipmi'
+#  [*ec2api_tester_roles*]
+#   Defaults to 'Member'
 #
 # DEPREACTED PARAMETERS
 #  [*tenant_name*]
@@ -357,6 +359,8 @@ class tempest(
   # ironic options
   $baremetal_driver                 = 'fake',
   $baremetal_enabled_hardware_types = 'ipmi',
+  # ec2api options
+  $ec2api_tester_roles              = ['Member'],
   # DEPRECATED PARAMETERS
   $tenant_name                      = undef,
   $alt_tenant_name                  = undef,
@@ -840,7 +844,7 @@ be provided.')
     }
     keystone_user_role { 'ec2api-tester@openstack' :
       ensure => present,
-      roles  => ['Member'],
+      roles  => $ec2api_tester_roles,
     }
     tempest_ec2_credentials { 'ec2_test_creds':
       ensure            => present,
