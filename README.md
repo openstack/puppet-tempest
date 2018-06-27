@@ -16,6 +16,11 @@ tests on an installed openstack environment.
 This module assumes the provisioning of the initial OpenStack
 resources has been done beforehand.
 
+Release Notes
+-------------
+
+* https://docs.openstack.org/releasenotes/puppet-tempest
+
 Beaker-Rspec
 ------------
 
