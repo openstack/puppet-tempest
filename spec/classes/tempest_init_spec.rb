@@ -410,6 +410,7 @@ describe 'tempest' do
         it { expect { is_expected.to contain_package('python-neutron-fwaas-tests') } }
         it { expect { is_expected.to contain_package('python-neutron-lbaas-tests') } }
         it { expect { is_expected.to contain_package('python-neutron-vpnaas-tests') } }
+        it { expect { is_expected.to contain_package('python-neutron-dynamic-routing-tests') } }
         it { expect { is_expected.to contain_package('python-networking-bgpvpn-tests-tempest') } }
         it { expect { is_expected.to contain_package('python-networking-l2gw-tests-tempest') } }
         it { expect { is_expected.to contain_package('python-horizon-tests-tempest') } }

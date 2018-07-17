@@ -30,6 +30,7 @@ class tempest::params {
       $python_lbaas_tests      = 'python-neutron-lbaas-tests'
       $python_l2gw_tests       = 'python-networking-l2gw-tests-tempest'
       $python_vpnaas_tests     = 'python-neutron-vpnaas-tests'
+      $python_dr_tests         = 'python2-neutron-dynamic-routing-tests'
       $python_nova_tests       = 'python-nova-tests'
       $python_sahara_tests     = 'python-sahara-tests-tempest'
       $python_swift_tests      = 'python-swift-tests'

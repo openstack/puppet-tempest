@@ -145,6 +145,8 @@
 #   Defaults to true
 #  [*neutron_vpnaas_available*]
 #   Defaults to false
+#  [*neutron_dr_available*]
+#   Defaults to false
 #  [*nova_available*]
 #   Defaults to true
 #  [*murano_available*]
@@ -330,6 +332,7 @@ class tempest(
   $neutron_lbaas_available          = true,
   $neutron_l2gw_available           = false,
   $neutron_vpnaas_available         = false,
+  $neutron_dr_available             = false,
   $nova_available                   = true,
   $murano_available                 = false,
   $sahara_available                 = false,
@@ -491,7 +494,7 @@ class tempest(
       refreshonly => true,
       require     => Package['tempest'],
     }
-
+    Package<| tag == 'tempest-package' |> -> Exec['tempest-workspace']
     Package['tempest'] ~> Exec['tempest-workspace']
     Exec['tempest-workspace'] -> Tempest_config<||>
   }
@@ -676,6 +679,13 @@ class tempest(
         package { 'python-neutron-vpnaas-tests':
           ensure => present,
           name   => $::tempest::params::python_vpnaas_tests,
+          tag    => ['openstack', 'tempest-package'],
+        }
+      }
+      if $neutron_dr_available and $::tempest::params::python_dr_tests {
+        package { 'python-neutron-dynamic-routing-tests':
+          ensure => present,
+          name   => $::tempest::params::python_dr_tests,
           tag    => ['openstack', 'tempest-package'],
         }
       }
