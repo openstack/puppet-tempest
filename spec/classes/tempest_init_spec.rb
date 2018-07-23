@@ -5,7 +5,7 @@ describe 'tempest' do
 
     let :pre_condition do
       "include ::glance
-       class { 'neutron': rabbit_password => 'passw0rd' }"
+       include ::neutron"
     end
 
     context 'without parameters' do
@@ -363,7 +363,7 @@ describe 'tempest' do
   shared_examples 'tempest with plugins packages' do
     let :pre_condition do
       "include ::glance
-       class { 'neutron': rabbit_password => 'passw0rd' }"
+       include ::neutron"
     end
 
     context 'with when managing tests packages for keystone (required service)' do
