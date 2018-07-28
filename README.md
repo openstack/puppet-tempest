@@ -16,6 +16,18 @@ tests on an installed openstack environment.
 This module assumes the provisioning of the initial OpenStack
 resources has been done beforehand.
 
+Development
+-----------
+
+Developer documentation for the entire puppet-openstack project.
+
+* https://docs.openstack.org/puppet-openstack-guide/latest/
+
+Contributors
+------------
+
+* https://github.com/openstack/puppet-tempest/graphs/contributors
+
 Release Notes
 -------------
 
