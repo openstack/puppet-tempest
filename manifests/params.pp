@@ -1,6 +1,11 @@
 #
 class tempest::params {
   include ::openstacklib::defaults
+  if ($::operatingsystem == 'Fedora') {
+    $pyvers = '3'
+  } else {
+    $pyvers = ''
+  }
   case $::osfamily {
     'RedHat': {
       $dev_packages = [
@@ -16,11 +21,11 @@ class tempest::params {
       $python_bgpvpn_tests     = 'python-networking-bgpvpn-tests-tempest'
       $python_cinder_tests     = 'python-cinder-tests-tempest'
       $python_designate_tests  = 'python-designate-tests-tempest'
-      $python_glance_tests     = 'python-glance-tests'
+      $python_glance_tests     = "python${pyvers}-glance-tests"
       $python_heat_tests       = 'python-heat-tests-tempest'
       $python_horizon_tests    = 'python-horizon-tests-tempest'
       $python_ironic_tests     = 'python-ironic-tests-tempest'
-      $python_keystone_tests   = 'python-keystone-tests'
+      $python_keystone_tests   = "python${pyvers}-keystone-tests"
       $python_magnum_tests     = 'python-magnum-tests-tempest'
       $python_mistral_tests    = 'python-mistral-tests-tempest'
       $python_vitrage_tests    = 'python-vitrage-tests-tempest'
