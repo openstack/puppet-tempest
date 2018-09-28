@@ -1,7 +1,8 @@
 #
 class tempest::params {
   include ::openstacklib::defaults
-  if ($::operatingsystem == 'Fedora') {
+  if ($::os['name'] == 'Fedora') or
+     ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
     $pyvers = '3'
   } else {
     $pyvers = ''
@@ -19,24 +20,24 @@ class tempest::params {
       ]
       $python_telemetry_tests  = 'python-telemetry-tests-tempest'
       $python_bgpvpn_tests     = 'python-networking-bgpvpn-tests-tempest'
-      $python_cinder_tests     = 'python-cinder-tests-tempest'
+      $python_cinder_tests     = "python${pyvers}-cinder-tests-tempest"
       $python_designate_tests  = 'python-designate-tests-tempest'
       $python_glance_tests     = "python${pyvers}-glance-tests"
       $python_heat_tests       = 'python-heat-tests-tempest'
-      $python_horizon_tests    = 'python-horizon-tests-tempest'
+      $python_horizon_tests    = "python${pyvers}-horizon-tests-tempest"
       $python_ironic_tests     = 'python-ironic-tests-tempest'
       $python_keystone_tests   = "python${pyvers}-keystone-tests"
       $python_magnum_tests     = 'python-magnum-tests-tempest'
       $python_mistral_tests    = 'python-mistral-tests-tempest'
       $python_vitrage_tests    = 'python-vitrage-tests-tempest'
       $python_murano_tests     = 'python-murano-tests-tempest'
-      $python_neutron_tests    = 'python-neutron-tests-tempest'
-      $python_fwaas_tests      = 'python-neutron-fwaas-tests'
-      $python_lbaas_tests      = 'python-neutron-lbaas-tests'
-      $python_l2gw_tests       = 'python-networking-l2gw-tests-tempest'
-      $python_vpnaas_tests     = 'python-neutron-vpnaas-tests'
+      $python_neutron_tests    = "python${pyvers}-neutron-tests-tempest"
+      $python_fwaas_tests      = "python${pyvers}-neutron-fwaas-tests"
+      $python_lbaas_tests      = "python${pyvers}-neutron-lbaas-tests"
+      $python_l2gw_tests       = "python${pyvers}-networking-l2gw-tests-tempest"
+      $python_vpnaas_tests     = "python${pyvers}-neutron-vpnaas-tests"
       $python_dr_tests         = 'python2-neutron-dynamic-routing-tests'
-      $python_nova_tests       = 'python-nova-tests'
+      $python_nova_tests       = "python${pyvers}-nova-tests"
       $python_sahara_tests     = 'python-sahara-tests-tempest'
       $python_swift_tests      = 'python-swift-tests'
       $python_trove_tests      = 'python-trove-tests-tempest'
