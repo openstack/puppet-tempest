@@ -62,5 +62,5 @@
     ],
     "source": "git://github.com/openstack/puppet-tempest.git",
     "summary": "Puppet module for OpenStack Tempest",
-    "version": "13.3.0"
+    "version": "13.3.1"
 }
