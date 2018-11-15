@@ -18,14 +18,14 @@ class tempest::params {
         'patch',
         'gcc'
       ]
-      $python_telemetry_tests  = 'python-telemetry-tests-tempest'
-      $python_bgpvpn_tests     = 'python-networking-bgpvpn-tests-tempest'
+      $python_telemetry_tests  = "python${pyvers}-telemetry-tests-tempest"
+      $python_bgpvpn_tests     = "python${pyvers}-networking-bgpvpn-tests-tempest"
       $python_cinder_tests     = "python${pyvers}-cinder-tests-tempest"
-      $python_designate_tests  = 'python-designate-tests-tempest'
+      $python_designate_tests  = "python${pyvers}-designate-tests-tempest"
       $python_glance_tests     = "python${pyvers}-glance-tests"
       $python_heat_tests       = "python${pyvers}-heat-tests-tempest"
       $python_horizon_tests    = "python${pyvers}-horizon-tests-tempest"
-      $python_ironic_tests     = 'python-ironic-tests-tempest'
+      $python_ironic_tests     = "python${pyvers}-ironic-tests-tempest"
       $python_keystone_tests   = "python${pyvers}-keystone-tests"
       $python_magnum_tests     = "python${pyvers}-magnum-tests-tempest"
       $python_mistral_tests    = "python${pyvers}-mistral-tests-tempest"
@@ -42,11 +42,11 @@ class tempest::params {
       $python_swift_tests      = 'python-swift-tests'
       $python_trove_tests      = "python${pyvers}-trove-tests-tempest"
       $python_watcher_tests    = "python${pyvers}-watcher-tests-tempest"
-      $python_zaqar_tests      = 'python-zaqar-tests-tempest'
-      $python_congress_tests   = 'python-congress-tests-tempest'
-      $python_octavia_tests    = 'python-octavia-tests-tempest'
-      $python_ec2api_tests     = 'python-ec2api-tests-tempest'
-      $python_barbican_tests   = 'python-barbican-tests-tempest'
+      $python_zaqar_tests      = "python${pyvers}-zaqar-tests-tempest"
+      $python_congress_tests   = "python${pyvers}-congress-tests-tempest"
+      $python_octavia_tests    = "python${pyvers}-octavia-tests-tempest"
+      $python_ec2api_tests     = "python${pyvers}-ec2api-tests-tempest"
+      $python_barbican_tests   = "python${pyvers}-barbican-tests-tempest"
       $package_name            = 'openstack-tempest'
     }
     'Debian': {
