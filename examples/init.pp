@@ -1,4 +1,4 @@
-# The baseline for module testing used by Puppet Labs is that each manifest
+# The baseline for module testing used by Puppet Inc. is that each manifest
 # should have a corresponding test manifest that declares that class or defined
 # type.
 #
@@ -7,6 +7,6 @@
 # environment (to compare the resulting system state to the desired state).
 #
 # Learn more about module testing here:
-# http://docs.puppetlabs.com/guides/tests_smoke.html
+# https://puppet.com/docs/puppet/latest/bgtm.html#testing-your-module
 #
 include ::tempest
