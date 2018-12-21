@@ -11,7 +11,7 @@
         },
         {
             "name": "puppetlabs/vcsrepo",
-            "version_requirement": ">=0.1.2 <2.0.0"
+            "version_requirement": ">=2.4.0 <3.0.0"
         },
         {
             "name": "openstack/openstacklib",
