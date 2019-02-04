@@ -19,6 +19,6 @@ Puppet::Type.newtype(:tempest_ec2_credentials) do
   end
 
   autorequire(:package) do
-    ['python-openstackclient']
+    ['python-openstackclient', 'python3-openstackclient']
   end
 end

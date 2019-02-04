@@ -21,6 +21,6 @@ Puppet::Type.newtype(:tempest_glance_id_setter) do
   end
 
   autorequire(:package) do
-    ['python-openstackclient']
+    ['python-openstackclient', 'python3-openstackclient']
   end
 end

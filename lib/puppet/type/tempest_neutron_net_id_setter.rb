@@ -15,6 +15,6 @@ Puppet::Type.newtype(:tempest_neutron_net_id_setter) do
   end
 
   autorequire(:package) do
-    ['python-openstackclient']
+    ['python-openstackclient', 'python3-openstackclient']
   end
 end
