@@ -192,11 +192,7 @@ describe 'tempest' do
           )
         end
 
-        it 'installs python-openstackclient package' do
-          is_expected.to contain_package('python-openstackclient').with(
-            :tag => 'openstack'
-          )
-        end
+        it { should contain_class('openstacklib::openstackclient') }
 
         it 'configure tempest config' do
           is_expected.to contain_tempest_config('auth/admin_domain_name').with(:value => nil)
