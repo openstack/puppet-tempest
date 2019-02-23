@@ -31,7 +31,7 @@ class tempest::config (
   $tempest_config        = {},
 ) {
 
-  validate_hash($tempest_config)
+  validate_legacy(Hash, 'validate_hash', $tempest_config)
 
   create_resources('tempest_config', $tempest_config)
 }

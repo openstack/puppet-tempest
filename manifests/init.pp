@@ -372,7 +372,7 @@ class tempest(
 ) {
 
   if !is_service_default($tempest_roles) and !empty($tempest_roles){
-    validate_array($tempest_roles)
+    validate_legacy(Array, 'validate_array', $tempest_roles)
     $tempest_roles_real = join($tempest_roles, ',')
   } else {
     $tempest_roles_real = $::os_service_default
