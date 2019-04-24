@@ -3,10 +3,11 @@ class tempest::params {
   include ::openstacklib::defaults
   $pyvers = $::openstacklib::defaults::pyvers
 
+  $pip_command = "pip${pyvers}"
   case $::osfamily {
     'RedHat': {
       $dev_packages = [
-        'python-devel',
+        "python${pyvers}-devel",
         'libxslt-devel',
         'libxml2-devel',
         'openssl-devel',
@@ -47,14 +48,15 @@ class tempest::params {
     }
     'Debian': {
       $dev_packages = [
-        'python-dev',
+        "python${pyvers}-dev",
         'libxslt1-dev',
         'libxml2-dev',
         'libssl-dev',
         'libffi-dev',
         'patch',
         'gcc',
-        'python-virtualenv',
+        "python${pyvers}-virtualenv",
+        "python${pyvers}-pip",
       ]
       $python_aodh_tests       = false
       $python_bgpvpn_tests     = false

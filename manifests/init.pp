@@ -415,22 +415,27 @@ class tempest(
   include ::openstacklib::openstackclient
 
   if $install_from_source {
+    $setuptools_pkg = "python${tempest::params::pyvers}-setuptools"
     ensure_packages([
       'git',
-      'python-setuptools',
+      $setuptools_pkg,
     ], { allow_virtual => true })
 
     ensure_packages($tempest::params::dev_packages)
 
+    # NOTE(aschultz): Ubuntu setup tools has dropped easy_install since 18.04
+    # so we install via package now. Though if we hit this, we can only
+    # install "pip". This likely should just be removed though I'm not sure
+    # about pip availability for RHEL systems.
     exec { 'install-pip':
       command => 'easy_install pip',
-      unless  => 'which pip',
+      unless  => "which ${tempest::params::pip_command}",
       path    => ['/bin','/usr/bin','/usr/local/bin'],
-      require => Package['python-setuptools'],
+      require => Package[$setuptools_pkg],
     }
 
     exec { 'install-tox':
-      command => 'pip install -U tox',
+      command => "${tempest::params::pip_command} install -U tox",
       unless  => 'which tox',
       path    => ['/bin','/usr/bin','/usr/local/bin'],
       require => Exec['install-pip'],
@@ -451,7 +456,9 @@ class tempest(
     if $setup_venv {
       # virtualenv will be installed along with tox
       exec { 'setup-venv':
-        command => "virtualenv ${tempest_clone_path}/.venv && ${tempest_clone_path}/.venv/bin/pip install -U -r requirements.txt",
+        command => join(["virtualenv -p python${tempest::params::pyvers} ${tempest_clone_path}/.venv",
+                    "${tempest_clone_path}/.venv/bin/${tempest::params::pip_command} install -U -r requirements.txt"],
+                    ' && '),
         cwd     => $tempest_clone_path,
         unless  => "test -d ${tempest_clone_path}/.venv",
         path    => ['/bin','/usr/bin','/usr/local/bin'],

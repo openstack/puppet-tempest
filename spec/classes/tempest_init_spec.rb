@@ -160,7 +160,7 @@ describe 'tempest' do
         it 'installs packages' do
 
           is_expected.to contain_package('git')
-          is_expected.to contain_package('python-setuptools')
+          is_expected.to contain_package("python#{platform_params[:pyvers]}-setuptools")
 
           platform_params[:dev_packages].each do |package|
             is_expected.to contain_package("#{package}")
@@ -170,13 +170,13 @@ describe 'tempest' do
 
           is_expected.to contain_exec('install-pip').with(
             :command => 'easy_install pip',
-            :unless  => 'which pip',
+            :unless  => "which #{platform_params[:pip_command]}",
             :path    => ['/bin', '/usr/bin', '/usr/local/bin'],
-            :require => 'Package[python-setuptools]'
+            :require => "Package[python#{platform_params[:pyvers]}-setuptools]"
           )
 
           is_expected.to contain_exec('install-tox').with(
-            :command => 'pip install -U tox',
+            :command => "#{platform_params[:pip_command]} install -U tox",
             :unless  => 'which tox',
             :path    => ['/bin', '/usr/bin', '/usr/local/bin'],
             :require => 'Exec[install-pip]'
@@ -307,7 +307,7 @@ describe 'tempest' do
 
         it 'sets up virtualenv for tempest' do
           is_expected.to contain_exec('setup-venv').with(
-              :command => 'virtualenv /var/lib/tempest/.venv && /var/lib/tempest/.venv/bin/pip install -U -r requirements.txt',
+              :command => "virtualenv -p python#{platform_params[:pyvers]} /var/lib/tempest/.venv && /var/lib/tempest/.venv/bin/#{platform_params[:pip_command]} install -U -r requirements.txt",
               :cwd     => '/var/lib/tempest',
               :unless  => 'test -d /var/lib/tempest/.venv',
               :path    => ['/bin', '/usr/bin', '/usr/local/bin']
@@ -426,15 +426,18 @@ describe 'tempest' do
       let(:platform_params) do
         case facts[:osfamily]
         when 'Debian'
-          { :dev_packages => ['python-dev',
+          { :dev_packages => ['python3-dev',
                               'libxslt1-dev',
                               'libxml2-dev',
                               'libssl-dev',
                               'libffi-dev',
                               'patch',
                               'gcc',
-                              'python-virtualenv' ],
-            :package_name => 'tempest'}
+                              'python3-virtualenv',
+                              'python3-pip' ],
+            :package_name => 'tempest',
+            :pip_command  => 'pip3',
+            :pyvers       => '3' }
         when 'RedHat'
           { :dev_packages => ['python-devel',
                               'libxslt-devel',
@@ -443,7 +446,9 @@ describe 'tempest' do
                               'libffi-devel',
                               'patch',
                               'gcc'],
-            :package_name => 'openstack-tempest'}
+            :package_name => 'openstack-tempest',
+            :pip_command  => 'pip',
+            :pyvers       => '' }
         end
       end
 
