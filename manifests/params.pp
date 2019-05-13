@@ -30,7 +30,6 @@ class tempest::params {
       $python_murano_tests     = "python${pyvers}-murano-tests-tempest"
       $python_neutron_tests    = "python${pyvers}-neutron-tests-tempest"
       $python_fwaas_tests      = "python${pyvers}-neutron-fwaas-tests"
-      $python_lbaas_tests      = "python${pyvers}-neutron-lbaas-tests"
       $python_l2gw_tests       = "python${pyvers}-networking-l2gw-tests-tempest"
       $python_vpnaas_tests     = "python${pyvers}-neutron-vpnaas-tests"
       $python_dr_tests         = "python${pyvers}-neutron-dynamic-routing-tests"
