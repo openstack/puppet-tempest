@@ -16,7 +16,6 @@ class tempest::params {
         'gcc'
       ]
       $python_telemetry_tests  = "python${pyvers}-telemetry-tests-tempest"
-      $python_bgpvpn_tests     = "python${pyvers}-networking-bgpvpn-tests-tempest"
       $python_cinder_tests     = "python${pyvers}-cinder-tests-tempest"
       $python_designate_tests  = "python${pyvers}-designate-tests-tempest"
       $python_glance_tests     = "python${pyvers}-glance-tests"
