@@ -404,7 +404,6 @@ describe 'tempest' do
       describe "should install neutron and *aas tests packages" do
         it { expect { is_expected.to contain_package('python-neutron-tests') } }
         it { expect { is_expected.to contain_package('python-neutron-fwaas-tests') } }
-        it { expect { is_expected.to contain_package('python-neutron-lbaas-tests') } }
         it { expect { is_expected.to contain_package('python-neutron-vpnaas-tests') } }
         it { expect { is_expected.to contain_package('python-neutron-dynamic-routing-tests') } }
         it { expect { is_expected.to contain_package('python-networking-l2gw-tests-tempest') } }

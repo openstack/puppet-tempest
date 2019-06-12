@@ -139,8 +139,6 @@
 #   Defaults to false
 #  [*neutron_fwaas_available*]
 #   Defaults to true
-#  [*neutron_lbaas_available*]
-#   Defaults to true
 #  [*neutron_l2gw_available*]
 #   Defaults to true
 #  [*neutron_vpnaas_available*]
@@ -329,7 +327,6 @@ class tempest(
   $neutron_available                = false,
   $neutron_bgpvpn_available         = false,
   $neutron_fwaas_available          = true,
-  $neutron_lbaas_available          = true,
   $neutron_l2gw_available           = false,
   $neutron_vpnaas_available         = false,
   $neutron_dr_available             = false,
@@ -658,13 +655,6 @@ class tempest(
         package { 'python-neutron-fwaas-tests':
           ensure => present,
           name   => $::tempest::params::python_fwaas_tests,
-          tag    => ['openstack', 'tempest-package'],
-        }
-      }
-      if $neutron_lbaas_available {
-        package { 'python-neutron-lbaas-tests':
-          ensure => present,
-          name   => $::tempest::params::python_lbaas_tests,
           tag    => ['openstack', 'tempest-package'],
         }
       }
