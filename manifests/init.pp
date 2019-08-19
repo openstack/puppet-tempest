@@ -137,8 +137,6 @@
 #   Defaults to false
 #  [*neutron_bgpvpn_available*]
 #   Defaults to false
-#  [*neutron_fwaas_available*]
-#   Defaults to true
 #  [*neutron_l2gw_available*]
 #   Defaults to true
 #  [*neutron_vpnaas_available*]
@@ -225,6 +223,9 @@
 #   Defaults to undef
 #  [*allow_tenant_isolation*]
 #   Defaults to undef
+#  [*neutron_fwaas_available*]
+#   Just for backwards compatibility, it actually does nothing as fwaas plugin
+#   is integrated in neutron tempest plugin.
 #
 class tempest(
   $package_ensure                   = 'present',
@@ -326,7 +327,6 @@ class tempest(
   $horizon_available                = true,
   $neutron_available                = false,
   $neutron_bgpvpn_available         = false,
-  $neutron_fwaas_available          = true,
   $neutron_l2gw_available           = false,
   $neutron_vpnaas_available         = false,
   $neutron_dr_available             = false,
@@ -366,6 +366,7 @@ class tempest(
   $alt_tenant_name                  = undef,
   $admin_tenant_name                = undef,
   $allow_tenant_isolation           = undef,
+  $neutron_fwaas_available          = undef,
 ) {
 
   if !is_service_default($tempest_roles) and !empty($tempest_roles){
@@ -405,6 +406,10 @@ class tempest(
   }
   else {
     $use_dynamic_credentials_real = $use_dynamic_credentials
+  }
+
+  if $neutron_fwaas_available {
+    warning('The tempest::neutron_fwaas_available parameter is deprecated. FWaaS plugin is now part of neutron plugin.')
   }
 
   include ::tempest::params
@@ -650,13 +655,6 @@ class tempest(
         ensure => present,
         name   => $::tempest::params::python_neutron_tests,
         tag    => ['openstack', 'tempest-package'],
-      }
-      if $neutron_fwaas_available {
-        package { 'python-neutron-fwaas-tests':
-          ensure => present,
-          name   => $::tempest::params::python_fwaas_tests,
-          tag    => ['openstack', 'tempest-package'],
-        }
       }
       if $neutron_l2gw_available and $::tempest::params::python_l2gw_tests {
         package { 'python-networking-l2gw-tests-tempest':

@@ -1,0 +1,8 @@
+---
+prelude: >
+    FWaaS tempest plugin has been moved from neutron-fwaas repo to the new
+    neutron-tempest-plugin.
+deprecations:
+  - |
+    Parameter neutron_fwaas_available has been deprecated and it's does not
+    affect tempest plugins installation.
