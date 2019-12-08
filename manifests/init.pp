@@ -412,9 +412,9 @@ class tempest(
     warning('The tempest::neutron_fwaas_available parameter is deprecated. FWaaS plugin is now part of neutron plugin.')
   }
 
-  include ::tempest::params
+  include tempest::params
 
-  include ::openstacklib::openstackclient
+  include openstacklib::openstackclient
 
   if $install_from_source {
     $setuptools_pkg = "python${tempest::params::pyvers}-setuptools"

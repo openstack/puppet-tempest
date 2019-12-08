@@ -1,6 +1,6 @@
 #
 class tempest::params {
-  include ::openstacklib::defaults
+  include openstacklib::defaults
   $pyvers = $::openstacklib::defaults::pyvers
 
   $pip_command = "pip${pyvers}"

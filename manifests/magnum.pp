@@ -77,7 +77,7 @@ class tempest::magnum (
   $copy_logs           = true,
   $dns_nameserver      = '8.8.8.8',
 ) {
-  include ::tempest::params
+  include tempest::params
 
   if $provision_image {
     $image_properties = { 'os_distro' => $image_os_distro }
