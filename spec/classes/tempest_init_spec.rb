@@ -436,21 +436,47 @@ describe 'tempest' do
             :pip_command  => 'pip3',
             :pyvers       => '3' }
         when 'RedHat'
-          { :dev_packages => ['python-devel',
-                              'libxslt-devel',
-                              'libxml2-devel',
-                              'openssl-devel',
-                              'libffi-devel',
-                              'patch',
-                              'gcc'],
-            :package_name => 'openstack-tempest',
-            :pip_command  => 'pip',
-            :pyvers       => '' }
+          if facts[:operatingsystem] == 'Fedora'
+            { :dev_packages => ['python-devel',
+                                'libxslt-devel',
+                                'libxml2-devel',
+                                'openssl-devel',
+                                'libffi-devel',
+                                'patch',
+                                'gcc'],
+              :package_name => 'openstack-tempest',
+              :pip_command  => 'pip3',
+              :pyvers       => '3' }
+          else
+            if facts[:operatingsystemmajrelease] > '7'
+              { :dev_packages => ['python3-devel',
+                                  'libxslt-devel',
+                                  'libxml2-devel',
+                                  'openssl-devel',
+                                  'libffi-devel',
+                                  'patch',
+                                  'gcc'],
+                :package_name => 'openstack-tempest',
+                :pip_command  => 'pip3',
+                :pyvers       => '3' }
+            else
+              { :dev_packages => ['python-devel',
+                                  'libxslt-devel',
+                                  'libxml2-devel',
+                                  'openssl-devel',
+                                  'libffi-devel',
+                                  'patch',
+                                  'gcc'],
+                :package_name => 'openstack-tempest',
+                :pip_command  => 'pip',
+                :pyvers       => '' }
+            end
+          end
         end
       end
 
       it_behaves_like 'tempest'
       it_behaves_like 'tempest with plugins packages'
     end
-  end
+   end
 end
