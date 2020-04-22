@@ -33,7 +33,7 @@ class tempest::params {
       $python_dr_tests         = "python${pyvers}-neutron-dynamic-routing-tests"
       $python_nova_tests       = "python${pyvers}-nova-tests"
       $python_sahara_tests     = "python${pyvers}-sahara-tests-tempest"
-      $python_swift_tests      = 'python-swift-tests'
+      $python_swift_tests      = "python${pyvers}-swift-tests"
       $python_trove_tests      = "python${pyvers}-trove-tests-tempest"
       $python_watcher_tests    = "python${pyvers}-watcher-tests-tempest"
       $python_zaqar_tests      = "python${pyvers}-zaqar-tests-tempest"
