@@ -55,35 +55,65 @@ class tempest::params {
         "python${pyvers}-virtualenv",
         "python${pyvers}-pip",
       ]
-      $python_aodh_tests       = false
-      $python_bgpvpn_tests     = false
-      $python_ceilometer_tests = false
-      $python_cinder_tests     = false
-      $python_designate_tests  = false
-      $python_glance_tests     = false
-      $python_gnocchi_tests    = false
-      $python_heat_tests       = false
-      $python_horizon_tests    = false
-      $python_ironic_tests     = false
-      $python_keystone_tests   = false
-      $python_l2gw_tests       = false
-      $python_magnum_tests     = false
-      $python_mistral_tests    = false
-      $python_vitrage_tests    = false
-      $python_murano_tests     = false
-      $python_neutron_tests    = false
-      $python_nova_tests       = false
-      $python_sahara_tests     = false
-      $python_swift_tests      = false
-      $python_trove_tests      = false
-      $python_watcher_tests    = false
-      $python_zaqar_tests      = false
-      $python_congress_tests   = false
-      $python_panko_tests      = false
-      $python_octavia_tests    = false
-      $python_ec2api_tests     = false
-      $python_barbican_tests   = false
-      $package_name            = 'tempest'
+      if $::os_package_type == 'debian' {
+        $python_telemetry_tests  = 'telemetry-tempest-plugin'
+        $python_cinder_tests     = 'cinder-tempest-plugin'
+        $python_designate_tests  = 'designate-templest-plugin'
+        $python_glance_tests     = false
+        $python_heat_tests       = 'heat-tempest-plugin'
+        $python_horizon_tests    = 'python3-tempest-horizon'
+        $python_ironic_tests     = 'ironic-tempest-plugin'
+        $python_keystone_tests   = 'keystone-tempest-plugin'
+        $python_magnum_tests     = false
+        $python_mistral_tests    = false
+        $python_vitrage_tests    = false
+        $python_murano_tests     = 'murano-tempest-plugin'
+        $python_neutron_tests    = 'neutron-templest-plugin'
+        $python_l2gw_tests       = false
+        $python_vpnaas_tests     = false
+        $python_dr_tests         = false
+        $python_nova_tests       = false
+        $python_sahara_tests     = false
+        $python_swift_tests      = false
+        $python_trove_tests      = false
+        $python_watcher_tests    = false
+        $python_zaqar_tests      = false
+        $python_congress_tests   = false
+        $python_octavia_tests    = 'octavia-tempest-plugin'
+        $python_ec2api_tests     = false
+        $python_barbican_tests   = 'barbican-tempest-plugin'
+        $package_name            = 'tempest'
+      }else{
+        $python_aodh_tests       = false
+        $python_bgpvpn_tests     = false
+        $python_ceilometer_tests = false
+        $python_cinder_tests     = false
+        $python_designate_tests  = false
+        $python_glance_tests     = false
+        $python_gnocchi_tests    = false
+        $python_heat_tests       = false
+        $python_horizon_tests    = false
+        $python_ironic_tests     = false
+        $python_keystone_tests   = false
+        $python_l2gw_tests       = false
+        $python_magnum_tests     = false
+        $python_mistral_tests    = false
+        $python_vitrage_tests    = false
+        $python_murano_tests     = false
+        $python_neutron_tests    = false
+        $python_nova_tests       = false
+        $python_sahara_tests     = false
+        $python_swift_tests      = false
+        $python_trove_tests      = false
+        $python_watcher_tests    = false
+        $python_zaqar_tests      = false
+        $python_congress_tests   = false
+        $python_panko_tests      = false
+        $python_octavia_tests    = false
+        $python_ec2api_tests     = false
+        $python_barbican_tests   = false
+        $package_name            = 'tempest'
+      }
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, \
