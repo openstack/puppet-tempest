@@ -15,7 +15,7 @@ Tempest
 3. [Contributors - Those with commits](#contributors)
 4. [Release Notes - Release notes for the project](#release-notes)
 5. [Repository - The project source code repository](#repository)
-6. [Beaker-Rspec - Beaker-rspec tests for the project](#beaker-rpsec)
+6. [Beaker-Rspec - Beaker-rspec tests for the project](#beaker-rspec)
 
 Overview
 --------
