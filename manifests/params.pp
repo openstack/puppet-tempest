@@ -58,7 +58,7 @@ class tempest::params {
       if $::os_package_type == 'debian' {
         $python_telemetry_tests  = 'telemetry-tempest-plugin'
         $python_cinder_tests     = 'cinder-tempest-plugin'
-        $python_designate_tests  = 'designate-templest-plugin'
+        $python_designate_tests  = 'designate-tempest-plugin'
         $python_glance_tests     = false
         $python_heat_tests       = 'heat-tempest-plugin'
         $python_horizon_tests    = 'python3-tempest-horizon'
@@ -68,7 +68,7 @@ class tempest::params {
         $python_mistral_tests    = false
         $python_vitrage_tests    = false
         $python_murano_tests     = 'murano-tempest-plugin'
-        $python_neutron_tests    = 'neutron-templest-plugin'
+        $python_neutron_tests    = 'neutron-tempest-plugin'
         $python_l2gw_tests       = false
         $python_vpnaas_tests     = false
         $python_dr_tests         = false
