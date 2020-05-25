@@ -61,12 +61,12 @@ class tempest::params {
         $python_designate_tests  = 'designate-tempest-plugin'
         $python_glance_tests     = false
         $python_heat_tests       = 'heat-tempest-plugin'
-        $python_horizon_tests    = 'python3-tempest-horizon'
+        $python_horizon_tests    = 'horizon-tempest-plugin'
         $python_ironic_tests     = 'ironic-tempest-plugin'
         $python_keystone_tests   = 'keystone-tempest-plugin'
-        $python_magnum_tests     = false
-        $python_mistral_tests    = false
-        $python_vitrage_tests    = false
+        $python_magnum_tests     = 'magnum-tempest-plugin'
+        $python_mistral_tests    = 'mistral-tempest-plugin'
+        $python_vitrage_tests    = 'vitrage-tempest-plugin'
         $python_murano_tests     = 'murano-tempest-plugin'
         $python_neutron_tests    = 'neutron-tempest-plugin'
         $python_l2gw_tests       = false
@@ -76,8 +76,8 @@ class tempest::params {
         $python_sahara_tests     = false
         $python_swift_tests      = false
         $python_trove_tests      = false
-        $python_watcher_tests    = false
-        $python_zaqar_tests      = false
+        $python_watcher_tests    = 'watcher-tempest-plugin'
+        $python_zaqar_tests      = 'zaqar-tempest-plugin'
         $python_congress_tests   = false
         $python_octavia_tests    = 'octavia-tempest-plugin'
         $python_ec2api_tests     = false
