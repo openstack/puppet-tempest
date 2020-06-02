@@ -167,8 +167,6 @@
 #   Defaults to false
 #  [*ironic_available*]
 #   Defaults to false
-#  [*congress_available*]
-#   Defaults to false
 #  [*octavia_available*]
 #   Defaults to false
 #  [*barbican_available*]
@@ -226,6 +224,8 @@
 #  [*neutron_fwaas_available*]
 #   Just for backwards compatibility, it actually does nothing as fwaas plugin
 #   is integrated in neutron tempest plugin.
+#  [*congress_available*]
+#   Defaults to undef
 #
 class tempest(
   $package_ensure                   = 'present',
@@ -341,7 +341,6 @@ class tempest(
   $ec2api_available                 = false,
   $mistral_available                = false,
   $vitrage_available                = false,
-  $congress_available               = false,
   $octavia_available                = false,
   $barbican_available               = false,
   $keystone_v2                      = false,
@@ -367,6 +366,7 @@ class tempest(
   $admin_tenant_name                = undef,
   $allow_tenant_isolation           = undef,
   $neutron_fwaas_available          = undef,
+  $congress_available               = undef,
 ) {
 
   if !is_service_default($tempest_roles) and !empty($tempest_roles){
@@ -576,7 +576,6 @@ class tempest(
     'service_available/watcher':                       value => $watcher_available;
     'service_available/zaqar':                         value => $zaqar_available;
     'service_available/ec2api':                        value => $ec2api_available;
-    'service_available/congress':                      value => $congress_available;
     'service_available/octavia':                       value => $octavia_available;
     'whitebox/db_uri':                                 value => $whitebox_db_uri;
     'cli/cli_dir':                                     value => $cli_dir;
@@ -717,13 +716,6 @@ class tempest(
       package { 'python-zaqar-tests':
         ensure => present,
         name   => $::tempest::params::python_zaqar_tests,
-        tag    => ['openstack', 'tempest-package'],
-      }
-    }
-    if $congress_available and $::tempest::params::congress_congress_tests {
-      package { 'python-congress-tests':
-        ensure => present,
-        name   => $::tempest::params::python_congress_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }

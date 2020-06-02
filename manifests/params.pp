@@ -37,7 +37,6 @@ class tempest::params {
       $python_trove_tests      = "python${pyvers}-trove-tests-tempest"
       $python_watcher_tests    = "python${pyvers}-watcher-tests-tempest"
       $python_zaqar_tests      = "python${pyvers}-zaqar-tests-tempest"
-      $python_congress_tests   = "python${pyvers}-congress-tests-tempest"
       $python_octavia_tests    = "python${pyvers}-octavia-tests-tempest"
       $python_ec2api_tests     = "python${pyvers}-ec2api-tests-tempest"
       $python_barbican_tests   = "python${pyvers}-barbican-tests-tempest"
@@ -78,7 +77,6 @@ class tempest::params {
         $python_trove_tests      = false
         $python_watcher_tests    = 'watcher-tempest-plugin'
         $python_zaqar_tests      = 'zaqar-tempest-plugin'
-        $python_congress_tests   = false
         $python_octavia_tests    = 'octavia-tempest-plugin'
         $python_ec2api_tests     = false
         $python_barbican_tests   = 'barbican-tempest-plugin'
@@ -107,7 +105,6 @@ class tempest::params {
         $python_trove_tests      = false
         $python_watcher_tests    = false
         $python_zaqar_tests      = false
-        $python_congress_tests   = false
         $python_panko_tests      = false
         $python_octavia_tests    = false
         $python_ec2api_tests     = false

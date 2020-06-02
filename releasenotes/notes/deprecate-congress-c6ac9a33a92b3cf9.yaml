@@ -1,0 +1,4 @@
+---
+deprecations:
+  - |
+    The congress_available is now deprecated since Congress is retired.
