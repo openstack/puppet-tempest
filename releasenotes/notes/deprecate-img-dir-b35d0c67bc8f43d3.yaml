@@ -1,0 +1,6 @@
+---
+deprecations:
+  - |
+    The img_dir parameter is deprecated and will be removed in a future release.
+    The img_file parameter must be set with a full path to the image that should
+    be used.

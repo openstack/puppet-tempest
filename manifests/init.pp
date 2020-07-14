@@ -177,10 +177,8 @@
 #   Defaults to true
 #  [*auth_version*]
 #   Defaults to 'v3'
-#  [*img_dir*]
-#   Defaults to '/var/lib/tempest'
 #  [*img_file*]
-#   Defaults to 'cirros-0.4.0-x86_64-disk.img'
+#   Defaults to '/var/lib/tempest/cirros-0.4.0-x86_64-disk.img'
 #  [*login_url*]
 #   Defaults to undef
 #  [*dashboard_url*]
@@ -225,6 +223,8 @@
 #   Just for backwards compatibility, it actually does nothing as fwaas plugin
 #   is integrated in neutron tempest plugin.
 #  [*congress_available*]
+#   Defaults to undef
+#  [*img_dir*]
 #   Defaults to undef
 #
 class tempest(
@@ -351,8 +351,8 @@ class tempest(
   $disable_ssl_validation           = undef,
   $manage_tests_packages            = false,
   # scenario options
-  $img_dir                          = '/var/lib/tempest',
-  $img_file                         = 'cirros-0.4.0-x86_64-disk.img',
+  # TODO(tkajinam) Update the default value when we remove img_dir parameter
+  $img_file                         = undef,
   # designate options
   $designate_nameservers            = undef,
   # ironic options
@@ -367,6 +367,7 @@ class tempest(
   $allow_tenant_isolation           = undef,
   $neutron_fwaas_available          = undef,
   $congress_available               = undef,
+  $img_dir                          = undef,
 ) {
 
   if !is_service_default($tempest_roles) and !empty($tempest_roles){
@@ -410,6 +411,21 @@ class tempest(
 
   if $neutron_fwaas_available {
     warning('The tempest::neutron_fwaas_available parameter is deprecated. FWaaS plugin is now part of neutron plugin.')
+  }
+
+  if $img_dir != undef {
+    warning('The tempest::img_dir parameter is deperecated. Set full path in img_file parameter instead')
+    if $img_file == undef {
+      $img_file_real = "${img_dir}/cirros-0.4.0-x86_64-disk.img"
+    } else {
+      $img_file_real = "${img_dir}/${img_file}"
+    }
+  } else {
+    if $img_file == undef {
+      $img_file_real = '/var/lib/tempest/cirros-0.4.0-x86_64-disk.img'
+    } else {
+      $img_file_real = $img_file
+    }
   }
 
   include tempest::params
@@ -579,8 +595,7 @@ class tempest(
     'service_available/octavia':                       value => $octavia_available;
     'whitebox/db_uri':                                 value => $whitebox_db_uri;
     'cli/cli_dir':                                     value => $cli_dir;
-    'scenario/img_dir':                                value => $img_dir;
-    'scenario/img_file':                               value => $img_file;
+    'scenario/img_file':                               value => $img_file_real;
     'service_broker/run_service_broker_tests':         value => $run_service_broker_tests;
     'dns/nameservers':                                 value => $designate_nameservers;
     'compute-feature-enabled/attach_encrypted_volume': value => $attach_encrypted_volume;

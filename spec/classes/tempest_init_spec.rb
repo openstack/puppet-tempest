@@ -269,8 +269,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('whitebox/db_uri').with(:value => nil)
           is_expected.to contain_tempest_config('cli/cli_dir').with(:value => nil)
           is_expected.to contain_tempest_config('oslo_concurrency/lock_path').with(:value => '/var/lib/tempest')
-          is_expected.to contain_tempest_config('scenario/img_dir').with(:value => '/var/lib/tempest')
-          is_expected.to contain_tempest_config('scenario/img_file').with(:value => 'cirros-0.4.0-x86_64-disk.img')
+          is_expected.to contain_tempest_config('scenario/img_file').with(:value => '/var/lib/tempest/cirros-0.4.0-x86_64-disk.img')
           is_expected.to contain_tempest_config('service_broker/run_service_broker_tests').with(:value => false)
           is_expected.to contain_oslo__log('tempest_config').with(
               :debug => false,
@@ -312,6 +311,43 @@ describe 'tempest' do
               :path    => ['/bin', '/usr/bin', '/usr/local/bin']
           )
         end
+      end
+    end
+
+    context 'with deprecated img_dir parameter and img_file set' do
+      let :params do
+        { :image_name     => 'cirros',
+          :image_name_alt => 'cirros' ,
+          :img_file       => '/home/stack/myimage.img' }
+      end
+
+      it 'sets image_file based on img_dir and img_file' do
+        is_expected.to contain_tempest_config('scenario/img_file').with(:value => '/home/stack/myimage.img')
+      end
+    end
+
+    context 'with deprecated img_dir parameter set' do
+      let :params do
+        { :image_name     => 'cirros',
+          :image_name_alt => 'cirros',
+          :img_dir        => '/home/stack' }
+      end
+
+      it 'sets image_file based on img_dir' do
+        is_expected.to contain_tempest_config('scenario/img_file').with(:value => '/home/stack/cirros-0.4.0-x86_64-disk.img')
+      end
+    end
+
+    context 'with deprecated img_dir parameter and img_file set' do
+      let :params do
+        { :image_name     => 'cirros',
+          :image_name_alt => 'cirros',
+          :img_dir        => '/home/stack',
+          :img_file       => 'myimage.img' }
+      end
+
+      it 'sets image_file based on img_dir and img_file' do
+        is_expected.to contain_tempest_config('scenario/img_file').with(:value => '/home/stack/myimage.img')
       end
     end
 
