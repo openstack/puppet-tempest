@@ -65,7 +65,7 @@
             "version_requirement": ">= 6.0.0 < 7.0.0"
         }
     ],
-    "source": "git://github.com/openstack/puppet-tempest.git",
+    "source": "https://opendev.org/openstack/puppet-tempest.git",
     "summary": "Puppet module for OpenStack Tempest",
     "version": "18.0.0"
 }
