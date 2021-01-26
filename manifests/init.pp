@@ -755,13 +755,6 @@ class tempest(
         tag    => ['openstack', 'tempest-package'],
       }
     }
-    if $horizon_available and $::tempest::params::python_horizon_tests {
-      package { 'python-horizon-tests':
-        ensure => present,
-        name   => $::tempest::params::python_horizon_tests,
-        tag    => ['openstack', 'tempest-package'],
-      }
-    }
     if $octavia_available and $::tempest::params::python_octavia_tests {
       package { 'python-octavia-tests':
         ensure => present,
