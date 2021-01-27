@@ -20,7 +20,6 @@ class tempest::params {
       $python_designate_tests  = "python${pyvers}-designate-tests-tempest"
       $python_glance_tests     = "python${pyvers}-glance-tests"
       $python_heat_tests       = "python${pyvers}-heat-tests-tempest"
-      $python_horizon_tests    = "python${pyvers}-horizon-tests-tempest"
       $python_ironic_tests     = "python${pyvers}-ironic-tests-tempest"
       $python_keystone_tests   = "python${pyvers}-keystone-tests"
       $python_magnum_tests     = "python${pyvers}-magnum-tests-tempest"
@@ -60,7 +59,6 @@ class tempest::params {
         $python_designate_tests  = 'designate-tempest-plugin'
         $python_glance_tests     = false
         $python_heat_tests       = 'heat-tempest-plugin'
-        $python_horizon_tests    = 'horizon-tempest-plugin'
         $python_ironic_tests     = 'ironic-tempest-plugin'
         $python_keystone_tests   = 'keystone-tempest-plugin'
         $python_magnum_tests     = 'magnum-tempest-plugin'
@@ -90,7 +88,6 @@ class tempest::params {
         $python_glance_tests     = false
         $python_gnocchi_tests    = false
         $python_heat_tests       = false
-        $python_horizon_tests    = false
         $python_ironic_tests     = false
         $python_keystone_tests   = false
         $python_l2gw_tests       = false
