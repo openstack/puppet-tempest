@@ -80,13 +80,11 @@ class tempest::params {
         $python_barbican_tests   = 'barbican-tempest-plugin'
         $package_name            = 'tempest'
       }else{
-        $python_aodh_tests       = false
+        $python_telemetry_tests  = false
         $python_bgpvpn_tests     = false
-        $python_ceilometer_tests = false
         $python_cinder_tests     = false
         $python_designate_tests  = false
         $python_glance_tests     = false
-        $python_gnocchi_tests    = false
         $python_heat_tests       = false
         $python_ironic_tests     = false
         $python_keystone_tests   = false
@@ -102,7 +100,6 @@ class tempest::params {
         $python_trove_tests      = false
         $python_watcher_tests    = false
         $python_zaqar_tests      = false
-        $python_panko_tests      = false
         $python_octavia_tests    = false
         $python_ec2api_tests     = false
         $python_barbican_tests   = false
