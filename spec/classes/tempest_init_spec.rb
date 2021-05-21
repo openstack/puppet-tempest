@@ -160,7 +160,7 @@ describe 'tempest' do
         it 'installs packages' do
 
           is_expected.to contain_package('git')
-          is_expected.to contain_package("python#{platform_params[:pyvers]}-setuptools")
+          is_expected.to contain_package("python3-setuptools")
 
           platform_params[:dev_packages].each do |package|
             is_expected.to contain_package("#{package}")
@@ -172,7 +172,7 @@ describe 'tempest' do
             :command => 'easy_install pip',
             :unless  => "which #{platform_params[:pip_command]}",
             :path    => ['/bin', '/usr/bin', '/usr/local/bin'],
-            :require => "Package[python#{platform_params[:pyvers]}-setuptools]"
+            :require => "Package[python3-setuptools]"
           )
 
           is_expected.to contain_exec('install-tox').with(
@@ -305,7 +305,7 @@ describe 'tempest' do
 
         it 'sets up virtualenv for tempest' do
           is_expected.to contain_exec('setup-venv').with(
-              :command => "virtualenv -p python#{platform_params[:pyvers]} /var/lib/tempest/.venv && /var/lib/tempest/.venv/bin/#{platform_params[:pip_command]} install -U -r requirements.txt",
+              :command => "virtualenv -p python3 /var/lib/tempest/.venv && /var/lib/tempest/.venv/bin/#{platform_params[:pip_command]} install -U -r requirements.txt",
               :cwd     => '/var/lib/tempest',
               :unless  => 'test -d /var/lib/tempest/.venv',
               :path    => ['/bin', '/usr/bin', '/usr/local/bin']
@@ -467,45 +467,17 @@ describe 'tempest' do
                               'python3-virtualenv',
                               'python3-pip' ],
             :package_name => 'tempest',
-            :pip_command  => 'pip3',
-            :pyvers       => '3' }
+            :pip_command  => 'pip3' }
         when 'RedHat'
-          if facts[:operatingsystem] == 'Fedora'
-            { :dev_packages => ['python-devel',
-                                'libxslt-devel',
-                                'libxml2-devel',
-                                'openssl-devel',
-                                'libffi-devel',
-                                'patch',
-                                'gcc'],
-              :package_name => 'openstack-tempest',
-              :pip_command  => 'pip3',
-              :pyvers       => '3' }
-          else
-            if facts[:operatingsystemmajrelease] > '7'
-              { :dev_packages => ['python3-devel',
-                                  'libxslt-devel',
-                                  'libxml2-devel',
-                                  'openssl-devel',
-                                  'libffi-devel',
-                                  'patch',
-                                  'gcc'],
-                :package_name => 'openstack-tempest',
-                :pip_command  => 'pip3',
-                :pyvers       => '3' }
-            else
-              { :dev_packages => ['python-devel',
-                                  'libxslt-devel',
-                                  'libxml2-devel',
-                                  'openssl-devel',
-                                  'libffi-devel',
-                                  'patch',
-                                  'gcc'],
-                :package_name => 'openstack-tempest',
-                :pip_command  => 'pip',
-                :pyvers       => '' }
-            end
-          end
+          { :dev_packages => ['python3-devel',
+                              'libxslt-devel',
+                              'libxml2-devel',
+                              'openssl-devel',
+                              'libffi-devel',
+                              'patch',
+                              'gcc'],
+            :package_name => 'openstack-tempest',
+            :pip_command  => 'pip3' }
         end
       end
 

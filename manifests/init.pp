@@ -433,7 +433,7 @@ class tempest(
   include openstacklib::openstackclient
 
   if $install_from_source {
-    $setuptools_pkg = "python${tempest::params::pyvers}-setuptools"
+    $setuptools_pkg = 'python3-setuptools'
     ensure_packages([
       'git',
       $setuptools_pkg,
@@ -474,7 +474,7 @@ class tempest(
     if $setup_venv {
       # virtualenv will be installed along with tox
       exec { 'setup-venv':
-        command => join(["virtualenv -p python${tempest::params::pyvers} ${tempest_clone_path}/.venv",
+        command => join(["virtualenv -p python3 ${tempest_clone_path}/.venv",
                     "${tempest_clone_path}/.venv/bin/${tempest::params::pip_command} install -U -r requirements.txt"],
                     ' && '),
         cwd     => $tempest_clone_path,
