@@ -127,8 +127,6 @@
 #   Defaults to false
 #  [*gnocchi_available*]
 #   Defaults to false
-#  [*panko_available*]
-#   Defaults to false
 #  [*designate_available*]
 #   Defaults to false
 #  [*horizon_available*]
@@ -226,6 +224,8 @@
 #   Defaults to undef
 #  [*img_dir*]
 #   Defaults to undef
+#  [*panko_available*]
+#   Defaults to undef
 #
 class tempest(
   $package_ensure                   = 'present',
@@ -322,7 +322,6 @@ class tempest(
   $ceilometer_available             = false,
   $aodh_available                   = false,
   $gnocchi_available                = false,
-  $panko_available                  = false,
   $designate_available              = false,
   $horizon_available                = true,
   $neutron_available                = false,
@@ -368,6 +367,7 @@ class tempest(
   $neutron_fwaas_available          = undef,
   $congress_available               = undef,
   $img_dir                          = undef,
+  $panko_available                  = false,
 ) {
 
   if !is_service_default($tempest_roles) and !empty($tempest_roles){
@@ -426,6 +426,10 @@ class tempest(
     } else {
       $img_file_real = $img_file
     }
+  }
+
+  if $panko_available != undef {
+    warning('The panko_available parameter has been deprecated and has no effect')
   }
 
   include tempest::params
@@ -576,7 +580,6 @@ class tempest(
     'service_available/barbican':                      value => $barbican_available;
     'service_available/bgpvpn':                        value => $neutron_bgpvpn_available;
     'service_available/gnocchi':                       value => $gnocchi_available;
-    'service_available/panko':                         value => $panko_available;
     'service_available/designate':                     value => $designate_available;
     'service_available/horizon':                       value => $horizon_available;
     'service_available/l2gw':                          value => $neutron_l2gw_available;
@@ -615,7 +618,7 @@ class tempest(
   }
 
   if $manage_tests_packages {
-    if ($aodh_available or $ceilometer_available or $panko_available or $gnocchi_available) and $::tempest::params::python_telemetry_tests {
+    if ($aodh_available or $ceilometer_available or $gnocchi_available) and $::tempest::params::python_telemetry_tests {
       package { 'python-telemetry-tests':
         ensure => present,
         name   => $::tempest::params::python_telemetry_tests,
