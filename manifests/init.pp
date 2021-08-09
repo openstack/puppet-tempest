@@ -367,7 +367,7 @@ class tempest(
   $neutron_fwaas_available          = undef,
   $congress_available               = undef,
   $img_dir                          = undef,
-  $panko_available                  = false,
+  $panko_available                  = undef,
 ) {
 
   if !is_service_default($tempest_roles) and !empty($tempest_roles){
