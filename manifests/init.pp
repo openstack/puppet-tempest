@@ -680,7 +680,7 @@ class tempest(
           tag    => ['openstack', 'tempest-package'],
         }
       }
-      if $neutron_vpnaas_available {
+      if $neutron_vpnaas_available and $::tempest::params::python_vpnaas_tests {
         package { 'python-neutron-vpnaas-tests':
           ensure => present,
           name   => $::tempest::params::python_vpnaas_tests,
