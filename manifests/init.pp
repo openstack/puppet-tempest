@@ -209,14 +209,6 @@
 #   Defaults to 'Member'
 #
 # DEPREACTED PARAMETERS
-#  [*tenant_name*]
-#   Defaults to undef
-#  [*alt_tenant_name*]
-#   Defaults to undef
-#  [*admin_tenant_name*]
-#   Defaults to undef
-#  [*allow_tenant_isolation*]
-#   Defaults to undef
 #  [*neutron_fwaas_available*]
 #   Just for backwards compatibility, it actually does nothing as fwaas plugin
 #   is integrated in neutron tempest plugin.
@@ -360,10 +352,6 @@ class tempest(
   # ec2api options
   $ec2api_tester_roles              = ['Member'],
   # DEPRECATED PARAMETERS
-  $tenant_name                      = undef,
-  $alt_tenant_name                  = undef,
-  $admin_tenant_name                = undef,
-  $allow_tenant_isolation           = undef,
   $neutron_fwaas_available          = undef,
   $congress_available               = undef,
   $img_dir                          = undef,
@@ -375,38 +363,6 @@ class tempest(
     $tempest_roles_real = join($tempest_roles, ',')
   } else {
     $tempest_roles_real = $::os_service_default
-  }
-
-  if $tenant_name {
-    warning('The tempest::tenant_name parameter is deprecated, use tempest::project_name instead.')
-    $project_name_real = $tenant_name
-  }
-  else {
-    $project_name_real = $project_name
-  }
-
-  if $alt_tenant_name {
-    warning('The tempest::alt_tenant_name parameter is deprecated, use tempest::alt_project_name instead.')
-    $alt_project_name_real = $alt_tenant_name
-  }
-  else {
-    $alt_project_name_real = $alt_project_name
-  }
-
-  if $admin_tenant_name {
-    warning('The tempest::admin_tenant_name parameter is deprecated, use tempest::admin_project_name instead.')
-    $admin_project_name_real = $admin_tenant_name
-  }
-  else {
-    $admin_project_name_real = $admin_project_name
-  }
-
-  if $allow_tenant_isolation {
-    warning('The tempest::allow_tenant_isolation parameter is deprecated, use tempest::use_dynamic_credentials instead.')
-    $use_dynamic_credentials_real = $allow_tenant_isolation
-  }
-  else {
-    $use_dynamic_credentials_real = $use_dynamic_credentials
   }
 
   if $neutron_fwaas_available {
@@ -532,10 +488,10 @@ class tempest(
   tempest_config {
     'auth/admin_domain_name':                          value => $admin_domain_name;
     'auth/admin_password':                             value => $admin_password, secret => true;
-    'auth/admin_project_name':                         value => $admin_project_name_real;
+    'auth/admin_project_name':                         value => $admin_project_name;
     'auth/admin_username':                             value => $admin_username;
     'auth/tempest_roles':                              value => $tempest_roles_real;
-    'auth/use_dynamic_credentials':                    value => $use_dynamic_credentials_real;
+    'auth/use_dynamic_credentials':                    value => $use_dynamic_credentials;
     'compute/change_password_available':               value => $change_password_available;
     'compute/flavor_ref':                              value => $flavor_ref;
     'compute/flavor_ref_alt':                          value => $flavor_ref_alt;
@@ -547,10 +503,10 @@ class tempest(
     'validation/run_validation':                       value => $run_ssh;
     'identity/admin_role':                             value => $admin_role;
     'identity/alt_password':                           value => $alt_password, secret => true;
-    'identity/alt_project_name':                       value => $alt_project_name_real;
+    'identity/alt_project_name':                       value => $alt_project_name;
     'identity/alt_username':                           value => $alt_username;
     'identity/password':                               value => $password, secret => true;
-    'identity/project_name':                           value => $project_name_real;
+    'identity/project_name':                           value => $project_name;
     'identity/uri':                                    value => $identity_uri;
     'identity/uri_v3':                                 value => $identity_uri_v3;
     'identity/username':                               value => $username;

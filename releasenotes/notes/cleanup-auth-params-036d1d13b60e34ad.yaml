@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The following parameters of the ``tempest`` class has been removed.
+
+    - ``tenant_name``
+    - ``alt_tenant_name``
+    - ``admin_tenant_name``
+    - ``allow_tenant_isolation``
