@@ -83,7 +83,7 @@
 #  [*admin_role*]
 #   Defaults to undef
 #  [*admin_domain_name*]
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #  [*image_ref*]
 #   Defaults to undef
 #  [*image_ref_alt*]
@@ -279,7 +279,7 @@ class tempest(
   $admin_password                   = undef,
   $admin_project_name               = undef,
   $admin_role                       = undef,
-  $admin_domain_name                = undef,
+  $admin_domain_name                = $::os_service_default,
   # roles fo the users created by tempest
   $tempest_roles                    = $::os_service_default,
   # image information
