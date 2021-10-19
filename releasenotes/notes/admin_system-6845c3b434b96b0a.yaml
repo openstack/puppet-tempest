@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``tempest::admin_system`` parameter has been added.

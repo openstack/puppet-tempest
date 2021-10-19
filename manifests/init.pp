@@ -88,6 +88,8 @@
 #   Defaults to $::os_service_default
 #  [*admin_project_domain_name*]
 #   Defaults to $::os_service_default
+#  [*admin_system*]
+#   Defaults to $::os_service_default
 #  [*default_credentials_domain_name*]
 #   Defaults to $::os_service_default
 #  [*image_ref*]
@@ -288,6 +290,7 @@ class tempest(
   $admin_domain_name                = $::os_service_default,
   $admin_user_domain_name           = $::os_service_default,
   $admin_project_domain_name        = $::os_service_default,
+  $admin_system                     = $::os_service_default,
   $default_credentials_domain_name  = $::os_service_default,
   # roles fo the users created by tempest
   $tempest_roles                    = $::os_service_default,
@@ -502,6 +505,7 @@ class tempest(
     'auth/admin_password':                             value => $admin_password, secret => true;
     'auth/admin_project_name':                         value => $admin_project_name;
     'auth/admin_username':                             value => $admin_username;
+    'auth/admin_system':                               value => $admin_system;
     'auth/tempest_roles':                              value => $tempest_roles_real;
     'auth/use_dynamic_credentials':                    value => $use_dynamic_credentials;
     'compute/change_password_available':               value => $change_password_available;
