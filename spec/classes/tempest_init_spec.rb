@@ -196,6 +196,9 @@ describe 'tempest' do
 
         it 'configure tempest config' do
           is_expected.to contain_tempest_config('auth/admin_domain_name').with(:value => '<SERVICE DEFAULT>')
+          is_expected.to contain_tempest_config('auth/admin_project_domain_name').with(:value => '<SERVICE DEFAULT>')
+          is_expected.to contain_tempest_config('auth/admin_user_domain_name').with(:value => '<SERVICE DEFAULT>')
+          is_expected.to contain_tempest_config('auth/default_credentials_domain_name').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('auth/admin_password').with_secret( true )
           is_expected.to contain_tempest_config('auth/admin_project_name').with(:value => nil)
           is_expected.to contain_tempest_config('auth/admin_username').with(:value => nil)
