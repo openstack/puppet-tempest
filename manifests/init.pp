@@ -217,8 +217,6 @@
 #   Defaults to 'Member'
 #
 # DEPREACTED PARAMETERS
-#  [*congress_available*]
-#   Defaults to undef
 #  [*img_dir*]
 #   Defaults to undef
 #  [*panko_available*]
@@ -361,7 +359,6 @@ class tempest(
   # ec2api options
   $ec2api_tester_roles              = ['Member'],
   # DEPRECATED PARAMETERS
-  $congress_available               = undef,
   $img_dir                          = undef,
   $panko_available                  = undef,
 ) {

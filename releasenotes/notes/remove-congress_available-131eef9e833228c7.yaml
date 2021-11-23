@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The ``tempest::congress_available`` parameter has been removed.
