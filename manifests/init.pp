@@ -217,9 +217,6 @@
 #   Defaults to 'Member'
 #
 # DEPREACTED PARAMETERS
-#  [*neutron_fwaas_available*]
-#   Just for backwards compatibility, it actually does nothing as fwaas plugin
-#   is integrated in neutron tempest plugin.
 #  [*congress_available*]
 #   Defaults to undef
 #  [*img_dir*]
@@ -364,7 +361,6 @@ class tempest(
   # ec2api options
   $ec2api_tester_roles              = ['Member'],
   # DEPRECATED PARAMETERS
-  $neutron_fwaas_available          = undef,
   $congress_available               = undef,
   $img_dir                          = undef,
   $panko_available                  = undef,
@@ -375,10 +371,6 @@ class tempest(
     $tempest_roles_real = join($tempest_roles, ',')
   } else {
     $tempest_roles_real = $::os_service_default
-  }
-
-  if $neutron_fwaas_available {
-    warning('The tempest::neutron_fwaas_available parameter is deprecated. FWaaS plugin is now part of neutron plugin.')
   }
 
   if $img_dir != undef {

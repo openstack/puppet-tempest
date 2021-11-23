@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The ``tempest::neutron_fwaas_available`` parameter has been removed.
