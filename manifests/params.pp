@@ -52,7 +52,7 @@ class tempest::params {
         'python3-virtualenv',
         'python3-pip',
       ]
-      if $::os_package_type == 'debian' {
+      if $::operatingsystem == 'Debian' {
         $python_telemetry_tests  = 'telemetry-tempest-plugin'
         $python_cinder_tests     = 'cinder-tempest-plugin'
         $python_designate_tests  = 'designate-tempest-plugin'
