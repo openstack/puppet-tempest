@@ -380,6 +380,35 @@ describe 'tempest' do
        )
       end
     end
+
+    context 'with flavor_name parameters' do
+      let :params do
+        {
+          :configure_images => false,
+          :flavor_name      => 'm1.tiny',
+          :flavor_name_alt  => 'm1.nano',
+          :db_flavor_name   => 'm1.micro',
+        }
+      end
+
+      it "sets flavor id using setter" do
+        is_expected.to contain_tempest_flavor_id_setter('flavor_ref').with(
+          :ensure            => 'present',
+          :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
+          :flavor_name       => 'm1.tiny',
+        )
+        is_expected.to contain_tempest_flavor_id_setter('flavor_ref_alt').with(
+          :ensure            => 'present',
+          :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
+          :flavor_name       => 'm1.nano',
+        )
+        is_expected.to contain_tempest_flavor_id_setter('db_flavor_ref').with(
+          :ensure            => 'present',
+          :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
+          :flavor_name       => 'm1.micro',
+        )
+      end
+    end
   end
 
   shared_examples 'tempest with plugins packages' do

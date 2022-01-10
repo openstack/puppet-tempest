@@ -98,6 +98,10 @@
 #   Defaults to undef
 #  [*run_ssh*]
 #   Defaults to false
+#  [*flavor_name*]
+#   Defaults to undef
+#  [*flavor_name_alt*]
+#   Defaults to undef
 #  [*flavor_ref*]
 #   Defaults to undef
 #  [*flavor_ref_alt*]
@@ -211,6 +215,8 @@
 #  [*db_flavor_ref*]
 #   Valid primary flavor to use in Trove tests.
 #   Defaults to $::os_service_default
+#  [*db_flavor_name*]
+#   Defaults to undef
 #  [*baremetal_driver*]
 #   Defaults to 'fake'
 #  [*baremetal_enabled_hardware_types*]
@@ -310,6 +316,8 @@ class tempest(
   $image_alt_ssh_user                 = undef,
   $flavor_ref                         = undef,
   $flavor_ref_alt                     = undef,
+  $flavor_name                        = undef,
+  $flavor_name_alt                    = undef,
   $compute_build_interval             = undef,
   $run_ssh                            = false,
   # whitebox
@@ -326,6 +334,7 @@ class tempest(
   $sahara_plugins                     = undef,
   # Trove config
   $db_flavor_ref                      = $::os_service_default,
+  $db_flavor_name                     = undef,
   # Service configuration
   $cinder_available                   = true,
   $cinder_backup_available            = false,
@@ -776,6 +785,42 @@ class tempest(
       }
     }
 
+  }
+
+  if ! $flavor_ref and $flavor_name {
+    tempest_flavor_id_setter { 'flavor_ref':
+      ensure            => present,
+      tempest_conf_path => $tempest_conf,
+      flavor_name       => $flavor_name,
+    }
+    Tempest_config<||> -> Tempest_flavor_id_setter['flavor_ref']
+    Keystone_user_role<||> -> Tempest_flavor_id_setter['flavor_ref']
+  } elsif ($flavor_name and $flavor_ref) {
+    fail('flavor_ref and flavor_name are both set: please set only one of them')
+  }
+
+  if ! $flavor_ref_alt and $flavor_name_alt {
+    tempest_flavor_id_setter { 'flavor_ref_alt':
+      ensure            => present,
+      tempest_conf_path => $tempest_conf,
+      flavor_name       => $flavor_name_alt,
+    }
+    Tempest_config<||> -> Tempest_flavor_id_setter['flavor_ref_alt']
+    Keystone_user_role<||> -> Tempest_flavor_id_setter['flavor_ref_alt']
+  } elsif ($flavor_name_alt and $flavor_ref_alt) {
+    fail('flavor_ref_alt and flavor_name_alt are both set: please set only one of them')
+  }
+
+  if is_service_default($db_flavor_ref) and $db_flavor_name {
+    tempest_flavor_id_setter { 'db_flavor_ref':
+      ensure            => present,
+      tempest_conf_path => $tempest_conf,
+      flavor_name       => $db_flavor_name,
+    }
+    Tempest_config<||> -> Tempest_flavor_id_setter['db_flavor_ref']
+    Keystone_user_role<||> -> Tempest_flavor_id_setter['db_flavor_ref']
+  } elsif ($db_flavor_name and ! is_service_default($db_flavor_ref)) {
+    fail('db_flavor_ref and db_flavor_name are both set: please set only one of them')
   }
 
   if $configure_images {

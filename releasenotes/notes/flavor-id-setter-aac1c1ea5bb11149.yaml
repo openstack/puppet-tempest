@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    A new puppet provider makes it possible to set the ``flavor_ref``,
+    ``flavor_ref_alt`` and ``db_flavor_ref`` using the flavor name as
+    parameter instead of the ID. Use ``flavor_name``, ``flavor_name_alt``
+    and ``db_flavor_name`` to do so.
