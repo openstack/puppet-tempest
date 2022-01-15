@@ -177,8 +177,6 @@
 #   Defaults to false
 #  [*barbican_available*]
 #   Defaults to false
-#  [*keystone_v2*]
-#   Defaults to false
 #  [*keystone_v3*]
 #   Defaults to true
 #  [*auth_version*]
@@ -220,6 +218,8 @@
 #  [*img_dir*]
 #   Defaults to undef
 #  [*panko_available*]
+#   Defaults to undef
+#  [*keystone_v2*]
 #   Defaults to undef
 #
 class tempest(
@@ -341,7 +341,6 @@ class tempest(
   $vitrage_available                = false,
   $octavia_available                = false,
   $barbican_available               = false,
-  $keystone_v2                      = false,
   $keystone_v3                      = true,
   $auth_version                     = 'v3',
   $run_service_broker_tests         = false,
@@ -361,6 +360,7 @@ class tempest(
   # DEPRECATED PARAMETERS
   $img_dir                          = undef,
   $panko_available                  = undef,
+  $keystone_v2                      = undef,
 ) {
 
   if !is_service_default($tempest_roles) and !empty($tempest_roles){
@@ -387,6 +387,10 @@ class tempest(
 
   if $panko_available != undef {
     warning('The panko_available parameter has been deprecated and has no effect')
+  }
+
+  if $keystone_v2 != undef {
+    warning('The keystone_v2 parameter has been deprecated and will be removed in a future release.')
   }
 
   include tempest::params
@@ -518,7 +522,7 @@ class tempest(
     'identity/auth_version':                           value => $auth_version;
     'identity/ca_certificates_file':                   value => $ca_certificates_file;
     'identity/disable_ssl_certificate_validation':     value => $disable_ssl_validation;
-    'identity-feature-enabled/api_v2':                 value => $keystone_v2;
+    'identity-feature-enabled/api_v2':                 value => pick($keystone_v2, $::os_service_default);
     'identity-feature-enabled/api_v3':                 value => $keystone_v3;
     'image-feature-enabled/api_v1':                    value => $glance_v1;
     'image-feature-enabled/api_v2':                    value => $glance_v2;
