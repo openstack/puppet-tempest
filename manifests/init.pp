@@ -33,7 +33,7 @@
 #  [*image_name_alt*]
 #   Defaults to undef
 #  [*glance_v1*]
-#   Defaults to true
+#   Defaults to false
 #  [*glance_v2*]
 #   Defaults to true
 #  [*configure_networks*]
@@ -243,7 +243,7 @@ class tempest(
   $configure_images                 = true,
   $image_name                       = undef,
   $image_name_alt                   = undef,
-  $glance_v1                        = true,
+  $glance_v1                        = false,
   $glance_v2                        = true,
 
   # Neutron network config
