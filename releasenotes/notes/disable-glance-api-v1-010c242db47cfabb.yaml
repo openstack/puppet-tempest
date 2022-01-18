@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    The ``[image-feature-enabled] api_v1`` parameter is now set to ``False`` by
+    default.
