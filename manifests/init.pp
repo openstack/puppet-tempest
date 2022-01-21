@@ -110,8 +110,6 @@
 #   Defaults to undef
 #  [*resize_available*]
 #   Defaults to false
-#  [*change_password_available*]
-#   Defaults to undef
 #  [*use_dynamic_credentials*]
 #   Defaults to undef
 #  [*public_network_id*]
@@ -221,6 +219,8 @@
 #   Defaults to undef
 #  [*keystone_v2*]
 #   Defaults to undef
+#  [*change_password_available*]
+#   Defaults to undef
 #
 class tempest(
   $package_ensure                   = 'present',
@@ -302,7 +302,6 @@ class tempest(
   $whitebox_db_uri                  = undef,
   # testing features that are supported
   $resize_available                 = false,
-  $change_password_available        = undef,
   $use_dynamic_credentials          = undef,
   $l2gw_switch                      = undef,
   # neutron config
@@ -361,6 +360,7 @@ class tempest(
   $img_dir                          = undef,
   $panko_available                  = undef,
   $keystone_v2                      = undef,
+  $change_password_available        = undef,
 ) {
 
   if !is_service_default($tempest_roles) and !empty($tempest_roles){
@@ -391,6 +391,10 @@ class tempest(
 
   if $keystone_v2 != undef {
     warning('The keystone_v2 parameter has been deprecated and will be removed in a future release.')
+  }
+
+  if $change_password_available != undef {
+    warning('The change_password_available parameter has been deprecated and has no effect')
   }
 
   include tempest::params
@@ -501,7 +505,8 @@ class tempest(
     'auth/admin_system':                               value => $admin_system;
     'auth/tempest_roles':                              value => $tempest_roles_real;
     'auth/use_dynamic_credentials':                    value => $use_dynamic_credentials;
-    'compute/change_password_available':               value => $change_password_available;
+    # TODO(tkajinam): Remove this when we remove the change_password_available parameter
+    'compute/change_password_available':               value => $::os_service_default;
     'compute/flavor_ref':                              value => $flavor_ref;
     'compute/flavor_ref_alt':                          value => $flavor_ref_alt;
     'compute/image_alt_ssh_user':                      value => $image_alt_ssh_user;
