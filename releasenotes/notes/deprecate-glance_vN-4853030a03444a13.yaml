@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The ``api_v1`` parameter and the ``api_v2`` parameter of the ``tempest``
+    class has been deprecated and will be removed in a future release.

@@ -32,10 +32,6 @@
 #   Defaults to undef
 #  [*image_name_alt*]
 #   Defaults to undef
-#  [*glance_v1*]
-#   Defaults to false
-#  [*glance_v2*]
-#   Defaults to true
 #  [*configure_networks*]
 #   Defaults to true
 #  [*l2gw_switch*]
@@ -221,6 +217,10 @@
 #   Defaults to undef
 #  [*change_password_available*]
 #   Defaults to undef
+#  [*glance_v1*]
+#   Defaults to false
+#  [*glance_v2*]
+#   Defaults to true
 #
 class tempest(
   $package_ensure                   = 'present',
@@ -243,8 +243,6 @@ class tempest(
   $configure_images                 = true,
   $image_name                       = undef,
   $image_name_alt                   = undef,
-  $glance_v1                        = false,
-  $glance_v2                        = true,
 
   # Neutron network config
   #
@@ -361,6 +359,8 @@ class tempest(
   $panko_available                  = undef,
   $keystone_v2                      = undef,
   $change_password_available        = undef,
+  $glance_v1                        = undef,
+  $glance_v2                        = undef,
 ) {
 
   if !is_service_default($tempest_roles) and !empty($tempest_roles){
@@ -395,6 +395,14 @@ class tempest(
 
   if $change_password_available != undef {
     warning('The change_password_available parameter has been deprecated and has no effect')
+  }
+
+  if $glance_v1 != undef {
+    warning('The glance_v1 parameter has been deprecated and will be removed in a future release.')
+  }
+
+  if $glance_v2 != undef {
+    warning('The glance_v2 parameter has been deprecated and will be removed in a future release.')
   }
 
   include tempest::params
@@ -531,8 +539,8 @@ class tempest(
     'identity/disable_ssl_certificate_validation':     value => $disable_ssl_validation;
     'identity-feature-enabled/api_v2':                 value => pick($keystone_v2, $::os_service_default);
     'identity-feature-enabled/api_v3':                 value => $keystone_v3;
-    'image-feature-enabled/api_v1':                    value => $glance_v1;
-    'image-feature-enabled/api_v2':                    value => $glance_v2;
+    'image-feature-enabled/api_v1':                    value => pick($glance_v1, $::os_service_default);
+    'image-feature-enabled/api_v2':                    value => pick($glance_v2, $::os_service_default);
     'l2gw/l2gw_switch':                                value => $l2gw_switch;
     'network-feature-enabled/api_extensions':          value => $neutron_api_extensions;
     'network/public_network_id':                       value => $public_network_id;
