@@ -171,6 +171,16 @@
 #   Defaults to false
 #  [*barbican_available*]
 #   Defaults to false
+#  [*cinder_enforce_scope*]
+#   Defaults to $::os_service_default
+#  [*glance_enforce_scope*]
+#   Defaults to $::os_service_default
+#  [*keystone_enforce_scope*]
+#   Defaults to $::os_service_default
+#  [*neutron_enforce_scope*]
+#   Defaults to $::os_service_default
+#  [*nova_enforce_scope*]
+#   Defaults to $::os_service_default
 #  [*keystone_v3*]
 #   Defaults to true
 #  [*auth_version*]
@@ -338,6 +348,11 @@ class tempest(
   $vitrage_available                = false,
   $octavia_available                = false,
   $barbican_available               = false,
+  $cinder_enforce_scope             = $::os_service_default,
+  $glance_enforce_scope             = $::os_service_default,
+  $keystone_enforce_scope           = $::os_service_default,
+  $neutron_enforce_scope            = $::os_service_default,
+  $nova_enforce_scope               = $::os_service_default,
   $keystone_v3                      = true,
   $auth_version                     = 'v3',
   $run_service_broker_tests         = false,
@@ -576,6 +591,12 @@ class tempest(
     'service_available/zaqar':                         value => $zaqar_available;
     'service_available/ec2api':                        value => $ec2api_available;
     'service_available/octavia':                       value => $octavia_available;
+    'enforce_scope/cinder':                            value => $cinder_enforce_scope;
+    'enforce_scope/glance':                            value => $glance_enforce_scope;
+    'enforce_scope/keystone':                          value => $keystone_enforce_scope;
+    'identity-feature-enabled/enforce_scope':          value => $keystone_enforce_scope;
+    'enforce_scope/neutron':                           value => $neutron_enforce_scope;
+    'enforce_scope/nova':                              value => $nova_enforce_scope;
     'whitebox/db_uri':                                 value => $whitebox_db_uri;
     'cli/cli_dir':                                     value => $cli_dir;
     'scenario/img_file':                               value => $img_file_real;

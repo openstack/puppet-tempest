@@ -1,0 +1,10 @@
+---
+features:
+  - |
+    The following parameters have been added to the ``tempest`` class.
+
+    - ``cinder_enforce_scope``
+    - ``glance_enforce_scope``
+    - ``keystone_enforce_scope``
+    - ``neutron_enforce_scope``
+    - ``nova_enforce_scope``
