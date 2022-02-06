@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The following parameters have been added to the ``tempest`` class.
+
+    - ``load_balancer_member_role``
+    - ``load_balancer_admin_role``
+    - ``load_balancer_observer_role``
+    - ``load_balancer_global_observer_role``

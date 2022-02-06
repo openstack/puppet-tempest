@@ -217,6 +217,14 @@
 #   Defaults to 'ipmi'
 #  [*ec2api_tester_roles*]
 #   Defaults to 'Member'
+#  [*load_balancer_member_role*]
+#   Defaults to $::os_service_default
+#  [*load_balancer_admin_role*]
+#   Defaults to $::os_service_default
+#  [*load_balancer_observer_role*]
+#   Defaults to $::os_service_default
+#  [*load_balancer_global_observer_role*]
+#   Defaults to $::os_service_default
 #
 # DEPREACTED PARAMETERS
 #  [*img_dir*]
@@ -233,149 +241,154 @@
 #   Defaults to true
 #
 class tempest(
-  $package_ensure                   = 'present',
-  $tempest_workspace                = '/var/lib/tempest',
-  $install_from_source              = true,
-  $git_clone                        = true,
-  $tempest_config_file              = '/var/lib/tempest/etc/tempest.conf',
+  $package_ensure                     = 'present',
+  $tempest_workspace                  = '/var/lib/tempest',
+  $install_from_source                = true,
+  $git_clone                          = true,
+  $tempest_config_file                = '/var/lib/tempest/etc/tempest.conf',
 
   # Clone config
   #
-  $tempest_repo_uri                 = 'git://github.com/openstack/tempest.git',
-  $tempest_repo_revision            = undef,
-  $tempest_clone_path               = '/var/lib/tempest',
-  $tempest_clone_owner              = 'root',
+  $tempest_repo_uri                   = 'git://github.com/openstack/tempest.git',
+  $tempest_repo_revision              = undef,
+  $tempest_clone_path                 = '/var/lib/tempest',
+  $tempest_clone_owner                = 'root',
 
-  $setup_venv                       = false,
+  $setup_venv                         = false,
 
   # Glance image config
   #
-  $configure_images                 = true,
-  $image_name                       = undef,
-  $image_name_alt                   = undef,
+  $configure_images                   = true,
+  $image_name                         = undef,
+  $image_name_alt                     = undef,
 
   # Neutron network config
   #
-  $configure_networks               = true,
-  $public_network_name              = undef,
-  $neutron_api_extensions           = undef,
+  $configure_networks                 = true,
+  $public_network_name                = undef,
+  $neutron_api_extensions             = undef,
 
   # Horizon dashboard config
-  $login_url                        = undef,
-  $dashboard_url                    = undef,
-  $disable_dashboard_ssl_validation = undef,
+  $login_url                          = undef,
+  $dashboard_url                      = undef,
+  $disable_dashboard_ssl_validation   = undef,
 
   # tempest.conf parameters
   #
-  $identity_uri                     = undef,
-  $identity_uri_v3                  = undef,
-  $cli_dir                          = undef,
-  $lock_path                        = '/var/lib/tempest',
-  $log_file                         = $::os_service_default,
-  $debug                            = false,
-  $use_stderr                       = true,
-  $use_syslog                       = false,
-  $logging_context_format_string    = $::os_service_default,
-  $attach_encrypted_volume          = false,
+  $identity_uri                       = undef,
+  $identity_uri_v3                    = undef,
+  $cli_dir                            = undef,
+  $lock_path                          = '/var/lib/tempest',
+  $log_file                           = $::os_service_default,
+  $debug                              = false,
+  $use_stderr                         = true,
+  $use_syslog                         = false,
+  $logging_context_format_string      = $::os_service_default,
+  $attach_encrypted_volume            = false,
   # non admin user
-  $username                         = undef,
-  $password                         = undef,
-  $project_name                     = undef,
+  $username                           = undef,
+  $password                           = undef,
+  $project_name                       = undef,
   # another non-admin user
-  $alt_username                     = undef,
-  $alt_password                     = undef,
-  $alt_project_name                 = undef,
+  $alt_username                       = undef,
+  $alt_password                       = undef,
+  $alt_project_name                   = undef,
   # admin user
-  $admin_username                   = undef,
-  $admin_password                   = undef,
-  $admin_project_name               = undef,
-  $admin_role                       = undef,
-  $admin_domain_name                = $::os_service_default,
-  $admin_user_domain_name           = $::os_service_default,
-  $admin_project_domain_name        = $::os_service_default,
-  $admin_system                     = $::os_service_default,
-  $default_credentials_domain_name  = $::os_service_default,
+  $admin_username                     = undef,
+  $admin_password                     = undef,
+  $admin_project_name                 = undef,
+  $admin_role                         = undef,
+  $admin_domain_name                  = $::os_service_default,
+  $admin_user_domain_name             = $::os_service_default,
+  $admin_project_domain_name          = $::os_service_default,
+  $admin_system                       = $::os_service_default,
+  $default_credentials_domain_name    = $::os_service_default,
   # roles fo the users created by tempest
-  $tempest_roles                    = $::os_service_default,
+  $tempest_roles                      = $::os_service_default,
   # image information
-  $image_ref                        = undef,
-  $image_ref_alt                    = undef,
-  $image_ssh_user                   = undef,
-  $image_alt_ssh_user               = undef,
-  $flavor_ref                       = undef,
-  $flavor_ref_alt                   = undef,
-  $compute_build_interval           = undef,
-  $run_ssh                          = false,
+  $image_ref                          = undef,
+  $image_ref_alt                      = undef,
+  $image_ssh_user                     = undef,
+  $image_alt_ssh_user                 = undef,
+  $flavor_ref                         = undef,
+  $flavor_ref_alt                     = undef,
+  $compute_build_interval             = undef,
+  $run_ssh                            = false,
   # whitebox
-  $whitebox_db_uri                  = undef,
+  $whitebox_db_uri                    = undef,
   # testing features that are supported
-  $resize_available                 = false,
-  $use_dynamic_credentials          = undef,
-  $l2gw_switch                      = undef,
+  $resize_available                   = false,
+  $use_dynamic_credentials            = undef,
+  $l2gw_switch                        = undef,
   # neutron config
-  $public_network_id                = undef,
+  $public_network_id                  = undef,
   # Upstream has a bad default - set it to empty string.
-  $public_router_id                 = '',
+  $public_router_id                   = '',
   # Sahara config
-  $sahara_plugins                   = undef,
+  $sahara_plugins                     = undef,
   # Trove config
-  $db_flavor_ref                    = $::os_service_default,
+  $db_flavor_ref                      = $::os_service_default,
   # Service configuration
-  $cinder_available                 = true,
-  $cinder_backup_available          = false,
-  $glance_available                 = true,
-  $heat_available                   = false,
-  $ceilometer_available             = false,
-  $aodh_available                   = false,
-  $gnocchi_available                = false,
-  $designate_available              = false,
-  $horizon_available                = true,
-  $neutron_available                = false,
-  $neutron_bgpvpn_available         = false,
-  $neutron_l2gw_available           = false,
-  $neutron_vpnaas_available         = false,
-  $neutron_dr_available             = false,
-  $nova_available                   = true,
-  $murano_available                 = false,
-  $sahara_available                 = false,
-  $swift_available                  = false,
-  $trove_available                  = false,
-  $ironic_available                 = false,
-  $watcher_available                = false,
-  $zaqar_available                  = false,
-  $ec2api_available                 = false,
-  $mistral_available                = false,
-  $vitrage_available                = false,
-  $octavia_available                = false,
-  $barbican_available               = false,
-  $cinder_enforce_scope             = $::os_service_default,
-  $glance_enforce_scope             = $::os_service_default,
-  $keystone_enforce_scope           = $::os_service_default,
-  $neutron_enforce_scope            = $::os_service_default,
-  $nova_enforce_scope               = $::os_service_default,
-  $keystone_v3                      = true,
-  $auth_version                     = 'v3',
-  $run_service_broker_tests         = false,
-  $ca_certificates_file             = undef,
-  $disable_ssl_validation           = undef,
-  $manage_tests_packages            = false,
+  $cinder_available                   = true,
+  $cinder_backup_available            = false,
+  $glance_available                   = true,
+  $heat_available                     = false,
+  $ceilometer_available               = false,
+  $aodh_available                     = false,
+  $gnocchi_available                  = false,
+  $designate_available                = false,
+  $horizon_available                  = true,
+  $neutron_available                  = false,
+  $neutron_bgpvpn_available           = false,
+  $neutron_l2gw_available             = false,
+  $neutron_vpnaas_available           = false,
+  $neutron_dr_available               = false,
+  $nova_available                     = true,
+  $murano_available                   = false,
+  $sahara_available                   = false,
+  $swift_available                    = false,
+  $trove_available                    = false,
+  $ironic_available                   = false,
+  $watcher_available                  = false,
+  $zaqar_available                    = false,
+  $ec2api_available                   = false,
+  $mistral_available                  = false,
+  $vitrage_available                  = false,
+  $octavia_available                  = false,
+  $barbican_available                 = false,
+  $cinder_enforce_scope               = $::os_service_default,
+  $glance_enforce_scope               = $::os_service_default,
+  $keystone_enforce_scope             = $::os_service_default,
+  $neutron_enforce_scope              = $::os_service_default,
+  $nova_enforce_scope                 = $::os_service_default,
+  $keystone_v3                        = true,
+  $auth_version                       = 'v3',
+  $run_service_broker_tests           = false,
+  $ca_certificates_file               = undef,
+  $disable_ssl_validation             = undef,
+  $manage_tests_packages              = false,
   # scenario options
   # TODO(tkajinam) Update the default value when we remove img_dir parameter
-  $img_file                         = undef,
+  $img_file                           = undef,
   # designate options
-  $designate_nameservers            = undef,
+  $designate_nameservers              = undef,
   # ironic options
-  $baremetal_driver                 = 'fake',
-  $baremetal_enabled_hardware_types = 'ipmi',
+  $baremetal_driver                   = 'fake',
+  $baremetal_enabled_hardware_types   = 'ipmi',
   # ec2api options
-  $ec2api_tester_roles              = ['Member'],
+  $ec2api_tester_roles                = ['Member'],
+  # octavia options
+  $load_balancer_member_role          = $::os_service_default,
+  $load_balancer_admin_role           = $::os_service_default,
+  $load_balancer_observer_role        = $::os_service_default,
+  $load_balancer_global_observer_role = $::os_service_default,
   # DEPRECATED PARAMETERS
-  $img_dir                          = undef,
-  $panko_available                  = undef,
-  $keystone_v2                      = undef,
-  $change_password_available        = undef,
-  $glance_v1                        = undef,
-  $glance_v2                        = undef,
+  $img_dir                            = undef,
+  $panko_available                    = undef,
+  $keystone_v2                        = undef,
+  $change_password_available          = undef,
+  $glance_v1                          = undef,
+  $glance_v2                          = undef,
 ) {
 
   if !is_service_default($tempest_roles) and !empty($tempest_roles){
@@ -606,6 +619,10 @@ class tempest(
     'compute-feature-enabled/resize':                  value => $resize_available;
     'baremetal/driver':                                value => $baremetal_driver;
     'baremetal/enabled_hardware_types':                value => $baremetal_enabled_hardware_types;
+    'load_balancer/member_role':                       value => $load_balancer_member_role;
+    'load_balancer/admin_role':                        value => $load_balancer_admin_role;
+    'load_balancer/observer_role':                     value => $load_balancer_observer_role;
+    'load_balancer/global_observer_role':              value => $load_balancer_global_observer_role;
   }
 
   oslo::concurrency { 'tempest_config': lock_path => $lock_path }
