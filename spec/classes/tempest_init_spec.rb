@@ -279,6 +279,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('load_balancer/admin_role').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('load_balancer/observer_role').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('load_balancer/global_observer_role').with(:value => '<SERVICE DEFAULT>')
+          is_expected.to contain_tempest_config('load_balancer/test_with_noop').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('whitebox/db_uri').with(:value => nil)
           is_expected.to contain_tempest_config('cli/cli_dir').with(:value => nil)
           is_expected.to contain_oslo__concurrency('tempest_config').with(

@@ -225,6 +225,8 @@
 #   Defaults to $::os_service_default
 #  [*load_balancer_global_observer_role*]
 #   Defaults to $::os_service_default
+#  [*load_balancer_test_with_noop*]
+#   Defaults to $::os_service_default
 #
 # DEPREACTED PARAMETERS
 #  [*img_dir*]
@@ -382,6 +384,7 @@ class tempest(
   $load_balancer_admin_role           = $::os_service_default,
   $load_balancer_observer_role        = $::os_service_default,
   $load_balancer_global_observer_role = $::os_service_default,
+  $load_balancer_test_with_noop       = $::os_service_default,
   # DEPRECATED PARAMETERS
   $img_dir                            = undef,
   $panko_available                    = undef,
@@ -623,6 +626,7 @@ class tempest(
     'load_balancer/admin_role':                        value => $load_balancer_admin_role;
     'load_balancer/observer_role':                     value => $load_balancer_observer_role;
     'load_balancer/global_observer_role':              value => $load_balancer_global_observer_role;
+    'load_balancer/test_with_noop':                    value => $load_balancer_test_with_noop;
   }
 
   oslo::concurrency { 'tempest_config': lock_path => $lock_path }
