@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The ``tempest::img_dir`` parameter has been removed.

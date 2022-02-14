@@ -229,8 +229,6 @@
 #   Defaults to $::os_service_default
 #
 # DEPREACTED PARAMETERS
-#  [*img_dir*]
-#   Defaults to undef
 #  [*panko_available*]
 #   Defaults to undef
 #  [*keystone_v2*]
@@ -370,8 +368,7 @@ class tempest(
   $disable_ssl_validation             = undef,
   $manage_tests_packages              = false,
   # scenario options
-  # TODO(tkajinam) Update the default value when we remove img_dir parameter
-  $img_file                           = undef,
+  $img_file                           = '/var/lib/tempest/cirros-0.4.0-x86_64-disk.img',
   # designate options
   $designate_nameservers              = undef,
   # ironic options
@@ -386,7 +383,6 @@ class tempest(
   $load_balancer_global_observer_role = $::os_service_default,
   $load_balancer_test_with_noop       = $::os_service_default,
   # DEPRECATED PARAMETERS
-  $img_dir                            = undef,
   $panko_available                    = undef,
   $keystone_v2                        = undef,
   $change_password_available          = undef,
@@ -399,21 +395,6 @@ class tempest(
     $tempest_roles_real = join($tempest_roles, ',')
   } else {
     $tempest_roles_real = $::os_service_default
-  }
-
-  if $img_dir != undef {
-    warning('The tempest::img_dir parameter is deperecated. Set full path in img_file parameter instead')
-    if $img_file == undef {
-      $img_file_real = "${img_dir}/cirros-0.4.0-x86_64-disk.img"
-    } else {
-      $img_file_real = "${img_dir}/${img_file}"
-    }
-  } else {
-    if $img_file == undef {
-      $img_file_real = '/var/lib/tempest/cirros-0.4.0-x86_64-disk.img'
-    } else {
-      $img_file_real = $img_file
-    }
   }
 
   if $panko_available != undef {
@@ -615,7 +596,7 @@ class tempest(
     'enforce_scope/nova':                              value => $nova_enforce_scope;
     'whitebox/db_uri':                                 value => $whitebox_db_uri;
     'cli/cli_dir':                                     value => $cli_dir;
-    'scenario/img_file':                               value => $img_file_real;
+    'scenario/img_file':                               value => $img_file;
     'service_broker/run_service_broker_tests':         value => $run_service_broker_tests;
     'dns/nameservers':                                 value => $designate_nameservers;
     'compute-feature-enabled/attach_encrypted_volume': value => $attach_encrypted_volume;
