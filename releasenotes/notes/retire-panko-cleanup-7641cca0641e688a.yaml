@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The ``tempest::panko_available`` parameter has been removed.

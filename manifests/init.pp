@@ -229,8 +229,6 @@
 #   Defaults to $::os_service_default
 #
 # DEPREACTED PARAMETERS
-#  [*panko_available*]
-#   Defaults to undef
 #  [*keystone_v2*]
 #   Defaults to undef
 #  [*change_password_available*]
@@ -383,7 +381,6 @@ class tempest(
   $load_balancer_global_observer_role = $::os_service_default,
   $load_balancer_test_with_noop       = $::os_service_default,
   # DEPRECATED PARAMETERS
-  $panko_available                    = undef,
   $keystone_v2                        = undef,
   $change_password_available          = undef,
   $glance_v1                          = undef,
@@ -395,10 +392,6 @@ class tempest(
     $tempest_roles_real = join($tempest_roles, ',')
   } else {
     $tempest_roles_real = $::os_service_default
-  }
-
-  if $panko_available != undef {
-    warning('The panko_available parameter has been deprecated and has no effect')
   }
 
   if $keystone_v2 != undef {
