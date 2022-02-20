@@ -288,11 +288,12 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('scenario/img_file').with(:value => '/var/lib/tempest/cirros-0.4.0-x86_64-disk.img')
           is_expected.to contain_tempest_config('service_broker/run_service_broker_tests').with(:value => false)
           is_expected.to contain_oslo__log('tempest_config').with(
-              :debug => false,
-              :log_file => '<SERVICE DEFAULT>',
-              :use_stderr => true,
-              :use_syslog => false,
-              :logging_context_format_string => '<SERVICE DEFAULT>')
+            :debug => false,
+            :log_file => '<SERVICE DEFAULT>',
+            :use_stderr => true,
+            :use_syslog => false,
+            :logging_context_format_string => '<SERVICE DEFAULT>'
+          )
 
           is_expected.not_to contain_tempest_config('magnum/keypair_id').with_value('default')
         end
@@ -321,10 +322,10 @@ describe 'tempest' do
 
         it 'sets up virtualenv for tempest' do
           is_expected.to contain_exec('setup-venv').with(
-              :command => "virtualenv -p python3 /var/lib/tempest/.venv && /var/lib/tempest/.venv/bin/#{platform_params[:pip_command]} install -U -r requirements.txt",
-              :cwd     => '/var/lib/tempest',
-              :unless  => 'test -d /var/lib/tempest/.venv',
-              :path    => ['/bin', '/usr/bin', '/usr/local/bin']
+            :command => "virtualenv -p python3 /var/lib/tempest/.venv && /var/lib/tempest/.venv/bin/#{platform_params[:pip_command]} install -U -r requirements.txt",
+            :cwd     => '/var/lib/tempest',
+            :unless  => 'test -d /var/lib/tempest/.venv',
+            :path    => ['/bin', '/usr/bin', '/usr/local/bin']
           )
         end
       end
@@ -344,40 +345,40 @@ describe 'tempest' do
 
     context 'install Tempest from package' do
       let :params do
-        {:install_from_source => false,
-        :image_name           => 'image name',
-        :image_name_alt       => 'image name alt'}
+        { :install_from_source  => false,
+          :image_name           => 'image name',
+          :image_name_alt       => 'image name alt' }
       end
 
       it 'checks for tempest package' do
-          is_expected.to contain_package('tempest').with(
-            :ensure => 'present',
-            :name   => platform_params[:package_name],
-            :tag    => ['openstack', 'tempest-package'],
-          )
+        is_expected.to contain_package('tempest').with(
+          :ensure => 'present',
+          :name   => platform_params[:package_name],
+          :tag    => ['openstack', 'tempest-package'],
+        )
       end
       it 'creates tempest workspace' do
-          is_expected.to contain_exec('tempest-workspace').with(
-            :command     => 'tempest init /var/lib/tempest',
-            :path        => ['/bin', '/usr/bin'],
-            :refreshonly => true,
-            :require     => 'Package[tempest]'
-       )
+        is_expected.to contain_exec('tempest-workspace').with(
+          :command     => 'tempest init /var/lib/tempest',
+          :path        => ['/bin', '/usr/bin'],
+          :refreshonly => true,
+          :require     => 'Package[tempest]'
+        )
       end
     end
 
     context 'tempest workspace customization' do
       let :params do
-        {:tempest_workspace => '/tmp/tempest',
-         :image_name        => 'image name',
-         :image_name_alt    => 'image name alt',
-         :install_from_source => false}
+        { :tempest_workspace   => '/tmp/tempest',
+          :image_name          => 'image name',
+          :image_name_alt      => 'image name alt',
+          :install_from_source => false }
       end
 
       it 'supports customizes tempest workspace' do
-         is_expected.to contain_exec('tempest-workspace').with(
-           :command     => 'tempest init /tmp/tempest',
-       )
+        is_expected.to contain_exec('tempest-workspace').with(
+          :command => 'tempest init /tmp/tempest',
+        )
       end
     end
   end
@@ -475,5 +476,5 @@ describe 'tempest' do
       it_behaves_like 'tempest'
       it_behaves_like 'tempest with plugins packages'
     end
-   end
+  end
 end
