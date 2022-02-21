@@ -14,6 +14,10 @@ Puppet::Type.newtype(:tempest_neutron_net_id_setter) do
     desc 'The name of the neutron network.'
   end
 
+  autorequire(:neutron_network) do
+    [self[:network_name]] if self[:network_name]
+  end
+
   autorequire(:package) do
     ['python-openstackclient', 'python3-openstackclient']
   end
