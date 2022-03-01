@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Support for the ``[validation] ssh_key_type`` parameter has been added.
