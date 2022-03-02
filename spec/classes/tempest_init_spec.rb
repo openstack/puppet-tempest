@@ -219,6 +219,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('validation/image_ssh_user').with(:value => nil)
           is_expected.to contain_tempest_config('validation/image_alt_ssh_user').with(:value => nil)
           is_expected.to contain_tempest_config('validation/run_validation').with(:value => false)
+          is_expected.to contain_tempest_config('validation/ssh_key_type').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('identity/admin_role').with(:value => nil)
           is_expected.to contain_tempest_config('identity/auth_version').with(:value => 'v3')
           is_expected.to contain_tempest_config('identity/alt_password').with(:value => nil)
