@@ -836,7 +836,6 @@ class tempest(
         tempest_conf_path => $tempest_conf,
         image_name        => $image_name,
       }
-      Glance_image<||> -> Tempest_glance_id_setter['image_ref']
       Tempest_config<||> -> Tempest_glance_id_setter['image_ref']
       Keystone_user_role<||> -> Tempest_glance_id_setter['image_ref']
     } elsif ($image_name and $image_ref) or (! $image_name and ! $image_ref) {
@@ -848,7 +847,6 @@ class tempest(
         tempest_conf_path => $tempest_conf,
         image_name        => $image_name_alt,
       }
-      Glance_image<||> -> Tempest_glance_id_setter['image_ref_alt']
       Tempest_config<||> -> Tempest_glance_id_setter['image_ref_alt']
       Keystone_user_role<||> -> Tempest_glance_id_setter['image_ref_alt']
     } elsif ($image_name_alt and $image_ref_alt) or (! $image_name_alt and ! $image_ref_alt) {
