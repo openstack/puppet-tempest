@@ -1,6 +1,6 @@
 Puppet::Type.newtype(:tempest_glance_id_setter) do
 #
-#  tempest_glance_id_setter { 'image_id':
+#  tempest_glance_id_setter { 'compute/image_id':
 #    tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
 #    image_name        => $name,
 #  }
@@ -10,6 +10,14 @@ Puppet::Type.newtype(:tempest_glance_id_setter) do
 
   newparam(:name, :namevar => true) do
     desc 'name of the setting to update'
+    munge do |value|
+      if value.include? '/'
+        value
+      else
+        # This is to keep the backword compatibility
+        "compute/#{value}"
+      end
+    end
   end
 
   newparam(:tempest_conf_path) do

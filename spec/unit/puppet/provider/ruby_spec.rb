@@ -62,11 +62,11 @@ EOS
           validate_file(<<-EOS
 # This is a comment
 [compute]
-image_ref = abcdef
 ; This is also a comment
 foo=foovalue
 bar = barvalue
 master = true
+image_ref=abcdef
 [network]
 foo= foovalue2
 [blah]
@@ -90,8 +90,8 @@ foo=foovalue
 bar = barvalue
 master = true
 [network]
-public_network_id = abcdef
 foo= foovalue2
+public_network_id=abcdef
 [blah]
 
 EOS
@@ -115,8 +115,9 @@ EOS
               validate_file(<<-EOS
 # This is a comment
 
+
 [compute]
-image_ref = abcdef
+image_ref=abcdef
 EOS
               )
             end
@@ -131,8 +132,9 @@ EOS
               validate_file(<<-EOS
 # This is a comment
 
+
 [network]
-public_network_id = abcdef
+public_network_id=abcdef
 EOS
               )
             end
