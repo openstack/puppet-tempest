@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Default value of the ``tempest::tempest_repo_uri`` parameter has been
+    updated and now the OpenDev repository is used instead of Github.

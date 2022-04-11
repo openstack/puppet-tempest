@@ -17,7 +17,7 @@
 #  [*tempest_config_file*]
 #   Defaults to '/var/lib/tempest/etc/tempest.conf'
 #  [*tempest_repo_uri*]
-#   Defaults to 'git://github.com/openstack/tempest.git'
+#   Defaults to 'https://opendev.org/openstack/tempest'
 #  [*tempest_repo_revision*]
 #   Defaults to undef
 #  [*tempest_clone_path*]
@@ -255,7 +255,7 @@ class tempest(
 
   # Clone config
   #
-  $tempest_repo_uri                   = 'git://github.com/openstack/tempest.git',
+  $tempest_repo_uri                   = 'https://opendev.org/openstack/tempest',
   $tempest_repo_revision              = undef,
   $tempest_clone_path                 = '/var/lib/tempest',
   $tempest_clone_owner                = 'root',
