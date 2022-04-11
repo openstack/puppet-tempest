@@ -184,7 +184,7 @@ describe 'tempest' do
 
           is_expected.to contain_vcsrepo('/var/lib/tempest').with(
             :ensure   => 'present',
-            :source   => 'git://github.com/openstack/tempest.git',
+            :source   => 'https://opendev.org/openstack/tempest',
             :revision => nil,
             :provider => 'git',
             :require  => 'Package[git]',
