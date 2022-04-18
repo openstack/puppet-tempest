@@ -1,0 +1,9 @@
+---
+fixes:
+  - |
+    The ``tempest`` class no longer installes a ``python3-<service>-tests``
+    package, unless the package provides tempest plugins.
+
+  - |
+    Now the ``python3-keystone-tests-tempest`` package is installed instead of
+    the ``python3-keyston-tests`` package in CentOS and RHEL.
