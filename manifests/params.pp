@@ -17,21 +17,23 @@ class tempest::params {
       $python_telemetry_tests  = 'python3-telemetry-tests-tempest'
       $python_cinder_tests     = 'python3-cinder-tests-tempest'
       $python_designate_tests  = 'python3-designate-tests-tempest'
-      $python_glance_tests     = 'python3-glance-tests'
+      $python_glance_tests     = false
       $python_heat_tests       = 'python3-heat-tests-tempest'
       $python_ironic_tests     = 'python3-ironic-tests-tempest'
-      $python_keystone_tests   = 'python3-keystone-tests'
+      $python_keystone_tests   = 'python3-keystone-tests-tempest'
       $python_magnum_tests     = 'python3-magnum-tests-tempest'
       $python_mistral_tests    = 'python3-mistral-tests-tempest'
       $python_vitrage_tests    = 'python3-vitrage-tests-tempest'
       $python_murano_tests     = 'python3-murano-tests-tempest'
       $python_neutron_tests    = 'python3-neutron-tests-tempest'
       $python_l2gw_tests       = 'python3-networking-l2gw-tests-tempest'
+      # NOTE(tkajinam): python3-neutron-vpnaas-tests package provide tempest
+      #                 plugin implementation.
       $python_vpnaas_tests     = 'python3-neutron-vpnaas-tests'
       $python_dr_tests         = 'python3-neutron-dynamic-routing-tests'
-      $python_nova_tests       = 'python3-nova-tests'
+      $python_nova_tests       = false
       $python_sahara_tests     = 'python3-sahara-tests-tempest'
-      $python_swift_tests      = 'python3-swift-tests'
+      $python_swift_tests      = false
       $python_trove_tests      = 'python3-trove-tests-tempest'
       $python_watcher_tests    = 'python3-watcher-tests-tempest'
       $python_zaqar_tests      = 'python3-zaqar-tests-tempest'
