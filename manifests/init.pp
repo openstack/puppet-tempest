@@ -237,8 +237,6 @@
 #   Defaults to $::os_service_default
 #
 # DEPREACTED PARAMETERS
-#  [*keystone_v2*]
-#   Defaults to undef
 #  [*change_password_available*]
 #   Defaults to undef
 #  [*glance_v1*]
@@ -393,7 +391,6 @@ class tempest(
   $load_balancer_global_observer_role = $::os_service_default,
   $load_balancer_test_with_noop       = $::os_service_default,
   # DEPRECATED PARAMETERS
-  $keystone_v2                        = undef,
   $change_password_available          = undef,
   $glance_v1                          = undef,
   $glance_v2                          = undef,
@@ -404,10 +401,6 @@ class tempest(
     $tempest_roles_real = join($tempest_roles, ',')
   } else {
     $tempest_roles_real = $::os_service_default
-  }
-
-  if $keystone_v2 != undef {
-    warning('The keystone_v2 parameter has been deprecated and will be removed in a future release.')
   }
 
   if $change_password_available != undef {
@@ -555,7 +548,6 @@ class tempest(
     'identity/auth_version':                           value => $auth_version;
     'identity/ca_certificates_file':                   value => $ca_certificates_file;
     'identity/disable_ssl_certificate_validation':     value => $disable_ssl_validation;
-    'identity-feature-enabled/api_v2':                 value => pick($keystone_v2, $::os_service_default);
     'identity-feature-enabled/api_v3':                 value => $keystone_v3;
     'image-feature-enabled/api_v1':                    value => pick($glance_v1, $::os_service_default);
     'image-feature-enabled/api_v2':                    value => pick($glance_v2, $::os_service_default);
