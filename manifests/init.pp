@@ -237,8 +237,6 @@
 #   Defaults to $::os_service_default
 #
 # DEPREACTED PARAMETERS
-#  [*change_password_available*]
-#   Defaults to undef
 #  [*glance_v1*]
 #   Defaults to false
 #  [*glance_v2*]
@@ -391,7 +389,6 @@ class tempest(
   $load_balancer_global_observer_role = $::os_service_default,
   $load_balancer_test_with_noop       = $::os_service_default,
   # DEPRECATED PARAMETERS
-  $change_password_available          = undef,
   $glance_v1                          = undef,
   $glance_v2                          = undef,
 ) {
@@ -401,10 +398,6 @@ class tempest(
     $tempest_roles_real = join($tempest_roles, ',')
   } else {
     $tempest_roles_real = $::os_service_default
-  }
-
-  if $change_password_available != undef {
-    warning('The change_password_available parameter has been deprecated and has no effect')
   }
 
   if $glance_v1 != undef {
@@ -523,8 +516,6 @@ class tempest(
     'auth/admin_system':                               value => $admin_system;
     'auth/tempest_roles':                              value => $tempest_roles_real;
     'auth/use_dynamic_credentials':                    value => $use_dynamic_credentials;
-    # TODO(tkajinam): Remove this when we remove the change_password_available parameter
-    'compute/change_password_available':               value => $::os_service_default;
     'compute/flavor_ref':                              value => $flavor_ref;
     'compute/flavor_ref_alt':                          value => $flavor_ref_alt;
     # TODO(tkajinam): Remove this after Y release. See bug 1958717

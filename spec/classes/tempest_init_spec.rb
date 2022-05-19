@@ -206,7 +206,6 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('auth/tempest_roles').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('auth/use_dynamic_credentials').with(:value => nil)
           is_expected.to contain_tempest_config('dns/nameservers').with(:value => nil)
-          is_expected.to contain_tempest_config('compute/change_password_available').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('compute/flavor_ref').with(:value => nil)
           is_expected.to contain_tempest_config('compute/flavor_ref_alt').with(:value => nil)
           is_expected.to contain_tempest_config('compute/image_ref').with(:value => nil)
