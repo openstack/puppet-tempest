@@ -518,8 +518,6 @@ class tempest(
     'auth/use_dynamic_credentials':                    value => $use_dynamic_credentials;
     'compute/flavor_ref':                              value => $flavor_ref;
     'compute/flavor_ref_alt':                          value => $flavor_ref_alt;
-    # TODO(tkajinam): Remove this after Y release. See bug 1958717
-    'compute/image_alt_ssh_user':                      value => $::os_service_default;
     'compute/image_ref':                               value => $image_ref;
     'compute/image_ref_alt':                           value => $image_ref_alt;
     'compute/build_interval':                          value => $compute_build_interval;
