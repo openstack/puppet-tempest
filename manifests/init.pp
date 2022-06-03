@@ -39,7 +39,7 @@
 #  [*public_network_name*]
 #   Defaults to undef
 #  [*neutron_api_extensions*]
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #  [*identity_uri*]
 #   Defaults to undef
 #  [*identity_uri_v3*]
@@ -268,7 +268,7 @@ class tempest(
   #
   $configure_networks                 = true,
   $public_network_name                = undef,
-  $neutron_api_extensions             = undef,
+  $neutron_api_extensions             = $::os_service_default,
 
   # Horizon dashboard config
   $login_url                          = undef,
@@ -543,7 +543,7 @@ class tempest(
     'image-feature-enabled/api_v1':                    value => pick($glance_v1, $::os_service_default);
     'image-feature-enabled/api_v2':                    value => pick($glance_v2, $::os_service_default);
     'l2gw/l2gw_switch':                                value => $l2gw_switch;
-    'network-feature-enabled/api_extensions':          value => $neutron_api_extensions;
+    'network-feature-enabled/api_extensions':          value => join(any2array($neutron_api_extensions), ',');
     'network/public_network_id':                       value => $public_network_id;
     'network/public_router_id':                        value => $public_router_id;
     'dashboard/login_url':                             value => $login_url;
