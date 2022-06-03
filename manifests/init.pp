@@ -393,13 +393,6 @@ class tempest(
   $glance_v2                          = undef,
 ) {
 
-  if !is_service_default($tempest_roles) and !empty($tempest_roles){
-    validate_legacy(Array, 'validate_array', $tempest_roles)
-    $tempest_roles_real = join($tempest_roles, ',')
-  } else {
-    $tempest_roles_real = $::os_service_default
-  }
-
   if $glance_v1 != undef {
     warning('The glance_v1 parameter has been deprecated and will be removed in a future release.')
   }
@@ -514,7 +507,7 @@ class tempest(
     'auth/admin_project_name':                         value => $admin_project_name;
     'auth/admin_username':                             value => $admin_username;
     'auth/admin_system':                               value => $admin_system;
-    'auth/tempest_roles':                              value => $tempest_roles_real;
+    'auth/tempest_roles':                              value => join(any2array($tempest_roles), ',');
     'auth/use_dynamic_credentials':                    value => $use_dynamic_credentials;
     'compute/flavor_ref':                              value => $flavor_ref;
     'compute/flavor_ref_alt':                          value => $flavor_ref_alt;
