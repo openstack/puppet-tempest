@@ -193,6 +193,8 @@
 #   Defaults to 'v3'
 #  [*img_file*]
 #   Defaults to '/var/lib/tempest/cirros-0.4.0-x86_64-disk.img'
+#  [*img_disk_format*]
+#   Defaults to $::os_service_default
 #  [*login_url*]
 #   Defaults to undef
 #  [*dashboard_url*]
@@ -375,6 +377,7 @@ class tempest(
   $manage_tests_packages              = false,
   # scenario options
   $img_file                           = '/var/lib/tempest/cirros-0.4.0-x86_64-disk.img',
+  $img_disk_format                    = $::os_service_default,
   # designate options
   $designate_nameservers              = undef,
   # ironic options
@@ -586,6 +589,7 @@ class tempest(
     'whitebox/db_uri':                                 value => $whitebox_db_uri;
     'cli/cli_dir':                                     value => $cli_dir;
     'scenario/img_file':                               value => $img_file;
+    'scenario/img_disk_format':                        value => $img_disk_format;
     'service_broker/run_service_broker_tests':         value => $run_service_broker_tests;
     'dns/nameservers':                                 value => $designate_nameservers;
     'compute-feature-enabled/attach_encrypted_volume': value => $attach_encrypted_volume;
