@@ -549,8 +549,8 @@ class tempest(
     'service_available/heat':                          value => $heat_available;
     'service_available/ceilometer':                    value => $ceilometer_available;
     'service_available/aodh':                          value => $aodh_available;
-    # https://bugs.launchpad.net/aodh/+bug/1611406
-    'service_available/aodh_plugin':                   value => $aodh_available;
+    # TODO(tkajinam): Remove this after Zed release
+    'service_available/aodh_plugin':                   value => $::os_service_default;
     'service_available/barbican':                      value => $barbican_available;
     'service_available/bgpvpn':                        value => $neutron_bgpvpn_available;
     'service_available/gnocchi':                       value => $gnocchi_available;
