@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``tempest::img_disk_format`` parameter has been added.
