@@ -32,6 +32,7 @@ describe 'tempest' do
 
       it 'configures image_ref' do
         is_expected.to contain_tempest_config('compute/image_ref').with_value('4c423fc6-87f7-4e6d-9d3c-abc13058ae5b')
+        is_expected.to contain_tempest_config('heat_plugin/minimal_image_ref').with_value('4c423fc6-87f7-4e6d-9d3c-abc13058ae5b')
       end
     end
 
@@ -43,6 +44,7 @@ describe 'tempest' do
 
       it 'uses a resource to configure image_ref from image_name' do
         is_expected.to contain_tempest_glance_id_setter('compute/image_ref').with_image_name('cirros')
+        is_expected.to contain_tempest_glance_id_setter('heat_plugin/minimal_image_ref').with_image_name('cirros')
       end
     end
 
@@ -149,6 +151,7 @@ describe 'tempest' do
         { :configure_images    => true,
           :image_name          => 'image name',
           :image_name_alt      => 'image name alt',
+          :heat_image_name     => 'heat image name',
           :public_network_name => 'network name',
           :neutron_available   => true,
           :install_from_source => true,
@@ -205,7 +208,6 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('auth/admin_system').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('auth/tempest_roles').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('auth/use_dynamic_credentials').with(:value => nil)
-          is_expected.to contain_tempest_config('dns/nameservers').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('compute/flavor_ref').with(:value => nil)
           is_expected.to contain_tempest_config('compute/flavor_ref_alt').with(:value => nil)
           is_expected.to contain_tempest_config('compute/image_ref').with(:value => nil)
@@ -213,8 +215,6 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('compute/build_interval').with(:value => nil)
           is_expected.to contain_tempest_config('compute-feature-enabled/attach_encrypted_volume').with(:value => false)
           is_expected.to contain_tempest_config('compute-feature-enabled/resize').with(:value => false)
-          is_expected.to contain_tempest_config('baremetal/driver').with(:value => 'fake')
-          is_expected.to contain_tempest_config('baremetal/enabled_hardware_types').with(:value => 'ipmi')
           is_expected.to contain_tempest_config('validation/image_ssh_user').with(:value => nil)
           is_expected.to contain_tempest_config('validation/image_alt_ssh_user').with(:value => nil)
           is_expected.to contain_tempest_config('validation/run_validation').with(:value => false)
@@ -278,6 +278,24 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('identity-feature-enabled/enforce_scope').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('enforce_scope/neutron').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('enforce_scope/nova').with(:value => '<SERVICE DEFAULT>')
+          is_expected.to contain_tempest_config('dns/nameservers').with(:value => '<SERVICE DEFAULT>')
+          is_expected.to contain_tempest_config('heat_plugin/auth_url').with(:value => nil)
+          is_expected.to contain_tempest_config('heat_plugin/auth_version').with(:value => '3')
+          is_expected.to contain_tempest_config('heat_plugin/admin_password').with_secret( true )
+          is_expected.to contain_tempest_config('heat_plugin/admin_project_name').with(:value => nil)
+          is_expected.to contain_tempest_config('heat_plugin/admin_username').with(:value => nil)
+          is_expected.to contain_tempest_config('heat_plugin/admin_project_domain_name').with(:value => '<SERVICE DEFAULT>')
+          is_expected.to contain_tempest_config('heat_plugin/admin_user_domain_name').with(:value => '<SERVICE DEFAULT>')
+          is_expected.to contain_tempest_config('heat_plugin/password').with(:value => nil)
+          is_expected.to contain_tempest_config('heat_plugin/password').with_secret( true )
+          is_expected.to contain_tempest_config('heat_plugin/project_name').with(:value => nil)
+          is_expected.to contain_tempest_config('heat_plugin/username').with(:value => nil)
+          is_expected.to contain_tempest_config('heat_plugin/image_ref').with(:value => nil)
+          is_expected.to contain_tempest_config('heat_plugin/instance_type').with(:value => nil)
+          is_expected.to contain_tempest_config('heat_plugin/minimal_image_ref').with(:value => nil)
+          is_expected.to contain_tempest_config('heat_plugin/minimal_instance_type').with(:value => nil)
+          is_expected.to contain_tempest_config('baremetal/driver').with(:value => 'fake')
+          is_expected.to contain_tempest_config('baremetal/enabled_hardware_types').with(:value => 'ipmi')
           is_expected.to contain_tempest_config('load_balancer/member_role').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('load_balancer/admin_role').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('load_balancer/observer_role').with(:value => '<SERVICE DEFAULT>')
@@ -307,11 +325,20 @@ describe 'tempest' do
             :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
             :image_name        => 'image name',
           )
-
           is_expected.to contain_tempest_glance_id_setter('compute/image_ref_alt').with(
             :ensure            => 'present',
             :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
             :image_name        => 'image name alt',
+          )
+          is_expected.to contain_tempest_glance_id_setter('heat_plugin/image_ref').with(
+            :ensure            => 'present',
+            :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
+            :image_name        => 'heat image name',
+          )
+          is_expected.to contain_tempest_glance_id_setter('heat_plugin/minimal_image_ref').with(
+            :ensure            => 'present',
+            :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
+            :image_name        => 'image name',
           )
         end
 
@@ -392,6 +419,7 @@ describe 'tempest' do
           :flavor_name      => 'm1.tiny',
           :flavor_name_alt  => 'm1.nano',
           :db_flavor_name   => 'm1.micro',
+          :heat_flavor_name => 'm1.small',
         }
       end
 
@@ -410,6 +438,16 @@ describe 'tempest' do
           :ensure            => 'present',
           :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
           :flavor_name       => 'm1.micro',
+        )
+        is_expected.to contain_tempest_flavor_id_setter('heat_plugin/instance_type').with(
+          :ensure            => 'present',
+          :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
+          :flavor_name       => 'm1.small',
+        )
+        is_expected.to contain_tempest_flavor_id_setter('heat_plugin/minimal_instance_type').with(
+          :ensure            => 'present',
+          :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
+          :flavor_name       => 'm1.tiny',
         )
       end
     end
