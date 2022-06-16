@@ -208,7 +208,7 @@
 #  [*disable_ssl_validation*]
 #   Defaults to undef
 #  [*designate_nameservers*]
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #  [*manage_tests_packages*]
 #   Defaults to false
 #  [*attach_encrypted_volume*]
@@ -379,7 +379,7 @@ class tempest(
   $img_file                           = '/var/lib/tempest/cirros-0.4.0-x86_64-disk.img',
   $img_disk_format                    = $::os_service_default,
   # designate options
-  $designate_nameservers              = undef,
+  $designate_nameservers              = $::os_service_default,
   # ironic options
   $baremetal_driver                   = 'fake',
   $baremetal_enabled_hardware_types   = 'ipmi',
@@ -582,7 +582,7 @@ class tempest(
     'scenario/img_file':                               value => $img_file;
     'scenario/img_disk_format':                        value => $img_disk_format;
     'service_broker/run_service_broker_tests':         value => $run_service_broker_tests;
-    'dns/nameservers':                                 value => $designate_nameservers;
+    'dns/nameservers':                                 value => join(any2array($designate_nameservers), ',');
     'compute-feature-enabled/attach_encrypted_volume': value => $attach_encrypted_volume;
     'compute-feature-enabled/resize':                  value => $resize_available;
     'baremetal/driver':                                value => $baremetal_driver;
