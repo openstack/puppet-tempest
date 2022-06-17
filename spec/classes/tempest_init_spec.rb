@@ -419,50 +419,45 @@ describe 'tempest' do
        include neutron"
     end
 
-    context 'with when managing tests packages for keystone (required service)' do
-      let :params do
-        { :manage_tests_packages => true }
-      end
-
-      describe "should install keystone tests package" do
-        it { expect { is_expected.to contain_package('python-keystone-tests') } }
-        it { expect { is_expected.to_not contain_package('python-aodh-tests') } }
-      end
+    let :params do
+      { :configure_images      => false,
+        :manage_tests_packages => true }
     end
 
-    context 'with when managing tests packages for aodh (optional service)' do
-      let :params do
-        { :manage_tests_packages => true,
-          :aodh_available        => true }
-      end
-
-      describe "should install aodh tests package" do
-        it { expect { is_expected.to contain_package('python-aodh-tests') } }
+    context 'with when managing tests packages for keystone (required service)' do
+      it "should install keystone tests package" do
+        is_expected.to contain_package('python-keystone-tests')
+        is_expected.to_not contain_package('python-sahara-tests-tempest')
       end
     end
 
     context 'with when managing tests packages for sahara (optional service)' do
-      let :params do
-        { :manage_tests_packages => true,
-          :sahara_available      => true }
+      before :each do
+        params.merge!({ :sahara_available => true })
       end
 
-      describe "should install sahara tests package" do
-        it { expect { is_expected.to contain_package('python-sahara-tests-tempest') } }
+      it "should install sahara tests package" do
+        if platform_params[:python_sahara_tests]
+          is_expected.to contain_package('python-sahara-tests-tempest')
+        end
       end
     end
 
     context 'with when managing tests packages for neutron (optional service)' do
-      let :params do
-        { :manage_tests_packages => true,
-          :neutron_available     => true }
+      before :each do
+        params.merge!({
+          :neutron_available => true,
+          :public_network_id => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b'
+        })
       end
 
-      describe "should install neutron and *aas tests packages" do
-        it { expect { is_expected.to contain_package('python-neutron-tests') } }
-        it { expect { is_expected.to contain_package('python-neutron-vpnaas-tests') } }
-        it { expect { is_expected.to contain_package('python-neutron-dynamic-routing-tests') } }
-        it { expect { is_expected.to contain_package('python-networking-l2gw-tests-tempest') } }
+      it "should install neutron and *aas tests packages" do
+        if platform_params[:python_neutron_tests]
+          is_expected.to contain_package('python-neutron-tests')
+        end
+        is_expected.to_not contain_package('python-neutron-vpnaas-tests')
+        is_expected.to_not contain_package('python-neutron-dynamic-routing-tests')
+        is_expected.to_not contain_package('python-networking-l2gw-tests-tempest')
       end
     end
   end
@@ -479,32 +474,40 @@ describe 'tempest' do
       let(:platform_params) do
         case facts[:osfamily]
         when 'Debian'
-          { :dev_packages => ['python3-dev',
-                              'libxslt1-dev',
-                              'libxml2-dev',
-                              'libssl-dev',
-                              'libffi-dev',
-                              'patch',
-                              'gcc',
-                              'python3-virtualenv',
-                              'python3-pip' ],
-            :package_name => 'tempest',
-            :pip_command  => 'pip3' }
+          { :dev_packages          => ['python3-dev',
+                                       'libxslt1-dev',
+                                       'libxml2-dev',
+                                       'libssl-dev',
+                                       'libffi-dev',
+                                       'patch',
+                                       'gcc',
+                                       'python3-virtualenv',
+                                       'python3-pip' ],
+            :package_name          => 'tempest',
+            :pip_command           => 'pip3',
+            :python_keystone_tests => 'keystone-tempest-plugin',
+            :python_neutron_tests  => 'neutron-tempest-plugin',
+            :python_sahara_tests   => false }
         when 'RedHat'
-          { :dev_packages => ['python3-devel',
-                              'libxslt-devel',
-                              'libxml2-devel',
-                              'openssl-devel',
-                              'libffi-devel',
-                              'patch',
-                              'gcc'],
-            :package_name => 'openstack-tempest',
-            :pip_command  => 'pip3' }
+          { :dev_packages          => ['python3-devel',
+                                       'libxslt-devel',
+                                       'libxml2-devel',
+                                       'openssl-devel',
+                                       'libffi-devel',
+                                       'patch',
+                                       'gcc'],
+            :package_name          => 'openstack-tempest',
+            :pip_command           => 'pip3',
+            :python_keystone_tests => 'python3-keystone-tests-tempest',
+            :python_neutron_tests  => 'python3-neutron-tests-tempest',
+            :python_sahara_tests   => 'python3-sahara-tests-tempest' }
         end
       end
 
       it_behaves_like 'tempest'
-      it_behaves_like 'tempest with plugins packages'
+      if facts[:operatingsystem] != 'Ubuntu'
+        it_behaves_like 'tempest with plugins packages'
+      end
     end
   end
 end
