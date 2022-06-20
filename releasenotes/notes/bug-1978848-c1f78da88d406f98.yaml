@@ -1,0 +1,11 @@
+---
+features:
+  - |
+    The id setter resources type now accepts a resource name in
+    ``<section>/<parameter name>`` format, to use arbitrary section name.
+
+fixes:
+  - |
+    Fixed the wrong section(``[DEFAULT]`` instead of ``[database]``) used by
+    automated resolution of image id value using the ``db_flavor_name``
+    parameter.
