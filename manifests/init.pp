@@ -108,8 +108,6 @@
 #   Defaults to undef
 #  [*flavor_ref_alt*]
 #   Defaults to undef
-#  [*whitebox_db_uri*]
-#   Defaults to undef
 #  [*resize_available*]
 #   Defaults to false
 #  [*use_dynamic_credentials*]
@@ -243,6 +241,8 @@
 #   Defaults to false
 #  [*glance_v2*]
 #   Defaults to true
+#  [*whitebox_db_uri*]
+#   Defaults to undef
 #
 class tempest(
   $package_ensure                     = 'present',
@@ -321,8 +321,6 @@ class tempest(
   $compute_build_interval             = undef,
   $run_ssh                            = false,
   $ssh_key_type                       = $::os_service_default,
-  # whitebox
-  $whitebox_db_uri                    = undef,
   # testing features that are supported
   $resize_available                   = false,
   $use_dynamic_credentials            = undef,
@@ -394,6 +392,7 @@ class tempest(
   # DEPRECATED PARAMETERS
   $glance_v1                          = undef,
   $glance_v2                          = undef,
+  $whitebox_db_uri                    = undef,
 ) {
 
   if $glance_v1 != undef {
@@ -402,6 +401,10 @@ class tempest(
 
   if $glance_v2 != undef {
     warning('The glance_v2 parameter has been deprecated and will be removed in a future release.')
+  }
+
+  if $whitebox_db_uri != undef {
+    warning('The whitebox_db_uri parameter has been deprecated and has no effect.')
   }
 
   include tempest::params
@@ -577,7 +580,6 @@ class tempest(
     'identity-feature-enabled/enforce_scope':          value => $keystone_enforce_scope;
     'enforce_scope/neutron':                           value => $neutron_enforce_scope;
     'enforce_scope/nova':                              value => $nova_enforce_scope;
-    'whitebox/db_uri':                                 value => $whitebox_db_uri;
     'cli/cli_dir':                                     value => $cli_dir;
     'scenario/img_file':                               value => $img_file;
     'scenario/img_disk_format':                        value => $img_disk_format;

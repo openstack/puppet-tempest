@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The ``tempest::whitebox_db_uri`` parameter has been deprecated and now has
+    no effect.
