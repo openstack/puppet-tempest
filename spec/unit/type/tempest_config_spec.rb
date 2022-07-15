@@ -33,7 +33,7 @@ describe 'Puppet::Type.type(:tempest_config)' do
     expect(@tempest_config[:value]).to eq('bar')
   end
 
-  it 'should not accept a value with whitespace' do
+  it 'should accept a value with whitespace' do
     @tempest_config[:value] = 'b ar'
     expect(@tempest_config[:value]).to eq('b ar')
   end
