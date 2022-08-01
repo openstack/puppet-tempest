@@ -4,6 +4,14 @@ Puppet::Type.newtype(:tempest_neutron_net_id_setter) do
 
   newparam(:name, :namevar => true) do
     desc 'The name of the setting to update.'
+    munge do |value|
+      if value.include? '/'
+        value
+      else
+        # This is to keep the backword compatibility
+        "network/#{value}"
+      end
+    end
   end
 
   newparam(:tempest_conf_path) do

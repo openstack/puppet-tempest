@@ -42,7 +42,7 @@ describe 'tempest' do
       end
 
       it 'uses a resource to configure image_ref from image_name' do
-        is_expected.to contain_tempest_glance_id_setter('image_ref').with_image_name('cirros')
+        is_expected.to contain_tempest_glance_id_setter('compute/image_ref').with_image_name('cirros')
       end
     end
 
@@ -77,7 +77,7 @@ describe 'tempest' do
       end
 
       it 'uses a resource to configure public_network_id from public_network_name' do
-        is_expected.to contain_tempest_neutron_net_id_setter('public_network_id').with_network_name('public')
+        is_expected.to contain_tempest_neutron_net_id_setter('network/public_network_id').with_network_name('public')
       end
     end
 
@@ -244,7 +244,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('network/public_router_id').with(:value => '')
           is_expected.to contain_tempest_config('dashboard/login_url').with(:value => nil)
           is_expected.to contain_tempest_config('dashboard/dashboard_url').with(:value => nil)
-          is_expected.to contain_tempest_config('database/db_flavor_ref').with_value('<SERVICE DEFAULT>')
+          is_expected.to contain_tempest_config('database/db_flavor_ref').with(:value => nil)
           is_expected.to contain_tempest_config('service_available/cinder').with(:value => true)
           is_expected.to contain_tempest_config('volume-feature-enabled/backup').with(:value => false)
           is_expected.to contain_tempest_config('service_available/glance').with(:value => true)
@@ -300,13 +300,13 @@ describe 'tempest' do
         end
 
         it 'set glance id' do
-          is_expected.to contain_tempest_glance_id_setter('image_ref').with(
+          is_expected.to contain_tempest_glance_id_setter('compute/image_ref').with(
             :ensure            => 'present',
             :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
             :image_name        => 'image name',
           )
 
-          is_expected.to contain_tempest_glance_id_setter('image_ref_alt').with(
+          is_expected.to contain_tempest_glance_id_setter('compute/image_ref_alt').with(
             :ensure            => 'present',
             :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
             :image_name        => 'image name alt',
@@ -314,7 +314,7 @@ describe 'tempest' do
         end
 
         it 'neutron net id' do
-          is_expected.to contain_tempest_neutron_net_id_setter('public_network_id').with(
+          is_expected.to contain_tempest_neutron_net_id_setter('network/public_network_id').with(
             :ensure            => 'present',
             :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
             :network_name      => 'network name',
@@ -394,17 +394,17 @@ describe 'tempest' do
       end
 
       it "sets flavor id using setter" do
-        is_expected.to contain_tempest_flavor_id_setter('flavor_ref').with(
+        is_expected.to contain_tempest_flavor_id_setter('compute/flavor_ref').with(
           :ensure            => 'present',
           :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
           :flavor_name       => 'm1.tiny',
         )
-        is_expected.to contain_tempest_flavor_id_setter('flavor_ref_alt').with(
+        is_expected.to contain_tempest_flavor_id_setter('compute/flavor_ref_alt').with(
           :ensure            => 'present',
           :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
           :flavor_name       => 'm1.nano',
         )
-        is_expected.to contain_tempest_flavor_id_setter('db_flavor_ref').with(
+        is_expected.to contain_tempest_flavor_id_setter('database/db_flavor_ref').with(
           :ensure            => 'present',
           :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
           :flavor_name       => 'm1.micro',

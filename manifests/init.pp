@@ -216,7 +216,7 @@
 #   Defaults to $::os_service_default
 #  [*db_flavor_ref*]
 #   Valid primary flavor to use in Trove tests.
-#   Defaults to $::os_service_default
+#   Defaults to undef
 #  [*db_flavor_name*]
 #   Defaults to undef
 #  [*baremetal_driver*]
@@ -336,7 +336,7 @@ class tempest(
   # Sahara config
   $sahara_plugins                     = undef,
   # Trove config
-  $db_flavor_ref                      = $::os_service_default,
+  $db_flavor_ref                      = undef,
   $db_flavor_name                     = undef,
   # Service configuration
   $cinder_available                   = true,
@@ -792,38 +792,38 @@ class tempest(
   }
 
   if ! $flavor_ref and $flavor_name {
-    tempest_flavor_id_setter { 'flavor_ref':
+    tempest_flavor_id_setter { 'compute/flavor_ref':
       ensure            => present,
       tempest_conf_path => $tempest_conf,
       flavor_name       => $flavor_name,
     }
-    Tempest_config<||> -> Tempest_flavor_id_setter['flavor_ref']
-    Keystone_user_role<||> -> Tempest_flavor_id_setter['flavor_ref']
+    Tempest_config<||> -> Tempest_flavor_id_setter['compute/flavor_ref']
+    Keystone_user_role<||> -> Tempest_flavor_id_setter['compute/flavor_ref']
   } elsif ($flavor_name and $flavor_ref) {
     fail('flavor_ref and flavor_name are both set: please set only one of them')
   }
 
   if ! $flavor_ref_alt and $flavor_name_alt {
-    tempest_flavor_id_setter { 'flavor_ref_alt':
+    tempest_flavor_id_setter { 'compute/flavor_ref_alt':
       ensure            => present,
       tempest_conf_path => $tempest_conf,
       flavor_name       => $flavor_name_alt,
     }
-    Tempest_config<||> -> Tempest_flavor_id_setter['flavor_ref_alt']
-    Keystone_user_role<||> -> Tempest_flavor_id_setter['flavor_ref_alt']
+    Tempest_config<||> -> Tempest_flavor_id_setter['compute/flavor_ref_alt']
+    Keystone_user_role<||> -> Tempest_flavor_id_setter['compute/flavor_ref_alt']
   } elsif ($flavor_name_alt and $flavor_ref_alt) {
     fail('flavor_ref_alt and flavor_name_alt are both set: please set only one of them')
   }
 
-  if is_service_default($db_flavor_ref) and $db_flavor_name {
-    tempest_flavor_id_setter { 'db_flavor_ref':
+  if ! $db_flavor_ref and $db_flavor_name {
+    tempest_flavor_id_setter { 'database/db_flavor_ref':
       ensure            => present,
       tempest_conf_path => $tempest_conf,
       flavor_name       => $db_flavor_name,
     }
-    Tempest_config<||> -> Tempest_flavor_id_setter['db_flavor_ref']
-    Keystone_user_role<||> -> Tempest_flavor_id_setter['db_flavor_ref']
-  } elsif ($db_flavor_name and ! is_service_default($db_flavor_ref)) {
+    Tempest_config<||> -> Tempest_flavor_id_setter['database/db_flavor_ref']
+    Keystone_user_role<||> -> Tempest_flavor_id_setter['database/db_flavor_ref']
+  } elsif ($db_flavor_name and $db_flavor_ref) {
     fail('db_flavor_ref and db_flavor_name are both set: please set only one of them')
   }
 
@@ -831,24 +831,24 @@ class tempest(
     if ! $image_ref and $image_name {
       # If the image id was not provided, look it up via the image name
       # and set the value in the conf file.
-      tempest_glance_id_setter { 'image_ref':
+      tempest_glance_id_setter { 'compute/image_ref':
         ensure            => present,
         tempest_conf_path => $tempest_conf,
         image_name        => $image_name,
       }
-      Tempest_config<||> -> Tempest_glance_id_setter['image_ref']
-      Keystone_user_role<||> -> Tempest_glance_id_setter['image_ref']
+      Tempest_config<||> -> Tempest_glance_id_setter['compute/image_ref']
+      Keystone_user_role<||> -> Tempest_glance_id_setter['compute/image_ref']
     } elsif ($image_name and $image_ref) or (! $image_name and ! $image_ref) {
       fail('A value for either image_name or image_ref must be provided.')
     }
     if ! $image_ref_alt and $image_name_alt {
-      tempest_glance_id_setter { 'image_ref_alt':
+      tempest_glance_id_setter { 'compute/image_ref_alt':
         ensure            => present,
         tempest_conf_path => $tempest_conf,
         image_name        => $image_name_alt,
       }
-      Tempest_config<||> -> Tempest_glance_id_setter['image_ref_alt']
-      Keystone_user_role<||> -> Tempest_glance_id_setter['image_ref_alt']
+      Tempest_config<||> -> Tempest_glance_id_setter['compute/image_ref_alt']
+      Keystone_user_role<||> -> Tempest_glance_id_setter['compute/image_ref_alt']
     } elsif ($image_name_alt and $image_ref_alt) or (! $image_name_alt and ! $image_ref_alt) {
         fail('A value for either image_name_alt or image_ref_alt must \
 be provided.')
@@ -857,13 +857,13 @@ be provided.')
 
   if $neutron_available and $configure_networks {
     if ! $public_network_id and $public_network_name {
-      tempest_neutron_net_id_setter { 'public_network_id':
+      tempest_neutron_net_id_setter { 'network/public_network_id':
         ensure            => present,
         tempest_conf_path => $tempest_conf,
         network_name      => $public_network_name,
       }
-      Tempest_config<||> -> Tempest_neutron_net_id_setter['public_network_id']
-      Keystone_user_role<||> -> Tempest_neutron_net_id_setter['public_network_id']
+      Tempest_config<||> -> Tempest_neutron_net_id_setter['network/public_network_id']
+      Keystone_user_role<||> -> Tempest_neutron_net_id_setter['network/public_network_id']
     } elsif ($public_network_name and $public_network_id) or (! $public_network_name and ! $public_network_id) {
       fail('A value for either public_network_id or public_network_name \
   must be provided.')
