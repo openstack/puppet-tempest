@@ -64,12 +64,20 @@
 #   Defaults to undef
 #  [*project_name*]
 #   Defaults to undef
+#  [*user_domain_name*]
+#   Defaults to $::os_service_default
+#  [*project_domain_name*]
+#   Defaults to $::os_service_default
 #  [*alt_username*]
 #   Defaults to undef
 #  [*alt_password*]
 #   Defaults to undef
 #  [*alt_project_name*]
 #   Defaults to undef
+#  [*alt_user_domain_name*]
+#   Defaults to $::os_service_default
+#  [*alt_project_domain_name*]
+#   Defaults to $::os_service_default
 #  [*admin_username*]
 #   Defaults to undef
 #  [*admin_password*]
@@ -293,10 +301,14 @@ class tempest(
   $username                           = undef,
   $password                           = undef,
   $project_name                       = undef,
+  $user_domain_name                   = $::os_service_default,
+  $project_domain_name                = $::os_service_default,
   # another non-admin user
   $alt_username                       = undef,
   $alt_password                       = undef,
   $alt_project_name                   = undef,
+  $alt_user_domain_name               = $::os_service_default,
+  $alt_project_domain_name            = $::os_service_default,
   # admin user
   $admin_username                     = undef,
   $admin_password                     = undef,
@@ -528,11 +540,15 @@ class tempest(
     'identity/alt_password':                           value => $alt_password, secret => true;
     'identity/alt_project_name':                       value => $alt_project_name;
     'identity/alt_username':                           value => $alt_username;
+    'identity/alt_project_domain_name':                value => $project_domain_name;
+    'identity/alt_user_domain_name':                   value => $user_domain_name;
     'identity/password':                               value => $password, secret => true;
     'identity/project_name':                           value => $project_name;
+    'identity/username':                               value => $username;
+    'identity/project_domain_name':                    value => $project_domain_name;
+    'identity/user_domain_name':                       value => $user_domain_name;
     'identity/uri':                                    value => $identity_uri;
     'identity/uri_v3':                                 value => $identity_uri_v3;
-    'identity/username':                               value => $username;
     'identity/auth_version':                           value => $auth_version;
     'identity/ca_certificates_file':                   value => $ca_certificates_file;
     'identity/disable_ssl_certificate_validation':     value => $disable_ssl_validation;

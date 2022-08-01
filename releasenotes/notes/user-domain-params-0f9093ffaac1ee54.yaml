@@ -1,0 +1,10 @@
+---
+features:
+  - |
+    The following parameters have been added to the ``tempest`` class to mange
+    domain name parameters for pre-created credentials.
+
+    - ``user_domain_name``
+    - ``project_domain_name``
+    - ``alt_user_domain_name``
+    - ``alt_project_domain_name``
