@@ -27,10 +27,8 @@ class tempest::params {
       $python_murano_tests     = 'python3-murano-tests-tempest'
       $python_neutron_tests    = 'python3-neutron-tests-tempest'
       $python_l2gw_tests       = 'python3-networking-l2gw-tests-tempest'
-      # NOTE(tkajinam): python3-neutron-vpnaas-tests package provide tempest
-      #                 plugin implementation.
-      $python_vpnaas_tests     = 'python3-neutron-vpnaas-tests'
-      $python_dr_tests         = 'python3-neutron-dynamic-routing-tests'
+      $python_vpnaas_tests     = false
+      $python_dr_tests         = false
       $python_nova_tests       = false
       $python_sahara_tests     = 'python3-sahara-tests-tempest'
       $python_swift_tests      = false
@@ -82,7 +80,6 @@ class tempest::params {
         $package_name            = 'tempest'
       }else{
         $python_telemetry_tests  = false
-        $python_bgpvpn_tests     = false
         $python_cinder_tests     = false
         $python_designate_tests  = false
         $python_glance_tests     = false
@@ -90,6 +87,7 @@ class tempest::params {
         $python_ironic_tests     = false
         $python_keystone_tests   = false
         $python_l2gw_tests       = false
+        $python_vpnaas_tests     = false
         $python_magnum_tests     = false
         $python_mistral_tests    = false
         $python_vitrage_tests    = false
