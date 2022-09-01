@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    The new ``tempest::manila_available`` parameter has been added. This
+    parameter defaults to ``false``, but when set to ``true``, it installs
+    the ``manila-tempest-plugin`` package and enables the plugin tests.

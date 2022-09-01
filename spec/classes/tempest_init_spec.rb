@@ -272,6 +272,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('service_available/designate').with(:value => false)
           is_expected.to contain_tempest_config('service_available/octavia').with(:value => false)
           is_expected.to contain_tempest_config('service_available/barbican').with(:value => false)
+          is_expected.to contain_tempest_config('service_available/manila').with(:value => false)
           is_expected.to contain_tempest_config('enforce_scope/cinder').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('enforce_scope/glance').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('enforce_scope/keystone').with(:value => '<SERVICE DEFAULT>')

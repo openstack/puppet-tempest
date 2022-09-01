@@ -38,6 +38,7 @@ class tempest::params {
       $python_octavia_tests    = 'python3-octavia-tests-tempest'
       $python_ec2api_tests     = 'python3-ec2api-tests-tempest'
       $python_barbican_tests   = 'python3-barbican-tests-tempest'
+      $python_manila_tests     = 'python3-manila-tests-tempest'
       $package_name            = 'openstack-tempest'
     }
     'Debian': {
@@ -77,6 +78,7 @@ class tempest::params {
         $python_octavia_tests    = 'octavia-tempest-plugin'
         $python_ec2api_tests     = false
         $python_barbican_tests   = 'barbican-tempest-plugin'
+        $python_manila_tests     = 'manila-tempest-plugin'
         $package_name            = 'tempest'
       }else{
         $python_telemetry_tests  = false
@@ -102,6 +104,7 @@ class tempest::params {
         $python_octavia_tests    = false
         $python_ec2api_tests     = false
         $python_barbican_tests   = false
+        $python_manila_tests     = false
         $package_name            = 'tempest'
       }
     }

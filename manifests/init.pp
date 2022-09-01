@@ -183,6 +183,8 @@
 #   Defaults to false
 #  [*barbican_available*]
 #   Defaults to false
+#  [*manila_available*]
+#   Defaults to false
 #  [*cinder_enforce_scope*]
 #   Defaults to $::os_service_default
 #  [*glance_enforce_scope*]
@@ -374,6 +376,7 @@ class tempest(
   $vitrage_available                  = false,
   $octavia_available                  = false,
   $barbican_available                 = false,
+  $manila_available                   = false,
   $cinder_enforce_scope               = $::os_service_default,
   $glance_enforce_scope               = $::os_service_default,
   $keystone_enforce_scope             = $::os_service_default,
@@ -572,6 +575,7 @@ class tempest(
     # TODO(tkajinam): Remove this after Zed release
     'service_available/aodh_plugin':                   value => $::os_service_default;
     'service_available/barbican':                      value => $barbican_available;
+    'service_available/manila':                        value => $manila_available;
     'service_available/bgpvpn':                        value => $neutron_bgpvpn_available;
     'service_available/gnocchi':                       value => $gnocchi_available;
     'service_available/designate':                     value => $designate_available;
@@ -781,6 +785,13 @@ class tempest(
       package { 'python-barbican-tests-tempest':
         ensure => present,
         name   => $::tempest::params::python_barbican_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $manila_available and $::tempest::params::python_manila_tests {
+      package { 'python-manila-tests-tempest':
+        ensure => present,
+        name   => $::tempest::params::python_manila_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
