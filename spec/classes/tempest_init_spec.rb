@@ -284,6 +284,10 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('load_balancer/observer_role').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('load_balancer/global_observer_role').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('load_balancer/test_with_noop').with(:value => '<SERVICE DEFAULT>')
+          is_expected.to contain_tempest_config('share/multitenancy_enabled').with(:value => '<SERVICE DEFAULT>')
+          is_expected.to contain_tempest_config('share/enable_protocols').with(:value => '<SERVICE DEFAULT>')
+          is_expected.to contain_tempest_config('share/multi_backend').with(:value => '<SERVICE DEFAULT>')
+          is_expected.to contain_tempest_config('share/capability_storage_protocol').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('cli/cli_dir').with(:value => nil)
           is_expected.to contain_oslo__concurrency('tempest_config').with(
             :lock_path => '/var/lib/tempest'

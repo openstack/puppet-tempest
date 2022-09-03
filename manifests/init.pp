@@ -245,6 +245,14 @@
 #   Defaults to $::os_service_default
 #  [*load_balancer_test_with_noop*]
 #   Defaults to $::os_service_default
+#  [*share_multitenancy_enabled*]
+#   Defaults to $::os_service_default
+#  [*share_enable_protocols*]
+#   Defaults to $::os_service_default
+#  [*share_multi_backend*]
+#   Defaults to $::os_service_default
+#  [*share_capability_storage_protocol*]
+#   Defaults to $::os_service_default
 #
 # DEPREACTED PARAMETERS
 #  [*glance_v1*]
@@ -404,6 +412,11 @@ class tempest(
   $load_balancer_observer_role        = $::os_service_default,
   $load_balancer_global_observer_role = $::os_service_default,
   $load_balancer_test_with_noop       = $::os_service_default,
+  # manila options
+  $share_multitenancy_enabled         = $::os_service_default,
+  $share_enable_protocols             = $::os_service_default,
+  $share_multi_backend                = $::os_service_default,
+  $share_capability_storage_protocol  = $::os_service_default,
   # DEPRECATED PARAMETERS
   $glance_v1                          = undef,
   $glance_v2                          = undef,
@@ -614,6 +627,10 @@ class tempest(
     'load_balancer/observer_role':                     value => $load_balancer_observer_role;
     'load_balancer/global_observer_role':              value => $load_balancer_global_observer_role;
     'load_balancer/test_with_noop':                    value => $load_balancer_test_with_noop;
+    'share/multitenancy_enabled':                      value => $share_multitenancy_enabled;
+    'share/enable_protocols':                          value => join(any2array($share_enable_protocols), ',');
+    'share/multi_backend':                             value => $share_multi_backend;
+    'share/capability_storage_protocol':               value => $share_capability_storage_protocol;
   }
 
   oslo::concurrency { 'tempest_config': lock_path => $lock_path }

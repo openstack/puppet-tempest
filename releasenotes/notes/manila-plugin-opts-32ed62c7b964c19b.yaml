@@ -1,0 +1,10 @@
+---
+features:
+  - |
+    The following three parameters for manila-tempest-plugin have been added
+    to the ``tempest`` class.
+
+    - ``share_multitenancy_enabled``
+    - ``share_enable_protocols``
+    - ``share_multi_backend``
+    - ``capability_storage_protocol``
