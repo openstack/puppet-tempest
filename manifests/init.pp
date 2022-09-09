@@ -215,8 +215,6 @@
 #   Defaults to undef
 #  [*disable_ssl_validation*]
 #   Defaults to undef
-#  [*designate_nameservers*]
-#   Defaults to $::os_service_default
 #  [*manage_tests_packages*]
 #   Defaults to false
 #  [*attach_encrypted_volume*]
@@ -229,12 +227,22 @@
 #   Defaults to undef
 #  [*db_flavor_name*]
 #   Defaults to undef
+#  [*designate_nameservers*]
+#   Defaults to $::os_service_default
+#  [*ec2api_tester_roles*]
+#   Defaults to ['Member']
+#  [*heat_image_ref*]
+#   Defaults to undef
+#  [*heat_image_name*]
+#   Defaults to undef
+#  [*heat_flavor_ref*]
+#   Defaults to undef
+#  [*heat_flavor_name*]
+#   Defaults to undef
 #  [*baremetal_driver*]
 #   Defaults to 'fake'
 #  [*baremetal_enabled_hardware_types*]
 #   Defaults to 'ipmi'
-#  [*ec2api_tester_roles*]
-#   Defaults to 'Member'
 #  [*load_balancer_member_role*]
 #   Defaults to $::os_service_default
 #  [*load_balancer_admin_role*]
@@ -401,11 +409,16 @@ class tempest(
   $img_disk_format                    = $::os_service_default,
   # designate options
   $designate_nameservers              = $::os_service_default,
+  # ec2api options
+  $ec2api_tester_roles                = ['Member'],
+  # heat options
+  $heat_image_ref                     = undef,
+  $heat_image_name                    = undef,
+  $heat_flavor_ref                    = undef,
+  $heat_flavor_name                   = undef,
   # ironic options
   $baremetal_driver                   = 'fake',
   $baremetal_enabled_hardware_types   = 'ipmi',
-  # ec2api options
-  $ec2api_tester_roles                = ['Member'],
   # octavia options
   $load_balancer_member_role          = $::os_service_default,
   $load_balancer_admin_role           = $::os_service_default,
@@ -617,11 +630,33 @@ class tempest(
     'scenario/img_file':                               value => $img_file;
     'scenario/img_disk_format':                        value => $img_disk_format;
     'service_broker/run_service_broker_tests':         value => $run_service_broker_tests;
-    'dns/nameservers':                                 value => join(any2array($designate_nameservers), ',');
     'compute-feature-enabled/attach_encrypted_volume': value => $attach_encrypted_volume;
     'compute-feature-enabled/resize':                  value => $resize_available;
+    # designate-tempest-plugin
+    'dns/nameservers':                                 value => join(any2array($designate_nameservers), ',');
+    # heat-tempest-plugin
+    'heat_plugin/auth_url':                            value => $identity_uri_v3;
+    # TODO(tkajinam): auth_version does not affect vN format (eg v3) and
+    #                 the heading v should be removed.
+    'heat_plugin/auth_version':                        value => regsubst($auth_version, '^v(\\d+)$', '\\1');
+    'heat_plugin/admin_username':                      value => $admin_username;
+    'heat_plugin/admin_password':                      value => $admin_password, secret => true;
+    'heat_plugin/admin_project_name':                  value => $admin_project_name;
+    'heat_plugin/admin_user_domain_name':              value => $admin_user_domain_name;
+    'heat_plugin/admin_project_domain_name':           value => $admin_project_domain_name;
+    'heat_plugin/username':                            value => $username;
+    'heat_plugin/password':                            value => $password, secret => true;
+    'heat_plugin/project_name':                        value => $project_name;
+    'heat_plugin/user_domain_name':                    value => $user_domain_name;
+    'heat_plugin/project_domain_name':                 value => $project_domain_name;
+    'heat_plugin/image_ref':                           value => $heat_image_ref;
+    'heat_plugin/instance_type':                       value => $heat_flavor_ref;
+    'heat_plugin/minimal_image_ref':                   value => $image_ref;
+    'heat_plugin/minimal_instance_type':               value => $flavor_ref;
+    # ironic-tempest-plugin
     'baremetal/driver':                                value => $baremetal_driver;
     'baremetal/enabled_hardware_types':                value => $baremetal_enabled_hardware_types;
+    # octavia-tempest-plugin
     'load_balancer/member_role':                       value => $load_balancer_member_role;
     'load_balancer/admin_role':                        value => $load_balancer_admin_role;
     'load_balancer/observer_role':                     value => $load_balancer_observer_role;
@@ -823,6 +858,14 @@ class tempest(
     }
     Tempest_config<||> -> Tempest_flavor_id_setter['compute/flavor_ref']
     Keystone_user_role<||> -> Tempest_flavor_id_setter['compute/flavor_ref']
+
+    tempest_flavor_id_setter { 'heat_plugin/minimal_instance_type':
+      ensure            => present,
+      tempest_conf_path => $tempest_conf,
+      flavor_name       => $flavor_name,
+    }
+    Tempest_config<||> -> Tempest_flavor_id_setter['heat_plugin/minimal_instance_type']
+    Keystone_user_role<||> -> Tempest_flavor_id_setter['heat_plugin/minimal_instance_type']
   } elsif ($flavor_name and $flavor_ref) {
     fail('flavor_ref and flavor_name are both set: please set only one of them')
   }
@@ -851,6 +894,18 @@ class tempest(
     fail('db_flavor_ref and db_flavor_name are both set: please set only one of them')
   }
 
+  if !$heat_flavor_ref and $heat_flavor_name {
+    tempest_flavor_id_setter { 'heat_plugin/instance_type':
+      ensure            => present,
+      tempest_conf_path => $tempest_conf,
+      flavor_name       => $heat_flavor_name,
+    }
+    Tempest_config<||> -> Tempest_flavor_id_setter['heat_plugin/instance_type']
+    Keystone_user_role<||> -> Tempest_flavor_id_setter['heat_plugin/instance_type']
+  } elsif ($heat_flavor_name and $heat_flavor_ref) {
+    fail('heat_flavor_ref and heat_flavor_name are both set: please set only one of them')
+  }
+
   if $configure_images {
     if ! $image_ref and $image_name {
       # If the image id was not provided, look it up via the image name
@@ -862,9 +917,17 @@ class tempest(
       }
       Tempest_config<||> -> Tempest_glance_id_setter['compute/image_ref']
       Keystone_user_role<||> -> Tempest_glance_id_setter['compute/image_ref']
+      tempest_glance_id_setter { 'heat_plugin/minimal_image_ref':
+        ensure            => present,
+        tempest_conf_path => $tempest_conf,
+        image_name        => $image_name,
+      }
+      Tempest_config<||> -> Tempest_glance_id_setter['heat_plugin/minimal_image_ref']
+      Keystone_user_role<||> -> Tempest_glance_id_setter['heat_plugin/minimal_image_ref']
     } elsif ($image_name and $image_ref) or (! $image_name and ! $image_ref) {
       fail('A value for either image_name or image_ref must be provided.')
     }
+
     if ! $image_ref_alt and $image_name_alt {
       tempest_glance_id_setter { 'compute/image_ref_alt':
         ensure            => present,
@@ -874,8 +937,19 @@ class tempest(
       Tempest_config<||> -> Tempest_glance_id_setter['compute/image_ref_alt']
       Keystone_user_role<||> -> Tempest_glance_id_setter['compute/image_ref_alt']
     } elsif ($image_name_alt and $image_ref_alt) or (! $image_name_alt and ! $image_ref_alt) {
-        fail('A value for either image_name_alt or image_ref_alt must \
-be provided.')
+      fail('A value for either image_name_alt or image_ref_alt must be provided.')
+    }
+
+    if ! $heat_image_ref and $heat_image_name {
+      tempest_glance_id_setter { 'heat_plugin/image_ref':
+        ensure            => present,
+        tempest_conf_path => $tempest_conf,
+        image_name        => $heat_image_name,
+      }
+      Tempest_config<||> -> Tempest_glance_id_setter['heat_plugin/image_ref']
+      Keystone_user_role<||> -> Tempest_glance_id_setter['heat_plugin/image_ref']
+    } elsif ($heat_image_name and $heat_image_ref) {
+      fail('heat_image_ref and heat_image_name are both set: please set only one of them')
     }
   }
 

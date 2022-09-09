@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The ``tempest`` class now supports heat-tempest-plugin parameters.
