@@ -267,8 +267,6 @@
 #   Defaults to false
 #  [*glance_v2*]
 #   Defaults to true
-#  [*whitebox_db_uri*]
-#   Defaults to undef
 #
 class tempest(
   $package_ensure                     = 'present',
@@ -433,7 +431,6 @@ class tempest(
   # DEPRECATED PARAMETERS
   $glance_v1                          = undef,
   $glance_v2                          = undef,
-  $whitebox_db_uri                    = undef,
 ) {
 
   if $glance_v1 != undef {
@@ -442,10 +439,6 @@ class tempest(
 
   if $glance_v2 != undef {
     warning('The glance_v2 parameter has been deprecated and will be removed in a future release.')
-  }
-
-  if $whitebox_db_uri != undef {
-    warning('The whitebox_db_uri parameter has been deprecated and has no effect.')
   }
 
   include tempest::params

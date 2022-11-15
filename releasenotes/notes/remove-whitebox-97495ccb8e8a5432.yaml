@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The ``tempest::whitebox_db_uri`` parameter has been removed.
