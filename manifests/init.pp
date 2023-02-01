@@ -231,6 +231,14 @@
 #   Defaults to $::os_service_default
 #  [*ec2api_tester_roles*]
 #   Defaults to ['Member']
+#  [*aws_ec2_url*]
+#   Defaults to $::os_service_default
+#  [*aws_region*]
+#   Defaults to $::os_service_default
+#  [*aws_image_id*]
+#   Defualts to undef
+#  [*aws_ebs_image_id*]
+#   Defaults to undef
 #  [*heat_image_ref*]
 #   Defaults to undef
 #  [*heat_image_name*]
@@ -409,6 +417,10 @@ class tempest(
   $designate_nameservers              = $::os_service_default,
   # ec2api options
   $ec2api_tester_roles                = ['Member'],
+  $aws_ec2_url                        = $::os_service_default,
+  $aws_region                         = $::os_service_default,
+  $aws_image_id                       = undef,
+  $aws_ebs_image_id                   = undef,
   # heat options
   $heat_image_ref                     = undef,
   $heat_image_name                    = undef,
@@ -625,6 +637,11 @@ class tempest(
     'compute-feature-enabled/resize':                  value => $resize_available;
     # designate-tempest-plugin
     'dns/nameservers':                                 value => join(any2array($designate_nameservers), ',');
+    # ec2api-tempest-plugin
+    'aws/ec2_url':                                     value => $aws_ec2_url;
+    'aws/aws_region':                                  value => $aws_region;
+    'aws/image_id':                                    value => $aws_image_id;
+    'aws/ebs_image_id':                                value => $aws_ebs_image_id;
     # heat-tempest-plugin
     'heat_plugin/auth_url':                            value => $identity_uri_v3;
     # TODO(tkajinam): auth_version does not affect vN format (eg v3) and

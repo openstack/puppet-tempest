@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The following parameters have been added to the ``tempest`` class.
+
+    - ``aws_ec2_url``
+    - ``aws_region``
+    - ``aws_image_id``
+    - ``aws_ebs_image_id``
