@@ -515,12 +515,10 @@ describe 'tempest' do
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge!(OSDefaults.get_facts({
-          :concat_basedir => '/var/lib/puppet/concat',
-        }))
+        facts.merge!(OSDefaults.get_facts())
       end
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :dev_packages          => ['python3-dev',
                                        'libxslt1-dev',
@@ -553,7 +551,7 @@ describe 'tempest' do
       end
 
       it_behaves_like 'tempest'
-      if facts[:operatingsystem] != 'Ubuntu'
+      if facts[:os]['name'] != 'Ubuntu'
         it_behaves_like 'tempest with plugins packages'
       end
     end

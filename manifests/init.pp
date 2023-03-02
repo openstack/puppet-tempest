@@ -39,7 +39,7 @@
 #  [*public_network_name*]
 #   Defaults to undef
 #  [*neutron_api_extensions*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*identity_uri*]
 #   Defaults to undef
 #  [*identity_uri_v3*]
@@ -49,7 +49,7 @@
 #  [*lock_path*]
 #   Defaults to '/var/lib/tempest'
 #  [*log_file*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*debug*]
 #   Defaults to false
 #  [*use_stderr*]
@@ -57,7 +57,7 @@
 #  [*use_syslog*]
 #   Defaults to false
 #  [*logging_context_format_string*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*username*]
 #   Defaults to undef
 #  [*password*]
@@ -65,9 +65,9 @@
 #  [*project_name*]
 #   Defaults to undef
 #  [*user_domain_name*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*project_domain_name*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*alt_username*]
 #   Defaults to undef
 #  [*alt_password*]
@@ -75,9 +75,9 @@
 #  [*alt_project_name*]
 #   Defaults to undef
 #  [*alt_user_domain_name*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*alt_project_domain_name*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*admin_username*]
 #   Defaults to undef
 #  [*admin_password*]
@@ -87,15 +87,15 @@
 #  [*admin_role*]
 #   Defaults to undef
 #  [*admin_domain_name*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*admin_user_domain_name*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*admin_project_domain_name*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*admin_system*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*default_credentials_domain_name*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*image_ref*]
 #   Defaults to undef
 #  [*image_ref_alt*]
@@ -107,7 +107,7 @@
 #  [*run_ssh*]
 #   Defaults to false
 #  [*ssh_key_type*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*flavor_name*]
 #   Defaults to undef
 #  [*flavor_name_alt*]
@@ -186,15 +186,15 @@
 #  [*manila_available*]
 #   Defaults to false
 #  [*cinder_enforce_scope*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*glance_enforce_scope*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*keystone_enforce_scope*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*neutron_enforce_scope*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*nova_enforce_scope*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*keystone_v3*]
 #   Defaults to true
 #  [*auth_version*]
@@ -202,7 +202,7 @@
 #  [*img_file*]
 #   Defaults to '/var/lib/tempest/cirros-0.4.0-x86_64-disk.img'
 #  [*img_disk_format*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*login_url*]
 #   Defaults to undef
 #  [*dashboard_url*]
@@ -221,20 +221,20 @@
 #   Defaults to false
 #  [*tempest_roles*]
 #   Should be an array.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*db_flavor_ref*]
 #   Valid primary flavor to use in Trove tests.
 #   Defaults to undef
 #  [*db_flavor_name*]
 #   Defaults to undef
 #  [*designate_nameservers*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*ec2api_tester_roles*]
 #   Defaults to ['Member']
 #  [*aws_ec2_url*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*aws_region*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*aws_image_id*]
 #   Defualts to undef
 #  [*aws_ebs_image_id*]
@@ -252,23 +252,23 @@
 #  [*baremetal_enabled_hardware_types*]
 #   Defaults to 'ipmi'
 #  [*load_balancer_member_role*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*load_balancer_admin_role*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*load_balancer_observer_role*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*load_balancer_global_observer_role*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*load_balancer_test_with_noop*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*share_multitenancy_enabled*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*share_enable_protocols*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*share_multi_backend*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #  [*share_capability_storage_protocol*]
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # DEPREACTED PARAMETERS
 #  [*glance_v1*]
@@ -302,7 +302,7 @@ class tempest(
   #
   $configure_networks                 = true,
   $public_network_name                = undef,
-  $neutron_api_extensions             = $::os_service_default,
+  $neutron_api_extensions             = $facts['os_service_default'],
 
   # Horizon dashboard config
   $login_url                          = undef,
@@ -315,36 +315,36 @@ class tempest(
   $identity_uri_v3                    = undef,
   $cli_dir                            = undef,
   $lock_path                          = '/var/lib/tempest',
-  $log_file                           = $::os_service_default,
+  $log_file                           = $facts['os_service_default'],
   $debug                              = false,
   $use_stderr                         = true,
   $use_syslog                         = false,
-  $logging_context_format_string      = $::os_service_default,
+  $logging_context_format_string      = $facts['os_service_default'],
   $attach_encrypted_volume            = false,
   # non admin user
   $username                           = undef,
   $password                           = undef,
   $project_name                       = undef,
-  $user_domain_name                   = $::os_service_default,
-  $project_domain_name                = $::os_service_default,
+  $user_domain_name                   = $facts['os_service_default'],
+  $project_domain_name                = $facts['os_service_default'],
   # another non-admin user
   $alt_username                       = undef,
   $alt_password                       = undef,
   $alt_project_name                   = undef,
-  $alt_user_domain_name               = $::os_service_default,
-  $alt_project_domain_name            = $::os_service_default,
+  $alt_user_domain_name               = $facts['os_service_default'],
+  $alt_project_domain_name            = $facts['os_service_default'],
   # admin user
   $admin_username                     = undef,
   $admin_password                     = undef,
   $admin_project_name                 = undef,
   $admin_role                         = undef,
-  $admin_domain_name                  = $::os_service_default,
-  $admin_user_domain_name             = $::os_service_default,
-  $admin_project_domain_name          = $::os_service_default,
-  $admin_system                       = $::os_service_default,
-  $default_credentials_domain_name    = $::os_service_default,
+  $admin_domain_name                  = $facts['os_service_default'],
+  $admin_user_domain_name             = $facts['os_service_default'],
+  $admin_project_domain_name          = $facts['os_service_default'],
+  $admin_system                       = $facts['os_service_default'],
+  $default_credentials_domain_name    = $facts['os_service_default'],
   # roles fo the users created by tempest
-  $tempest_roles                      = $::os_service_default,
+  $tempest_roles                      = $facts['os_service_default'],
   # image information
   $image_ref                          = undef,
   $image_ref_alt                      = undef,
@@ -356,7 +356,7 @@ class tempest(
   $flavor_name_alt                    = undef,
   $compute_build_interval             = undef,
   $run_ssh                            = false,
-  $ssh_key_type                       = $::os_service_default,
+  $ssh_key_type                       = $facts['os_service_default'],
   # testing features that are supported
   $resize_available                   = false,
   $use_dynamic_credentials            = undef,
@@ -399,11 +399,11 @@ class tempest(
   $octavia_available                  = false,
   $barbican_available                 = false,
   $manila_available                   = false,
-  $cinder_enforce_scope               = $::os_service_default,
-  $glance_enforce_scope               = $::os_service_default,
-  $keystone_enforce_scope             = $::os_service_default,
-  $neutron_enforce_scope              = $::os_service_default,
-  $nova_enforce_scope                 = $::os_service_default,
+  $cinder_enforce_scope               = $facts['os_service_default'],
+  $glance_enforce_scope               = $facts['os_service_default'],
+  $keystone_enforce_scope             = $facts['os_service_default'],
+  $neutron_enforce_scope              = $facts['os_service_default'],
+  $nova_enforce_scope                 = $facts['os_service_default'],
   $keystone_v3                        = true,
   $auth_version                       = 'v3',
   $run_service_broker_tests           = false,
@@ -412,13 +412,13 @@ class tempest(
   $manage_tests_packages              = false,
   # scenario options
   $img_file                           = '/var/lib/tempest/cirros-0.4.0-x86_64-disk.img',
-  $img_disk_format                    = $::os_service_default,
+  $img_disk_format                    = $facts['os_service_default'],
   # designate options
-  $designate_nameservers              = $::os_service_default,
+  $designate_nameservers              = $facts['os_service_default'],
   # ec2api options
   $ec2api_tester_roles                = ['Member'],
-  $aws_ec2_url                        = $::os_service_default,
-  $aws_region                         = $::os_service_default,
+  $aws_ec2_url                        = $facts['os_service_default'],
+  $aws_region                         = $facts['os_service_default'],
   $aws_image_id                       = undef,
   $aws_ebs_image_id                   = undef,
   # heat options
@@ -430,16 +430,16 @@ class tempest(
   $baremetal_driver                   = 'fake',
   $baremetal_enabled_hardware_types   = 'ipmi',
   # octavia options
-  $load_balancer_member_role          = $::os_service_default,
-  $load_balancer_admin_role           = $::os_service_default,
-  $load_balancer_observer_role        = $::os_service_default,
-  $load_balancer_global_observer_role = $::os_service_default,
-  $load_balancer_test_with_noop       = $::os_service_default,
+  $load_balancer_member_role          = $facts['os_service_default'],
+  $load_balancer_admin_role           = $facts['os_service_default'],
+  $load_balancer_observer_role        = $facts['os_service_default'],
+  $load_balancer_global_observer_role = $facts['os_service_default'],
+  $load_balancer_test_with_noop       = $facts['os_service_default'],
   # manila options
-  $share_multitenancy_enabled         = $::os_service_default,
-  $share_enable_protocols             = $::os_service_default,
-  $share_multi_backend                = $::os_service_default,
-  $share_capability_storage_protocol  = $::os_service_default,
+  $share_multitenancy_enabled         = $facts['os_service_default'],
+  $share_enable_protocols             = $facts['os_service_default'],
+  $share_multi_backend                = $facts['os_service_default'],
+  $share_capability_storage_protocol  = $facts['os_service_default'],
   # DEPRECATED PARAMETERS
   $glance_v1                          = undef,
   $glance_v2                          = undef,
@@ -587,8 +587,8 @@ class tempest(
     'identity/ca_certificates_file':                   value => $ca_certificates_file;
     'identity/disable_ssl_certificate_validation':     value => $disable_ssl_validation;
     'identity-feature-enabled/api_v3':                 value => $keystone_v3;
-    'image-feature-enabled/api_v1':                    value => pick($glance_v1, $::os_service_default);
-    'image-feature-enabled/api_v2':                    value => pick($glance_v2, $::os_service_default);
+    'image-feature-enabled/api_v1':                    value => pick($glance_v1, $facts['os_service_default']);
+    'image-feature-enabled/api_v2':                    value => pick($glance_v2, $facts['os_service_default']);
     'l2gw/l2gw_switch':                                value => $l2gw_switch;
     'network-feature-enabled/api_extensions':          value => join(any2array($neutron_api_extensions), ',');
     'network/public_network_id':                       value => $public_network_id;

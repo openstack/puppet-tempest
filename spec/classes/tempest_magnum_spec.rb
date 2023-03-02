@@ -70,7 +70,7 @@ describe 'tempest::magnum' do
       end
       it_configures 'tempest magnum'
 
-      case facts[:osfamily]
+      case facts[:os]['family']
       when 'RedHat'
         it_configures 'installs test packages'
       end

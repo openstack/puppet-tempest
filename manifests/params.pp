@@ -3,7 +3,7 @@ class tempest::params {
   include openstacklib::defaults
 
   $pip_command = 'pip3'
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       $dev_packages = [
         'python3-devel',
@@ -53,7 +53,7 @@ class tempest::params {
         'python3-virtualenv',
         'python3-pip',
       ]
-      if $::operatingsystem == 'Debian' {
+      if $facts['os']['name'] == 'Debian' {
         $python_telemetry_tests  = 'telemetry-tempest-plugin'
         $python_cinder_tests     = 'cinder-tempest-plugin'
         $python_designate_tests  = 'designate-tempest-plugin'
@@ -109,8 +109,7 @@ class tempest::params {
       }
     }
     default: {
-      fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, \
-module ${module_name} only support osfamily RedHat and Debian")
+      fail("Unsupported osfamily: ${facts['os']['family']}")
     }
   }
 }
