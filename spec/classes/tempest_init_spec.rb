@@ -278,6 +278,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('identity-feature-enabled/enforce_scope').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('enforce_scope/neutron').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('enforce_scope/nova').with(:value => '<SERVICE DEFAULT>')
+          is_expected.to contain_tempest_config('enforce_scope/placement').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('dns/nameservers').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('aws/ec2_url').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('aws/aws_region').with(:value => '<SERVICE DEFAULT>')

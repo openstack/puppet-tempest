@@ -195,6 +195,8 @@
 #   Defaults to $facts['os_service_default']
 #  [*nova_enforce_scope*]
 #   Defaults to $facts['os_service_default']
+#  [*placement_enforce_scope*]
+#   Defaults to $facts['os_service_default']
 #  [*keystone_v3*]
 #   Defaults to true
 #  [*auth_version*]
@@ -404,6 +406,7 @@ class tempest(
   $keystone_enforce_scope             = $facts['os_service_default'],
   $neutron_enforce_scope              = $facts['os_service_default'],
   $nova_enforce_scope                 = $facts['os_service_default'],
+  $placement_enforce_scope            = $facts['os_service_default'],
   $keystone_v3                        = true,
   $auth_version                       = 'v3',
   $run_service_broker_tests           = false,
@@ -629,6 +632,7 @@ class tempest(
     'identity-feature-enabled/enforce_scope':          value => $keystone_enforce_scope;
     'enforce_scope/neutron':                           value => $neutron_enforce_scope;
     'enforce_scope/nova':                              value => $nova_enforce_scope;
+    'enforce_scope/placement':                         value => $placement_enforce_scope;
     'cli/cli_dir':                                     value => $cli_dir;
     'scenario/img_file':                               value => $img_file;
     'scenario/img_disk_format':                        value => $img_disk_format;
