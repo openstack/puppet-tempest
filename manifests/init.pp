@@ -199,6 +199,16 @@
 #   Defaults to $facts['os_service_default']
 #  [*placement_enforce_scope*]
 #   Defaults to $facts['os_service_default']
+#  [*ironic_enforce_scope*]
+#   Defaults to $facts['os_service_default']
+#  [*ironic_inspector_enforce_scope*]
+#   Defaults to $facts['os_service_default']
+#  [*designate_enforce_scope*]
+#   Defaults to $facts['os_service_default']
+#  [*octavia_enforce_scope*]
+#   Defaults to $facts['os_service_default']
+#  [*manila_enforce_scope*]
+#   Defaults to $facts['os_service_default']
 #  [*keystone_v3*]
 #   Defaults to true
 #  [*auth_version*]
@@ -410,6 +420,11 @@ class tempest(
   $neutron_enforce_scope              = $facts['os_service_default'],
   $nova_enforce_scope                 = $facts['os_service_default'],
   $placement_enforce_scope            = $facts['os_service_default'],
+  $ironic_enforce_scope               = $facts['os_service_default'],
+  $ironic_inspector_enforce_scope     = $facts['os_service_default'],
+  $designate_enforce_scope            = $facts['os_service_default'],
+  $octavia_enforce_scope              = $facts['os_service_default'],
+  $manila_enforce_scope               = $facts['os_service_default'],
   $keystone_v3                        = true,
   $auth_version                       = 'v3',
   $run_service_broker_tests           = false,
@@ -631,11 +646,16 @@ class tempest(
     'service_available/ec2api':                        value => $ec2api_available;
     'service_available/octavia':                       value => $octavia_available;
     'enforce_scope/cinder':                            value => $cinder_enforce_scope;
+    'enforce_scope/designate':                         value => $designate_enforce_scope;
     'enforce_scope/glance':                            value => $glance_enforce_scope;
+    'enforce_scope/ironic':                            value => $ironic_enforce_scope;
+    'enforce_scope/ironic_inspector':                  value => $ironic_inspector_enforce_scope;
     'enforce_scope/keystone':                          value => $keystone_enforce_scope;
     'identity-feature-enabled/enforce_scope':          value => $keystone_enforce_scope;
+    'enforce_scope/manila':                            value => $manila_enforce_scope;
     'enforce_scope/neutron':                           value => $neutron_enforce_scope;
     'enforce_scope/nova':                              value => $nova_enforce_scope;
+    'enforce_scope/octavia':                           value => $octavia_enforce_scope;
     'enforce_scope/placement':                         value => $placement_enforce_scope;
     'cli/cli_dir':                                     value => $cli_dir;
     'scenario/img_file':                               value => $img_file;

@@ -1,0 +1,10 @@
+---
+features:
+  - |
+    The following parameters have been added to the ``tempest`` class.
+
+    - ``designate_enforce_scope``
+    - ``ironic_enforce_scope``
+    - ``ironic_inspector_enforce_scope``
+    - ``manila_enforce_scope``
+    - ``octavia_enforce_scope``
