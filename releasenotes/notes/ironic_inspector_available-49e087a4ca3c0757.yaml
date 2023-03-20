@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``tempest::ironic_inspector_available`` parameter has been added.

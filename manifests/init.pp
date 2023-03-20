@@ -179,6 +179,8 @@
 #   Defaults to false
 #  [*ironic_available*]
 #   Defaults to false
+#  [*ironic_inspector_available*]
+#   Defaults to false
 #  [*octavia_available*]
 #   Defaults to false
 #  [*barbican_available*]
@@ -393,6 +395,7 @@ class tempest(
   $swift_available                    = false,
   $trove_available                    = false,
   $ironic_available                   = false,
+  $ironic_inspector_available         = false,
   $watcher_available                  = false,
   $zaqar_available                    = false,
   $ec2api_available                   = false,
@@ -622,6 +625,7 @@ class tempest(
     'service_available/swift':                         value => $swift_available;
     'service_available/trove':                         value => $trove_available;
     'service_available/ironic':                        value => $ironic_available;
+    'service_available/ironic_inspector':              value => $ironic_inspector_available;
     'service_available/watcher':                       value => $watcher_available;
     'service_available/zaqar':                         value => $zaqar_available;
     'service_available/ec2api':                        value => $ec2api_available;
@@ -719,7 +723,7 @@ class tempest(
         tag    => ['openstack', 'tempest-package'],
       }
     }
-    if $ironic_available and $::tempest::params::python_ironic_tests {
+    if ($ironic_available or $ironic_inspector_available) and $::tempest::params::python_ironic_tests {
       package { 'python-ironic-tests':
         ensure => present,
         name   => $::tempest::params::python_ironic_tests,
