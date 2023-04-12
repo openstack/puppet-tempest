@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``tempest::http_timeout`` parameter has been added.

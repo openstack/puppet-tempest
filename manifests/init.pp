@@ -58,6 +58,8 @@
 #   Defaults to false
 #  [*logging_context_format_string*]
 #   Defaults to $facts['os_service_default']
+#  [*http_timeout*]
+#   Defaults to $facts['os_service_default']
 #  [*username*]
 #   Defaults to undef
 #  [*password*]
@@ -334,6 +336,7 @@ class tempest(
   $use_stderr                         = true,
   $use_syslog                         = false,
   $logging_context_format_string      = $facts['os_service_default'],
+  $http_timeout                       = $facts['os_service_default'],
   $attach_encrypted_volume            = false,
   # non admin user
   $username                           = undef,
@@ -572,6 +575,7 @@ class tempest(
 
 
   tempest_config {
+    'service-clients/http_timeout':                    value => $http_timeout;
     'auth/admin_domain_name':                          value => $admin_domain_name;
     'auth/admin_project_domain_name':                  value => $admin_project_domain_name;
     'auth/admin_user_domain_name':                     value => $admin_user_domain_name;
