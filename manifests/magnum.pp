@@ -62,20 +62,20 @@
 #   Defaults to '8.8.8.8'
 #
 class tempest::magnum (
-  $tempest_config_file = '/var/lib/tempest/etc/tempest.conf',
-  $provision_image     = true,
-  $image_source        = 'https://fedorapeople.org/groups/magnum/fedora-atomic-latest.qcow2',
-  $image_name          = 'fedora-atomic-latest',
-  $image_os_distro     = 'fedora-atomic',
-  $provision_flavors   = true,
-  $flavor_id           = 's1.magnum',
-  $master_flavor_id    = 'm1.magnum',
-  $provision_keypair   = false,
-  $keypair_id          = 'default',
-  $nic_id              = 'public',
-  $magnum_url          = undef,
-  $copy_logs           = true,
-  $dns_nameserver      = '8.8.8.8',
+  Stdlib::Absolutepath $tempest_config_file = '/var/lib/tempest/etc/tempest.conf',
+  Boolean $provision_image                  = true,
+  String[1] $image_source                   = 'https://fedorapeople.org/groups/magnum/fedora-atomic-latest.qcow2',
+  String[1] $image_name                     = 'fedora-atomic-latest',
+  String[1] $image_os_distro                = 'fedora-atomic',
+  Boolean $provision_flavors                = true,
+  String[1] $flavor_id                      = 's1.magnum',
+  String[1] $master_flavor_id               = 'm1.magnum',
+  Boolean $provision_keypair                = false,
+  $keypair_id                               = 'default',
+  $nic_id                                   = 'public',
+  $magnum_url                               = undef,
+  $copy_logs                                = true,
+  $dns_nameserver                           = '8.8.8.8',
 ) {
   include tempest::params
 

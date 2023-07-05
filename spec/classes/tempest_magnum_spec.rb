@@ -31,7 +31,7 @@ describe 'tempest::magnum' do
         params.merge!({
           :provision_image   => false,
           :image_name        => 'coreos',
-          :provision_flavors => 'false',
+          :provision_flavors => false,
           :flavor_id         => 's1.tempest',
           :master_flavor_id  => 'm1.tempest',
           :keypair_id        => 'magnum',
