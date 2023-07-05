@@ -28,10 +28,8 @@
 #   or Puppet catalog compilation will fail with duplicate resources.
 #
 class tempest::config (
-  $tempest_config        = {},
+  Hash $tempest_config = {},
 ) {
-
-  validate_legacy(Hash, 'validate_hash', $tempest_config)
 
   create_resources('tempest_config', $tempest_config)
 }
