@@ -244,7 +244,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('l2gw/l2gw_switch').with(:value => nil)
           is_expected.to contain_tempest_config('network-feature-enabled/api_extensions').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('network/public_network_id').with(:value => nil)
-          is_expected.to contain_tempest_config('network/public_router_id').with(:value => '')
+          is_expected.to contain_tempest_config('network/public_router_id').with(:value => nil)
           is_expected.to contain_tempest_config('dashboard/login_url').with(:value => nil)
           is_expected.to contain_tempest_config('dashboard/dashboard_url').with(:value => nil)
           is_expected.to contain_tempest_config('database/db_flavor_ref').with(:value => nil)

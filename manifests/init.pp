@@ -125,7 +125,7 @@
 #  [*public_network_id*]
 #   Defaults to undef
 #  [*public_router_id*]
-#   Defaults to ''
+#   Defaults to undef
 #  [*sahara_plugins*]
 #   (optional) List of enabled Sahara plugins
 #   Defaults to undef
@@ -380,8 +380,7 @@ class tempest(
   $l2gw_switch                        = undef,
   # neutron config
   $public_network_id                  = undef,
-  # Upstream has a bad default - set it to empty string.
-  $public_router_id                   = '',
+  $public_router_id                   = undef,
   # Sahara config
   $sahara_plugins                     = undef,
   # Trove config
