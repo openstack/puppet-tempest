@@ -9,6 +9,12 @@ describe 'tempest' do
     end
 
     context 'without parameters' do
+      let :params do
+        {
+          :configure_networks => false,
+        }
+      end
+
       describe "should raise error" do
         it { expect { is_expected.to contain_class('tempest::params') }.to raise_error(Puppet::Error, /A value for either image_name or image_ref/) }
       end
@@ -16,7 +22,10 @@ describe 'tempest' do
 
     context 'with image_name parameters' do
       let :params do
-        { :image_name => 'image_name' }
+        {
+          :configure_networks => false,
+          :image_name         => 'image_name'
+        }
       end
 
       describe "should raise error" do
@@ -26,8 +35,11 @@ describe 'tempest' do
 
     context 'with image_ref parameters' do
       let :params do
-        { :image_ref     => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b',
-          :image_ref_alt => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b' }
+        {
+          :configure_networks => false,
+          :image_ref          => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b',
+          :image_ref_alt      => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b'
+        }
       end
 
       it 'configures image_ref' do
@@ -38,8 +50,11 @@ describe 'tempest' do
 
     context 'with image_name' do
       let :params do
-        { :image_name     => 'cirros',
-          :image_name_alt => 'cirros' }
+        {
+          :configure_networks => false,
+          :image_name         => 'cirros',
+          :image_name_alt     => 'cirros'
+        }
       end
 
       it 'uses a resource to configure image_ref from image_name' do
@@ -50,10 +65,13 @@ describe 'tempest' do
 
     context 'with image_ref and image_name parameters' do
       let :params do
-        { :image_name     => 'cirros',
-          :image_name_alt => 'cirros',
-          :image_ref      => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b',
-          :image_ref_alt  => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b' }
+        {
+          :configure_networks => false,
+          :image_name         => 'cirros',
+          :image_name_alt     => 'cirros',
+          :image_ref          => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b',
+          :image_ref_alt      => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b'
+        }
       end
 
       it_raises 'a Puppet::Error', /either image_name or image_ref/
@@ -61,9 +79,10 @@ describe 'tempest' do
 
     context 'with public_network_id parameter' do
       let :params do
-        { :neutron_available => true,
+        {
           :configure_images  => false,
-          :public_network_id => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b' }
+          :public_network_id => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b'
+        }
       end
 
       it 'configures public_network_id' do
@@ -73,9 +92,10 @@ describe 'tempest' do
 
     context 'with public_network_name parameter' do
       let :params do
-        { :neutron_available   => true,
+        {
           :configure_images    => false,
-          :public_network_name => 'public' }
+          :public_network_name => 'public'
+        }
       end
 
       it 'uses a resource to configure public_network_id from public_network_name' do
@@ -85,19 +105,19 @@ describe 'tempest' do
 
     context 'with public_network_id and public_network_name' do
       let :params do
-        { :neutron_available   => true,
+        {
           :configure_images    => false,
           :public_network_name => 'public',
-          :public_network_id   => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b' }
+          :public_network_id   => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b'
+        }
       end
 
       it_raises 'a Puppet::Error', /either public_network_id or public_network_name/
     end
 
-    context 'without configures images and neutron_available' do
+    context 'without configures images' do
       let :params do
-        { :configure_images  => false,
-          :neutron_available => true }
+        { :configure_images  => false }
       end
 
       describe "should raise error" do
@@ -107,9 +127,12 @@ describe 'tempest' do
 
     context 'with sahara_plugins' do
       let :params do
-        { :configure_images => false,
-          :sahara_available => true,
-          :sahara_plugins   => ['vanilla'] }
+        {
+          :configure_images   => false,
+          :configure_networks => false,
+          :sahara_available   => true,
+          :sahara_plugins     => ['vanilla'],
+        }
       end
 
       it 'properly configures Sahara plugins in tempest.conf' do
@@ -119,8 +142,11 @@ describe 'tempest' do
 
     context 'with tempest_roles' do
       let :params do
-        { :configure_images => false,
-          :tempest_roles    => ['Member', 'creator'], }
+        {
+          :configure_images   => false,
+          :configure_networks => false,
+          :tempest_roles      => ['Member', 'creator'],
+        }
       end
 
       it 'properly sets  tempest_roles in tempest.conf' do
@@ -130,8 +156,10 @@ describe 'tempest' do
 
     context 'with ec2api_available parameter' do
       let :params do
-        { :ec2api_available => true,
-          :configure_images => false,
+        {
+          :configure_images   => false,
+          :configure_networks => false,
+          :ec2api_available   => true,
         }
       end
 
@@ -153,7 +181,6 @@ describe 'tempest' do
           :image_name_alt      => 'image name alt',
           :heat_image_name     => 'heat image name',
           :public_network_name => 'network name',
-          :neutron_available   => true,
           :install_from_source => true,
           :setup_venv          => true
         }
@@ -379,9 +406,11 @@ describe 'tempest' do
 
     context 'with img_file set' do
       let :params do
-        { :image_name     => 'cirros',
-          :image_name_alt => 'cirros' ,
-          :img_file       => '/home/stack/myimage.img' }
+        {
+          :configure_images   => false,
+          :configure_networks => false,
+          :img_file           => '/home/stack/myimage.img'
+        }
       end
 
       it 'sets image_file based on img_dir and img_file' do
@@ -391,9 +420,11 @@ describe 'tempest' do
 
     context 'install Tempest from package' do
       let :params do
-        { :install_from_source  => false,
-          :image_name           => 'image name',
-          :image_name_alt       => 'image name alt' }
+        {
+          :configure_images    => false,
+          :configure_networks  => false,
+          :install_from_source => false,
+        }
       end
 
       it 'checks for tempest package' do
@@ -415,10 +446,12 @@ describe 'tempest' do
 
     context 'tempest workspace customization' do
       let :params do
-        { :tempest_workspace   => '/tmp/tempest',
-          :image_name          => 'image name',
-          :image_name_alt      => 'image name alt',
-          :install_from_source => false }
+        {
+          :configure_images    => false,
+          :configure_networks  => false,
+          :tempest_workspace   => '/tmp/tempest',
+          :install_from_source => false
+        }
       end
 
       it 'supports customizes tempest workspace' do
@@ -431,11 +464,12 @@ describe 'tempest' do
     context 'with flavor_name parameters' do
       let :params do
         {
-          :configure_images => false,
-          :flavor_name      => 'm1.tiny',
-          :flavor_name_alt  => 'm1.nano',
-          :db_flavor_name   => 'm1.micro',
-          :heat_flavor_name => 'm1.small',
+          :configure_images   => false,
+          :configure_networks => false,
+          :flavor_name        => 'm1.tiny',
+          :flavor_name_alt    => 'm1.nano',
+          :db_flavor_name     => 'm1.micro',
+          :heat_flavor_name   => 'm1.small',
         }
       end
 
@@ -476,8 +510,11 @@ describe 'tempest' do
     end
 
     let :params do
-      { :configure_images      => false,
-        :manage_tests_packages => true }
+      {
+        :configure_images      => false,
+        :configure_networks    => false,
+        :manage_tests_packages => true
+      }
     end
 
     context 'with when managing tests packages for keystone (required service)' do

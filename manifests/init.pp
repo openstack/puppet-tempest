@@ -148,7 +148,7 @@
 #  [*horizon_available*]
 #   Defaults to true
 #  [*neutron_available*]
-#   Defaults to false
+#   Defaults to true
 #  [*neutron_bgpvpn_available*]
 #   Defaults to false
 #  [*neutron_l2gw_available*]
@@ -396,7 +396,7 @@ class tempest(
   Boolean $gnocchi_available                = false,
   Boolean $designate_available              = false,
   Boolean $horizon_available                = true,
-  Boolean $neutron_available                = false,
+  Boolean $neutron_available                = true,
   Boolean $neutron_bgpvpn_available         = false,
   Boolean $neutron_l2gw_available           = false,
   Boolean $neutron_vpnaas_available         = false,
