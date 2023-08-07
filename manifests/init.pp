@@ -287,8 +287,6 @@
 #   Defaults to $facts['os_service_default']
 #
 # DEPREACTED PARAMETERS
-#  [*glance_v1*]
-#   Defaults to false
 #  [*glance_v2*]
 #   Defaults to true
 #
@@ -464,13 +462,8 @@ class tempest(
   $share_multi_backend                      = $facts['os_service_default'],
   $share_capability_storage_protocol        = $facts['os_service_default'],
   # DEPRECATED PARAMETERS
-  $glance_v1                                = undef,
   $glance_v2                                = undef,
 ) {
-
-  if $glance_v1 != undef {
-    warning('The glance_v1 parameter has been deprecated and will be removed in a future release.')
-  }
 
   if $glance_v2 != undef {
     warning('The glance_v2 parameter has been deprecated and will be removed in a future release.')
@@ -611,7 +604,6 @@ class tempest(
     'identity/ca_certificates_file':                   value => $ca_certificates_file;
     'identity/disable_ssl_certificate_validation':     value => $disable_ssl_validation;
     'identity-feature-enabled/api_v3':                 value => $keystone_v3;
-    'image-feature-enabled/api_v1':                    value => pick($glance_v1, $facts['os_service_default']);
     'image-feature-enabled/api_v2':                    value => pick($glance_v2, $facts['os_service_default']);
     'l2gw/l2gw_switch':                                value => $l2gw_switch;
     'network-feature-enabled/api_extensions':          value => join(any2array($neutron_api_extensions), ',');
