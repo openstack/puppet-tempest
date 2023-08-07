@@ -236,7 +236,8 @@
 #  [*attach_encrypted_volume*]
 #   Defaults to false
 #  [*tempest_roles*]
-#   Should be an array.
+#   Defaults to $facts['os_service_default']
+#  [*reseller_admin_role*]
 #   Defaults to $facts['os_service_default']
 #  [*db_flavor_ref*]
 #   Valid primary flavor to use in Trove tests.
@@ -362,6 +363,7 @@ class tempest(
   $default_credentials_domain_name          = $facts['os_service_default'],
   # roles fo the users created by tempest
   $tempest_roles                            = $facts['os_service_default'],
+  $reseller_admin_role                      = $facts['os_service_default'],
   # image information
   $image_ref                                = undef,
   $image_ref_alt                            = undef,
@@ -585,6 +587,7 @@ class tempest(
     'auth/admin_system':                               value => $admin_system;
     'auth/tempest_roles':                              value => join(any2array($tempest_roles), ',');
     'auth/use_dynamic_credentials':                    value => $use_dynamic_credentials;
+    'object-storage/reseller_admin_role':              value => $reseller_admin_role;
     'compute/flavor_ref':                              value => $flavor_ref;
     'compute/flavor_ref_alt':                          value => $flavor_ref_alt;
     'compute/image_ref':                               value => $image_ref;

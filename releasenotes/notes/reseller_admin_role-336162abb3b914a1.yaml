@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``tempest::reseller_admin_role`` parameter has been added.

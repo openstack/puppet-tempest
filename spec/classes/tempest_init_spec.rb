@@ -140,6 +140,20 @@ describe 'tempest' do
       end
     end
 
+    context 'with reseller_admin_role' do
+      let :params do
+        {
+          :configure_images    => false,
+          :configure_networks  => false,
+          :reseller_admin_role => 'admin',
+        }
+      end
+
+      it 'properly sets reseller_admin_role in tempest.conf' do
+        is_expected.to contain_tempest_config('object-storage/reseller_admin_role').with_value('admin')
+      end
+    end
+
     context 'with tempest_roles' do
       let :params do
         {
@@ -236,6 +250,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('auth/admin_system').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('auth/tempest_roles').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('auth/use_dynamic_credentials').with(:value => nil)
+          is_expected.to contain_tempest_config('object-storage/reseller_admin_role').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('compute/flavor_ref').with(:value => nil)
           is_expected.to contain_tempest_config('compute/flavor_ref_alt').with(:value => nil)
           is_expected.to contain_tempest_config('compute/image_ref').with(:value => nil)
