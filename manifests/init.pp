@@ -226,7 +226,23 @@
 #  [*disable_dashboard_ssl_validation*]
 #   Defaults to undef
 #  [*compute_build_interval*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
+#  [*compute_build_timeout*]
+#   Defaults to $facts['os_service_default']
+#  [*image_build_interval*]
+#   Defaults to $facts['os_service_default']
+#  [*image_build_timeout*]
+#   Defaults to $facts['os_service_default']
+#  [*network_build_interval*]
+#   Defaults to $facts['os_service_default']
+#  [*network_build_timeout*]
+#   Defaults to $facts['os_service_default']
+#  [*volume_build_interval*]
+#   Defaults to $facts['os_service_default']
+#  [*volume_build_timeout*]
+#   Defaults to $facts['os_service_default']
+#  [*object_storage_build_timeout*]
+#   Defaults to $facts['os_service_default']
 #  [*ca_certificates_file*]
 #   Defaults to undef
 #  [*disable_ssl_validation*]
@@ -371,7 +387,15 @@ class tempest(
   $flavor_ref_alt                           = undef,
   Optional[String[1]] $flavor_name          = undef,
   Optional[String[1]] $flavor_name_alt      = undef,
-  $compute_build_interval                   = undef,
+  $compute_build_interval                   = $facts['os_service_default'],
+  $compute_build_timeout                    = $facts['os_service_default'],
+  $image_build_interval                     = $facts['os_service_default'],
+  $image_build_timeout                      = $facts['os_service_default'],
+  $network_build_interval                   = $facts['os_service_default'],
+  $network_build_timeout                    = $facts['os_service_default'],
+  $volume_build_interval                    = $facts['os_service_default'],
+  $volume_build_timeout                     = $facts['os_service_default'],
+  $object_storage_build_timeout             = $facts['os_service_default'],
   $run_ssh                                  = false,
   $ssh_key_type                             = $facts['os_service_default'],
   # testing features that are supported
@@ -590,6 +614,14 @@ class tempest(
     'compute/image_ref':                               value => $image_ref;
     'compute/image_ref_alt':                           value => $image_ref_alt;
     'compute/build_interval':                          value => $compute_build_interval;
+    'compute/build_timeout':                           value => $compute_build_timeout;
+    'image/build_interval':                            value => $image_build_interval;
+    'image/build_timeout':                             value => $image_build_timeout;
+    'network/build_interval':                          value => $network_build_interval;
+    'network/build_timeout':                           value => $network_build_timeout;
+    'volume/build_interval':                           value => $volume_build_interval;
+    'volume/build_timeout':                            value => $volume_build_timeout;
+    'object-storage/build_timeout':                    value => $object_storage_build_timeout;
     'validation/image_ssh_user':                       value => $image_ssh_user;
     'validation/image_alt_ssh_user':                   value => $image_alt_ssh_user;
     'validation/run_validation':                       value => $run_ssh;
