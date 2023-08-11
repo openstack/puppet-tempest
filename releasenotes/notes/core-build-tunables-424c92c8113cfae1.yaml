@@ -1,0 +1,12 @@
+---
+features:
+  - |
+    The following parameters have been added to the ``tempest`` class.
+
+    - ``image_build_interval``
+    - ``image_build_timeout``
+    - ``network_build_interval``
+    - ``network_build_timeout``
+    - ``volume_build_interval``
+    - ``volume_build_timeout``
+    - ``object_storage_build_timeout``
