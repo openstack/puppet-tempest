@@ -289,7 +289,6 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('identity/ca_certificates_file').with(:value => nil)
           is_expected.to contain_tempest_config('identity/disable_ssl_certificate_validation').with(:value => nil)
           is_expected.to contain_tempest_config('identity-feature-enabled/api_v3').with(:value => true)
-          is_expected.to contain_tempest_config('image-feature-enabled/api_v1').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('image-feature-enabled/api_v2').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('l2gw/l2gw_switch').with(:value => nil)
           is_expected.to contain_tempest_config('network-feature-enabled/api_extensions').with(:value => '<SERVICE DEFAULT>')

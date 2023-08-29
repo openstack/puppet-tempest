@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The ``tempest::glance_v1`` parameter has been removed.
