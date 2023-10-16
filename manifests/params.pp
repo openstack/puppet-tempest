@@ -72,7 +72,7 @@ class tempest::params {
         $python_nova_tests       = false
         $python_sahara_tests     = false
         $python_swift_tests      = false
-        $python_trove_tests      = false
+        $python_trove_tests      = 'trove-tempest-plugin'
         $python_watcher_tests    = 'watcher-tempest-plugin'
         $python_zaqar_tests      = 'zaqar-tempest-plugin'
         $python_octavia_tests    = 'octavia-tempest-plugin'
