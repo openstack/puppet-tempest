@@ -57,7 +57,7 @@ class tempest::params {
         $python_telemetry_tests  = 'telemetry-tempest-plugin'
         $python_cinder_tests     = 'cinder-tempest-plugin'
         $python_designate_tests  = 'designate-tempest-plugin'
-        $python_glance_tests     = false
+        $python_glance_tests     = 'glance-tempest-plugin'
         $python_heat_tests       = 'heat-tempest-plugin'
         $python_ironic_tests     = 'ironic-tempest-plugin'
         $python_keystone_tests   = 'keystone-tempest-plugin'
