@@ -88,13 +88,14 @@ class tempest::params {
         $python_heat_tests       = false
         $python_ironic_tests     = false
         $python_keystone_tests   = false
-        $python_l2gw_tests       = false
-        $python_vpnaas_tests     = false
         $python_magnum_tests     = false
         $python_mistral_tests    = false
         $python_vitrage_tests    = false
         $python_murano_tests     = false
         $python_neutron_tests    = false
+        $python_vpnaas_tests     = false
+        $python_dr_tests         = false
+        $python_l2gw_tests       = false
         $python_nova_tests       = false
         $python_sahara_tests     = false
         $python_swift_tests      = false
