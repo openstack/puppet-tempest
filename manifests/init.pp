@@ -807,39 +807,11 @@ class tempest(
           tag    => ['openstack', 'tempest-package'],
         }
       }
-      if $neutron_vpnaas_available and $::tempest::params::python_vpnaas_tests {
-        package { 'python-neutron-vpnaas-tests':
-          ensure => present,
-          name   => $::tempest::params::python_vpnaas_tests,
-          tag    => ['openstack', 'tempest-package'],
-        }
-      }
-      if $neutron_dr_available and $::tempest::params::python_dr_tests {
-        package { 'python-neutron-dynamic-routing-tests':
-          ensure => present,
-          name   => $::tempest::params::python_dr_tests,
-          tag    => ['openstack', 'tempest-package'],
-        }
-      }
-    }
-    if $nova_available and $::tempest::params::python_nova_tests {
-      package { 'python-nova-tests':
-        ensure => present,
-        name   => $::tempest::params::python_nova_tests,
-        tag    => ['openstack', 'tempest-package'],
-      }
     }
     if $sahara_available and $::tempest::params::python_sahara_tests {
       package { 'python-sahara-tests-tempest':
         ensure => present,
         name   => $::tempest::params::python_sahara_tests,
-        tag    => ['openstack', 'tempest-package'],
-      }
-    }
-    if $swift_available and $::tempest::params::python_swift_tests {
-      package { 'python-swift-tests':
-        ensure => present,
-        name   => $::tempest::params::python_swift_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }

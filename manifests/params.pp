@@ -27,11 +27,7 @@ class tempest::params {
       $python_murano_tests     = 'python3-murano-tests-tempest'
       $python_neutron_tests    = 'python3-neutron-tests-tempest'
       $python_l2gw_tests       = 'python3-networking-l2gw-tests-tempest'
-      $python_vpnaas_tests     = false
-      $python_dr_tests         = false
-      $python_nova_tests       = false
       $python_sahara_tests     = 'python3-sahara-tests-tempest'
-      $python_swift_tests      = false
       $python_trove_tests      = 'python3-trove-tests-tempest'
       $python_watcher_tests    = 'python3-watcher-tests-tempest'
       $python_zaqar_tests      = 'python3-zaqar-tests-tempest'
@@ -67,11 +63,7 @@ class tempest::params {
         $python_murano_tests     = 'murano-tempest-plugin'
         $python_neutron_tests    = 'neutron-tempest-plugin'
         $python_l2gw_tests       = false
-        $python_vpnaas_tests     = false
-        $python_dr_tests         = false
-        $python_nova_tests       = false
         $python_sahara_tests     = false
-        $python_swift_tests      = false
         $python_trove_tests      = 'trove-tempest-plugin'
         $python_watcher_tests    = 'watcher-tempest-plugin'
         $python_zaqar_tests      = 'zaqar-tempest-plugin'
@@ -93,12 +85,8 @@ class tempest::params {
         $python_vitrage_tests    = false
         $python_murano_tests     = false
         $python_neutron_tests    = false
-        $python_vpnaas_tests     = false
-        $python_dr_tests         = false
         $python_l2gw_tests       = false
-        $python_nova_tests       = false
         $python_sahara_tests     = false
-        $python_swift_tests      = false
         $python_trove_tests      = false
         $python_watcher_tests    = false
         $python_zaqar_tests      = false
