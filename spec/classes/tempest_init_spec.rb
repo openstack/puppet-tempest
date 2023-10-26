@@ -541,7 +541,7 @@ describe 'tempest' do
 
     context 'with when managing tests packages for keystone (required service)' do
       it "should install keystone tests package" do
-        is_expected.to contain_package('python-keystone-tests')
+        is_expected.to contain_package('python-keystone-tests-tempest')
         is_expected.to_not contain_package('python-sahara-tests-tempest')
       end
     end
@@ -568,10 +568,8 @@ describe 'tempest' do
 
       it "should install neutron and *aas tests packages" do
         if platform_params[:python_neutron_tests]
-          is_expected.to contain_package('python-neutron-tests')
+          is_expected.to contain_package('python-neutron-tests-tempest')
         end
-        is_expected.to_not contain_package('python-neutron-vpnaas-tests')
-        is_expected.to_not contain_package('python-neutron-dynamic-routing-tests')
         is_expected.to_not contain_package('python-networking-l2gw-tests-tempest')
       end
     end
