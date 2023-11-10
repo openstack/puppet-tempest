@@ -204,7 +204,6 @@ describe 'tempest' do
         it 'installs packages' do
 
           is_expected.to contain_package('git')
-          is_expected.to contain_package("python3-setuptools")
 
           platform_params[:dev_packages].each do |package|
             is_expected.to contain_package("#{package}")
@@ -212,18 +211,16 @@ describe 'tempest' do
 
           is_expected.to contain_class('tempest::params')
 
-          is_expected.to contain_exec('install-pip').with(
-            :command => 'easy_install pip',
-            :unless  => "which #{platform_params[:pip_command]}",
-            :path    => ['/bin', '/usr/bin', '/usr/local/bin'],
-            :require => "Package[python3-setuptools]"
-          )
+          if platform_params[:pip_package_name]
+            is_expected.to contain_package('pip').with(
+              :name => platform_params[:pip_package_name],
+            )
+          end
 
           is_expected.to contain_exec('install-tox').with(
             :command => "#{platform_params[:pip_command]} install -U tox",
             :unless  => 'which tox',
             :path    => ['/bin', '/usr/bin', '/usr/local/bin'],
-            :require => 'Exec[install-pip]'
           )
 
           is_expected.to contain_vcsrepo('/var/lib/tempest').with(
@@ -592,10 +589,10 @@ describe 'tempest' do
                                        'libffi-dev',
                                        'patch',
                                        'gcc',
-                                       'python3-virtualenv',
-                                       'python3-pip' ],
+                                       'python3-virtualenv'],
             :package_name          => 'tempest',
             :pip_command           => 'pip3',
+            :pip_package_name      => 'python3-pip',
             :python_keystone_tests => 'keystone-tempest-plugin',
             :python_neutron_tests  => 'neutron-tempest-plugin',
             :python_sahara_tests   => false }
@@ -609,6 +606,7 @@ describe 'tempest' do
                                        'gcc'],
             :package_name          => 'openstack-tempest',
             :pip_command           => 'pip3',
+            :pip_package_name      => 'python3-pip',
             :python_keystone_tests => 'python3-keystone-tests-tempest',
             :python_neutron_tests  => 'python3-neutron-tests-tempest',
             :python_sahara_tests   => 'python3-sahara-tests-tempest' }

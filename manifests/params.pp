@@ -36,6 +36,10 @@ class tempest::params {
       $python_barbican_tests   = 'python3-barbican-tests-tempest'
       $python_manila_tests     = 'python3-manila-tests-tempest'
       $package_name            = 'openstack-tempest'
+      $pip_package_name        = $facts['os']['name'] ? {
+        'RedHat' => undef,
+        default  => 'python3-pip'
+      }
     }
     'Debian': {
       $dev_packages = [
@@ -47,7 +51,6 @@ class tempest::params {
         'patch',
         'gcc',
         'python3-virtualenv',
-        'python3-pip',
       ]
       if $facts['os']['name'] == 'Debian' {
         $python_telemetry_tests  = 'telemetry-tempest-plugin'
@@ -96,6 +99,7 @@ class tempest::params {
         $python_manila_tests     = false
         $package_name            = 'tempest'
       }
+      $pip_package_name          = 'python3-pip'
     }
     default: {
       fail("Unsupported osfamily: ${facts['os']['family']}")

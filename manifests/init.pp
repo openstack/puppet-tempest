@@ -500,30 +500,22 @@ class tempest(
   include openstacklib::openstackclient
 
   if $install_from_source {
-    $setuptools_pkg = 'python3-setuptools'
-    ensure_packages([
-      'git',
-      $setuptools_pkg,
-    ])
-
+    ensure_packages(['git'])
     ensure_packages($tempest::params::dev_packages)
 
-    # NOTE(aschultz): Ubuntu setup tools has dropped easy_install since 18.04
-    # so we install via package now. Though if we hit this, we can only
-    # install "pip". This likely should just be removed though I'm not sure
-    # about pip availability for RHEL systems.
-    exec { 'install-pip':
-      command => 'easy_install pip',
-      unless  => "which ${tempest::params::pip_command}",
-      path    => ['/bin','/usr/bin','/usr/local/bin'],
-      require => Package[$setuptools_pkg],
+    if $::tempest::params::pip_package_name {
+      ensure_packages('pip', {
+        name => $::tempest::params::pip_package_name,
+      })
+      Package['pip'] -> Exec['install-tox']
+    } else {
+      warning('pip package is not available in this distribution.')
     }
 
     exec { 'install-tox':
       command => "${tempest::params::pip_command} install -U tox",
       unless  => 'which tox',
       path    => ['/bin','/usr/bin','/usr/local/bin'],
-      require => Exec['install-pip'],
     }
 
     if $git_clone {

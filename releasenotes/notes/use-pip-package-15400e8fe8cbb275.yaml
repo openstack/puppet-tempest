@@ -1,0 +1,8 @@
+---
+fixes:
+  - |
+    The ``tempest`` class now installs the pip command using the distribution
+    package instead of the ``easy_install`` command for CentOS, because
+    the command is no longer provided by the setuptool package now. Note that
+    RHEL does not have the pip package so the package installation is skipped.
+    Make sure the pip command is installed before the class is executed.
