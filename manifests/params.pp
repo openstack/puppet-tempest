@@ -52,54 +52,29 @@ class tempest::params {
         'gcc',
         'python3-virtualenv',
       ]
-      if $facts['os']['name'] == 'Debian' {
-        $python_telemetry_tests  = 'telemetry-tempest-plugin'
-        $python_cinder_tests     = 'cinder-tempest-plugin'
-        $python_designate_tests  = 'designate-tempest-plugin'
-        $python_glance_tests     = 'glance-tempest-plugin'
-        $python_heat_tests       = 'heat-tempest-plugin'
-        $python_ironic_tests     = 'ironic-tempest-plugin'
-        $python_keystone_tests   = 'keystone-tempest-plugin'
-        $python_magnum_tests     = 'magnum-tempest-plugin'
-        $python_mistral_tests    = 'mistral-tempest-plugin'
-        $python_vitrage_tests    = 'vitrage-tempest-plugin'
-        $python_murano_tests     = 'murano-tempest-plugin'
-        $python_neutron_tests    = 'neutron-tempest-plugin'
-        $python_l2gw_tests       = false
-        $python_sahara_tests     = false
-        $python_trove_tests      = 'trove-tempest-plugin'
-        $python_watcher_tests    = 'watcher-tempest-plugin'
-        $python_zaqar_tests      = 'zaqar-tempest-plugin'
-        $python_octavia_tests    = 'octavia-tempest-plugin'
-        $python_ec2api_tests     = false
-        $python_barbican_tests   = 'barbican-tempest-plugin'
-        $python_manila_tests     = 'manila-tempest-plugin'
-        $package_name            = 'tempest'
-      }else{
-        $python_telemetry_tests  = false
-        $python_cinder_tests     = false
-        $python_designate_tests  = false
-        $python_glance_tests     = false
-        $python_heat_tests       = false
-        $python_ironic_tests     = false
-        $python_keystone_tests   = false
-        $python_magnum_tests     = false
-        $python_mistral_tests    = false
-        $python_vitrage_tests    = false
-        $python_murano_tests     = false
-        $python_neutron_tests    = false
-        $python_l2gw_tests       = false
-        $python_sahara_tests     = false
-        $python_trove_tests      = false
-        $python_watcher_tests    = false
-        $python_zaqar_tests      = false
-        $python_octavia_tests    = false
-        $python_ec2api_tests     = false
-        $python_barbican_tests   = false
-        $python_manila_tests     = false
-        $package_name            = 'tempest'
-      }
-      $pip_package_name          = 'python3-pip'
+      $python_telemetry_tests  = 'telemetry-tempest-plugin'
+      $python_cinder_tests     = 'cinder-tempest-plugin'
+      $python_designate_tests  = 'designate-tempest-plugin'
+      $python_glance_tests     = 'glance-tempest-plugin'
+      $python_heat_tests       = 'heat-tempest-plugin'
+      $python_ironic_tests     = 'ironic-tempest-plugin'
+      $python_keystone_tests   = 'keystone-tempest-plugin'
+      $python_magnum_tests     = 'magnum-tempest-plugin'
+      $python_mistral_tests    = 'mistral-tempest-plugin'
+      $python_vitrage_tests    = 'vitrage-tempest-plugin'
+      $python_murano_tests     = 'murano-tempest-plugin'
+      $python_neutron_tests    = 'neutron-tempest-plugin'
+      $python_l2gw_tests       = undef
+      $python_sahara_tests     = undef
+      $python_trove_tests      = 'trove-tempest-plugin'
+      $python_watcher_tests    = 'watcher-tempest-plugin'
+      $python_zaqar_tests      = 'zaqar-tempest-plugin'
+      $python_octavia_tests    = 'octavia-tempest-plugin'
+      $python_ec2api_tests     = undef
+      $python_barbican_tests   = 'barbican-tempest-plugin'
+      $python_manila_tests     = 'manila-tempest-plugin'
+      $package_name            = 'tempest'
+      $pip_package_name        = 'python3-pip'
     }
     default: {
       fail("Unsupported osfamily: ${facts['os']['family']}")
