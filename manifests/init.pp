@@ -498,6 +498,12 @@ class tempest(
     warning('The tempest_config_file parameter has been deprecated and has no effect')
   }
 
+  [ 'neutron_bgpvpn_available', 'neutron_vpnaas_available', 'neutron_dr_available' ].each |$opt| {
+    if getvar($opt) != undef {
+      warning("The ${opt} parameter has no effect now. Use the neutron_api_extensions parameter instead.")
+    }
+  }
+
   include tempest::params
 
   include openstacklib::openstackclient
@@ -653,11 +659,9 @@ class tempest(
     'service_available/aodh':                          value => $aodh_available;
     'service_available/barbican':                      value => $barbican_available;
     'service_available/manila':                        value => $manila_available;
-    'service_available/bgpvpn':                        value => $neutron_bgpvpn_available;
     'service_available/gnocchi':                       value => $gnocchi_available;
     'service_available/designate':                     value => $designate_available;
     'service_available/horizon':                       value => $horizon_available;
-    'service_available/l2gw':                          value => $neutron_l2gw_available;
     'service_available/neutron':                       value => $neutron_available;
     'service_available/mistral':                       value => $mistral_available;
     'service_available/vitrage':                       value => $vitrage_available;
