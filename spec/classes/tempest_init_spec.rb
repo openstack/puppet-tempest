@@ -538,8 +538,36 @@ describe 'tempest' do
 
     context 'with when managing tests packages for keystone (required service)' do
       it "should install keystone tests package" do
-        is_expected.to contain_package('python-keystone-tests-tempest')
+        is_expected.to contain_package('python-keystone-tests-tempest').with(
+          :name => platform_params[:python_keystone_tests]
+        )
+      end
+
+      it "should not install optional heat tests package" do
+        is_expected.to_not contain_package('python-heat-tests-tempest')
+      end
+
+      it "should not install optional sahara tests package" do
         is_expected.to_not contain_package('python-sahara-tests-tempest')
+      end
+
+      it "should install neutron but not *aas tests packages" do
+        is_expected.to contain_package('python-neutron-tests-tempest').with(
+          :name => platform_params[:python_neutron_tests]
+        )
+        is_expected.to_not contain_package('python-networking-l2gw-tests-tempest')
+      end
+    end
+
+    context 'with when managing tests packages for heat (optional service)' do
+      before :each do
+        params.merge!({ :heat_available => true })
+      end
+
+      it "should install heat tests package if available" do
+        is_expected.to contain_package('python-heat-tests-tempest').with(
+          :name => platform_params[:python_heat_tests]
+        )
       end
     end
 
@@ -548,26 +576,14 @@ describe 'tempest' do
         params.merge!({ :sahara_available => true })
       end
 
-      it "should install sahara tests package" do
+      it "should install sahara tests package if available" do
         if platform_params[:python_sahara_tests]
-          is_expected.to contain_package('python-sahara-tests-tempest')
+          is_expected.to contain_package('python-sahara-tests-tempest').with(
+            :name => platform_params[:python_sahara_tests]
+          )
+        else
+          is_expected.to_not contain_package('python-sahara-tests-tempest')
         end
-      end
-    end
-
-    context 'with when managing tests packages for neutron (optional service)' do
-      before :each do
-        params.merge!({
-          :neutron_available => true,
-          :public_network_id => '4c423fc6-87f7-4e6d-9d3c-abc13058ae5b'
-        })
-      end
-
-      it "should install neutron and *aas tests packages" do
-        if platform_params[:python_neutron_tests]
-          is_expected.to contain_package('python-neutron-tests-tempest')
-        end
-        is_expected.to_not contain_package('python-networking-l2gw-tests-tempest')
       end
     end
   end
@@ -593,6 +609,7 @@ describe 'tempest' do
             :package_name          => 'tempest',
             :pip_command           => 'pip3',
             :pip_package_name      => 'python3-pip',
+            :python_heat_tests     => 'heat-tempest-plugin',
             :python_keystone_tests => 'keystone-tempest-plugin',
             :python_neutron_tests  => 'neutron-tempest-plugin',
             :python_sahara_tests   => false }
@@ -607,6 +624,7 @@ describe 'tempest' do
             :package_name          => 'openstack-tempest',
             :pip_command           => 'pip3',
             :pip_package_name      => 'python3-pip',
+            :python_heat_tests     => 'python3-heat-tests-tempest',
             :python_keystone_tests => 'python3-keystone-tests-tempest',
             :python_neutron_tests  => 'python3-neutron-tests-tempest',
             :python_sahara_tests   => 'python3-sahara-tests-tempest' }
@@ -614,9 +632,7 @@ describe 'tempest' do
       end
 
       it_behaves_like 'tempest'
-      if facts[:os]['name'] != 'Ubuntu'
-        it_behaves_like 'tempest with plugins packages'
-      end
+      it_behaves_like 'tempest with plugins packages'
     end
   end
 end

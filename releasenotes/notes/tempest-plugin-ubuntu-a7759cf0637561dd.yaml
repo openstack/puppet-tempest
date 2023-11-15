@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``tempest`` class now installs tempest plugin packages such as
+    neutron-tempest-plugin according to the enabled services in Ubuntu.
