@@ -14,8 +14,6 @@
 #   Defaults to true
 #  [*git_clone*]
 #   Defaults to true
-#  [*tempest_config_file*]
-#   Defaults to '/var/lib/tempest/etc/tempest.conf'
 #  [*tempest_repo_uri*]
 #   Defaults to 'https://opendev.org/openstack/tempest'
 #  [*tempest_repo_revision*]
@@ -306,13 +304,14 @@
 # DEPREACTED PARAMETERS
 #  [*glance_v2*]
 #   Defaults to true
+#  [*tempest_config_file*]
+#   Defaults to undef
 #
 class tempest(
   $package_ensure                           = 'present',
   Stdlib::Absolutepath $tempest_workspace   = '/var/lib/tempest',
   Boolean $install_from_source              = true,
   Boolean $git_clone                        = true,
-  Stdlib::Absolutepath $tempest_config_file = '/var/lib/tempest/etc/tempest.conf',
 
   # Clone config
   #
@@ -489,10 +488,14 @@ class tempest(
   $share_capability_storage_protocol        = $facts['os_service_default'],
   # DEPRECATED PARAMETERS
   $glance_v2                                = undef,
+  $tempest_config_file                      = undef
 ) {
 
   if $glance_v2 != undef {
     warning('The glance_v2 parameter has been deprecated and will be removed in a future release.')
+  }
+  if $tempest_config_file != undef {
+    warning('The tempest_config_file parameter has been deprecated and has no effect')
   }
 
   include tempest::params
@@ -550,24 +553,13 @@ class tempest(
     }
 
     $tempest_conf = "${tempest_clone_path}/etc/tempest.conf"
-
-    Tempest_config {
-      path    => $tempest_conf,
-    }
   } else {
-    Tempest_config {
-      path => $tempest_config_file,
-    }
-  }
 
-  if ! $install_from_source {
     package { 'tempest':
       ensure => $package_ensure,
       name   => $::tempest::params::package_name,
       tag    => ['openstack', 'tempest-package'],
     }
-
-    $tempest_conf = "${tempest_workspace}/etc/tempest.conf"
 
     # Create tempest workspace by running tempest init.
     # It will generate etc/tempest.conf, logs and tempest_lock folder
@@ -581,8 +573,13 @@ class tempest(
     Package<| tag == 'tempest-package' |> -> Exec['tempest-workspace']
     Package['tempest'] ~> Exec['tempest-workspace']
     Exec['tempest-workspace'] -> Tempest_config<||>
+
+    $tempest_conf = "${tempest_workspace}/etc/tempest.conf"
   }
 
+  Tempest_config {
+    path => $tempest_conf,
+  }
 
   tempest_config {
     'service-clients/http_timeout':                    value => $http_timeout;

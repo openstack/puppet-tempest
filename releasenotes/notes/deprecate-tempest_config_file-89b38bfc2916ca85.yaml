@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    The ``tempest::tempest_config_file`` parameter is deprecated and has no
+    effect. Now the ``tempest.conf`` is generated in clone path when tempest
+    is installed from source, or in workspace when tempest is installed by
+    packages.
