@@ -141,6 +141,8 @@
 #   Defaults to false
 #  [*gnocchi_available*]
 #   Defaults to false
+#  [*sg_core_available*]
+#   Defaults to false
 #  [*designate_available*]
 #   Defaults to false
 #  [*horizon_available*]
@@ -417,6 +419,7 @@ class tempest(
   Boolean $ceilometer_available             = false,
   Boolean $aodh_available                   = false,
   Boolean $gnocchi_available                = false,
+  Boolean $sg_core_available                = false,
   Boolean $designate_available              = false,
   Boolean $horizon_available                = true,
   Boolean $neutron_available                = true,
@@ -649,9 +652,10 @@ class tempest(
     'service_available/heat':                          value => $heat_available;
     'service_available/ceilometer':                    value => $ceilometer_available;
     'service_available/aodh':                          value => $aodh_available;
+    'service_available/gnocchi':                       value => $gnocchi_available;
+    'service_available/sg_core':                       value => $sg_core_available;
     'service_available/barbican':                      value => $barbican_available;
     'service_available/manila':                        value => $manila_available;
-    'service_available/gnocchi':                       value => $gnocchi_available;
     'service_available/designate':                     value => $designate_available;
     'service_available/horizon':                       value => $horizon_available;
     'service_available/neutron':                       value => $neutron_available;

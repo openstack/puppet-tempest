@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``tempest::sg_core_available`` parameter has been added.
