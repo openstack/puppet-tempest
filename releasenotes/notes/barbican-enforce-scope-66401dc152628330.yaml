@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``tempest::barbican_enforce_scope`` parameter has been added.

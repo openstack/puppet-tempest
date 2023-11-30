@@ -187,6 +187,8 @@
 #   Defaults to false
 #  [*manila_available*]
 #   Defaults to false
+#  [*barbican_enforce_scope*]
+#   Defaults to $facts['os_service_default']
 #  [*cinder_enforce_scope*]
 #   Defaults to $facts['os_service_default']
 #  [*glance_enforce_scope*]
@@ -439,6 +441,7 @@ class tempest(
   Boolean $octavia_available                = false,
   Boolean $barbican_available               = false,
   Boolean $manila_available                 = false,
+  $barbican_enforce_scope                   = $facts['os_service_default'],
   $cinder_enforce_scope                     = $facts['os_service_default'],
   $glance_enforce_scope                     = $facts['os_service_default'],
   $keystone_enforce_scope                   = $facts['os_service_default'],
@@ -668,6 +671,7 @@ class tempest(
     'service_available/zaqar':                         value => $zaqar_available;
     'service_available/ec2api':                        value => $ec2api_available;
     'service_available/octavia':                       value => $octavia_available;
+    'barbican_rbac_scope_verification/enforce_scope':  value => $barbican_enforce_scope;
     'enforce_scope/cinder':                            value => $cinder_enforce_scope;
     'enforce_scope/designate':                         value => $designate_enforce_scope;
     'enforce_scope/glance':                            value => $glance_enforce_scope;
