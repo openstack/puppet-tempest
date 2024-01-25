@@ -33,27 +33,27 @@
 #  [*configure_networks*]
 #   Defaults to true
 #  [*l2gw_switch*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*public_network_name*]
 #   Defaults to undef
 #  [*neutron_api_extensions*]
 #   Defaults to $facts['os_service_default']
 #  [*identity_uri*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*identity_uri_v3*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*cli_dir*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*lock_path*]
 #   Defaults to '/var/lib/tempest'
 #  [*log_file*]
 #   Defaults to $facts['os_service_default']
 #  [*debug*]
-#   Defaults to false
+#   Defaults to $facts['os_service_default']
 #  [*use_stderr*]
 #   Defaults to true
 #  [*use_syslog*]
-#   Defaults to false
+#   Defaults to $facts['os_service_default']
 #  [*logging_context_format_string*]
 #   Defaults to $facts['os_service_default']
 #  [*http_timeout*]
@@ -85,7 +85,7 @@
 #  [*admin_project_name*]
 #   Defaults to undef
 #  [*admin_role*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*admin_domain_name*]
 #   Defaults to $facts['os_service_default']
 #  [*admin_user_domain_name*]
@@ -117,16 +117,16 @@
 #  [*flavor_ref_alt*]
 #   Defaults to undef
 #  [*resize_available*]
-#   Defaults to false
+#   Defaults to $facts['os_service_default']
 #  [*use_dynamic_credentials*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*public_network_id*]
 #   Defaults to undef
 #  [*public_router_id*]
 #   Defaults to undef
 #  [*sahara_plugins*]
 #   (optional) List of enabled Sahara plugins
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*cinder_available*]
 #   Defaults to true
 #  [*cinder_backup_available*]
@@ -172,7 +172,7 @@
 #  [*vitrage_available*]
 #   Defaults to false
 #  [*run_service_broker_tests*]
-#   Defaults to false
+#   Defaults to $facts['os_service_default']
 #  [*sahara_available*]
 #   Defaults to false
 #  [*swift_available*]
@@ -214,19 +214,19 @@
 #  [*manila_enforce_scope*]
 #   Defaults to $facts['os_service_default']
 #  [*keystone_v3*]
-#   Defaults to true
+#   Defaults to $facts['os_service_default']
 #  [*auth_version*]
-#   Defaults to 'v3'
+#   Defaults to $facts['os_service_default']
 #  [*img_file*]
 #   Defaults to '/var/lib/tempest/cirros-0.4.0-x86_64-disk.img'
 #  [*img_disk_format*]
 #   Defaults to $facts['os_service_default']
 #  [*login_url*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*dashboard_url*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*disable_dashboard_ssl_validation*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*compute_build_interval*]
 #   Defaults to $facts['os_service_default']
 #  [*compute_build_timeout*]
@@ -246,9 +246,9 @@
 #  [*object_storage_build_timeout*]
 #   Defaults to $facts['os_service_default']
 #  [*ca_certificates_file*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*disable_ssl_validation*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*manage_tests_packages*]
 #   Defaults to false
 #  [*attach_encrypted_volume*]
@@ -283,9 +283,9 @@
 #  [*heat_flavor_name*]
 #   Defaults to undef
 #  [*baremetal_driver*]
-#   Defaults to 'fake'
+#   Defaults to $facts['os_service_default']
 #  [*baremetal_enabled_hardware_types*]
-#   Defaults to 'ipmi'
+#   Defaults to $facts['os_service_default']
 #  [*load_balancer_member_role*]
 #   Defaults to $facts['os_service_default']
 #  [*load_balancer_admin_role*]
@@ -339,20 +339,20 @@ class tempest(
   $neutron_api_extensions                   = $facts['os_service_default'],
 
   # Horizon dashboard config
-  $login_url                                = undef,
-  $dashboard_url                            = undef,
-  $disable_dashboard_ssl_validation         = undef,
+  $login_url                                = $facts['os_service_default'],
+  $dashboard_url                            = $facts['os_service_default'],
+  $disable_dashboard_ssl_validation         = $facts['os_service_default'],
 
   # tempest.conf parameters
   #
-  $identity_uri                             = undef,
-  $identity_uri_v3                          = undef,
-  $cli_dir                                  = undef,
+  $identity_uri                             = $facts['os_service_default'],
+  $identity_uri_v3                          = $facts['os_service_default'],
+  $cli_dir                                  = $facts['os_service_default'],
   $lock_path                                = '/var/lib/tempest',
   $log_file                                 = $facts['os_service_default'],
-  $debug                                    = false,
+  $debug                                    = $facts['os_service_default'],
   $use_stderr                               = true,
-  $use_syslog                               = false,
+  $use_syslog                               = $facts['os_service_default'],
   $logging_context_format_string            = $facts['os_service_default'],
   $http_timeout                             = $facts['os_service_default'],
   $attach_encrypted_volume                  = false,
@@ -372,7 +372,7 @@ class tempest(
   $admin_username                           = undef,
   $admin_password                           = undef,
   $admin_project_name                       = undef,
-  $admin_role                               = undef,
+  $admin_role                               = $facts['os_service_default'],
   $admin_domain_name                        = $facts['os_service_default'],
   $admin_user_domain_name                   = $facts['os_service_default'],
   $admin_project_domain_name                = $facts['os_service_default'],
@@ -402,14 +402,14 @@ class tempest(
   $run_ssh                                  = false,
   $ssh_key_type                             = $facts['os_service_default'],
   # testing features that are supported
-  $resize_available                         = false,
-  $use_dynamic_credentials                  = undef,
-  $l2gw_switch                              = undef,
+  $resize_available                         = $facts['os_service_default'],
+  $use_dynamic_credentials                  = $facts['os_service_default'],
+  $l2gw_switch                              = $facts['os_service_default'],
   # neutron config
   $public_network_id                        = undef,
   $public_router_id                         = undef,
   # Sahara config
-  $sahara_plugins                           = undef,
+  $sahara_plugins                           = $facts['os_service_default'],
   # Trove config
   $db_flavor_ref                            = undef,
   Optional[String[1]] $db_flavor_name       = undef,
@@ -456,11 +456,11 @@ class tempest(
   $designate_enforce_scope                  = $facts['os_service_default'],
   $octavia_enforce_scope                    = $facts['os_service_default'],
   $manila_enforce_scope                     = $facts['os_service_default'],
-  $keystone_v3                              = true,
-  $auth_version                             = 'v3',
-  $run_service_broker_tests                 = false,
-  $ca_certificates_file                     = undef,
-  $disable_ssl_validation                   = undef,
+  $keystone_v3                              = $facts['os_service_default'],
+  $auth_version                             = $facts['os_service_default'],
+  $run_service_broker_tests                 = $facts['os_service_default'],
+  $ca_certificates_file                     = $facts['os_service_default'],
+  $disable_ssl_validation                   = $facts['os_service_default'],
   Boolean $manage_tests_packages            = false,
   # scenario options
   $img_file                                 = '/var/lib/tempest/cirros-0.4.0-x86_64-disk.img',
@@ -479,8 +479,8 @@ class tempest(
   $heat_flavor_ref                          = undef,
   Optional[String[1]] $heat_flavor_name     = undef,
   # ironic options
-  $baremetal_driver                         = 'fake',
-  $baremetal_enabled_hardware_types         = 'ipmi',
+  $baremetal_driver                         = $facts['os_service_default'],
+  $baremetal_enabled_hardware_types         = $facts['os_service_default'],
   # octavia options
   $load_balancer_member_role                = $facts['os_service_default'],
   $load_balancer_admin_role                 = $facts['os_service_default'],
