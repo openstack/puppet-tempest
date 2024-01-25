@@ -42,8 +42,6 @@
 #   Defaults to $facts['os_service_default']
 #  [*identity_uri_v3*]
 #   Defaults to $facts['os_service_default']
-#  [*cli_dir*]
-#   Defaults to $facts['os_service_default']
 #  [*lock_path*]
 #   Defaults to '/var/lib/tempest'
 #  [*log_file*]
@@ -221,8 +219,6 @@
 #   Defaults to '/var/lib/tempest/cirros-0.4.0-x86_64-disk.img'
 #  [*img_disk_format*]
 #   Defaults to $facts['os_service_default']
-#  [*login_url*]
-#   Defaults to $facts['os_service_default']
 #  [*dashboard_url*]
 #   Defaults to $facts['os_service_default']
 #  [*disable_dashboard_ssl_validation*]
@@ -310,6 +306,10 @@
 #   Defaults to true
 #  [*tempest_config_file*]
 #   Defaults to undef
+#  [*cli_dir*]
+#   Defaults to undef 
+#  [*login_url*]
+#   Defaults to undef
 #
 class tempest(
   $package_ensure                           = 'present',
@@ -339,7 +339,6 @@ class tempest(
   $neutron_api_extensions                   = $facts['os_service_default'],
 
   # Horizon dashboard config
-  $login_url                                = $facts['os_service_default'],
   $dashboard_url                            = $facts['os_service_default'],
   $disable_dashboard_ssl_validation         = $facts['os_service_default'],
 
@@ -347,7 +346,6 @@ class tempest(
   #
   $identity_uri                             = $facts['os_service_default'],
   $identity_uri_v3                          = $facts['os_service_default'],
-  $cli_dir                                  = $facts['os_service_default'],
   $lock_path                                = '/var/lib/tempest',
   $log_file                                 = $facts['os_service_default'],
   $debug                                    = $facts['os_service_default'],
@@ -494,11 +492,15 @@ class tempest(
   $share_capability_storage_protocol        = $facts['os_service_default'],
   # DEPRECATED PARAMETERS
   $glance_v2                                = undef,
-  $tempest_config_file                      = undef
+  $tempest_config_file                      = undef,
+  $cli_dir                                  = undef,
+  $login_url                                = undef,
 ) {
 
-  if $glance_v2 != undef {
-    warning('The glance_v2 parameter has been deprecated and will be removed in a future release.')
+  [ 'glance_v2', 'cli_dir', 'login_url' ].each |String $deprecated_opt| {
+    if getvar($deprecated_opt) != undef {
+      warning("The ${deprecated_opt} parameter has been deprecated and will be removed in a future release")
+    }
   }
   if $tempest_config_file != undef {
     warning('The tempest_config_file parameter has been deprecated and has no effect')
@@ -645,7 +647,7 @@ class tempest(
     'network-feature-enabled/api_extensions':          value => join(any2array($neutron_api_extensions), ',');
     'network/public_network_id':                       value => $public_network_id;
     'network/public_router_id':                        value => $public_router_id;
-    'dashboard/login_url':                             value => $login_url;
+    'dashboard/login_url':                             value => pick($login_url, $facts['os_service_default']);
     'dashboard/dashboard_url':                         value => $dashboard_url;
     'dashboard/disable_ssl_certificate_validation':    value => $disable_dashboard_ssl_validation;
     'database/db_flavor_ref':                          value => $db_flavor_ref;
@@ -688,7 +690,7 @@ class tempest(
     'enforce_scope/nova':                              value => $nova_enforce_scope;
     'enforce_scope/octavia':                           value => $octavia_enforce_scope;
     'enforce_scope/placement':                         value => $placement_enforce_scope;
-    'cli/cli_dir':                                     value => $cli_dir;
+    'cli/cli_dir':                                     value => pick($cli_dir, $facts['os_service_default']);
     'scenario/img_file':                               value => $img_file;
     'scenario/img_disk_format':                        value => $img_disk_format;
     'service_broker/run_service_broker_tests':         value => $run_service_broker_tests;
