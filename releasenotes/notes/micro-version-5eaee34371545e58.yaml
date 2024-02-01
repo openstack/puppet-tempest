@@ -1,0 +1,12 @@
+---
+features:
+  - |
+    The tempest class now supports customizing options to determine minimum and
+    maximum API microversions available, for the following services.
+
+    - compute (nova)
+    - placement (placement)
+    - volume (cinder)
+    - key_manager (barbican)
+    - baremetal (ironic)
+    - share (manila)
