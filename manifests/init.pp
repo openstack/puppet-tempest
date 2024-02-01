@@ -211,6 +211,30 @@
 #   Defaults to $facts['os_service_default']
 #  [*manila_enforce_scope*]
 #   Defaults to $facts['os_service_default']
+#  [*compute_min_microversion*]
+#   Defaults to $facts['os_service_default']
+#  [*compute_max_microversion*]
+#   Defaults to $facts['os_service_default']
+#  [*placement_min_microversion*]
+#   Defaults to $facts['os_service_default']
+#  [*placement_max_microversion*]
+#   Defaults to $facts['os_service_default']
+#  [*volume_min_microversion*]
+#   Defaults to $facts['os_service_default']
+#  [*volume_max_microversion*]
+#   Defaults to $facts['os_service_default']
+#  [*key_manager_min_microversion*]
+#   Defaults to $facts['os_service_default']
+#  [*key_manager_max_microversion*]
+#   Defaults to $facts['os_service_default']
+#  [*baremetal_min_microversion*]
+#   Defaults to $facts['os_service_default']
+#  [*baremetal_max_microversion*]
+#   Defaults to $facts['os_service_default']
+#  [*share_min_microversion*]
+#   Defaults to $facts['os_service_default']
+#  [*share_max_microversion*]
+#   Defaults to $facts['os_service_default']
 #  [*keystone_v3*]
 #   Defaults to $facts['os_service_default']
 #  [*auth_version*]
@@ -442,6 +466,7 @@ class tempest(
   Boolean $octavia_available                = false,
   Boolean $barbican_available               = false,
   Boolean $manila_available                 = false,
+  # scope enforcements
   $barbican_enforce_scope                   = $facts['os_service_default'],
   $cinder_enforce_scope                     = $facts['os_service_default'],
   $glance_enforce_scope                     = $facts['os_service_default'],
@@ -454,6 +479,19 @@ class tempest(
   $designate_enforce_scope                  = $facts['os_service_default'],
   $octavia_enforce_scope                    = $facts['os_service_default'],
   $manila_enforce_scope                     = $facts['os_service_default'],
+  # microversions
+  $compute_min_microversion                 = $facts['os_service_default'],
+  $compute_max_microversion                 = $facts['os_service_default'],
+  $placement_min_microversion               = $facts['os_service_default'],
+  $placement_max_microversion               = $facts['os_service_default'],
+  $volume_min_microversion                  = $facts['os_service_default'],
+  $volume_max_microversion                  = $facts['os_service_default'],
+  $key_manager_min_microversion             = $facts['os_service_default'],
+  $key_manager_max_microversion             = $facts['os_service_default'],
+  $baremetal_min_microversion               = $facts['os_service_default'],
+  $baremetal_max_microversion               = $facts['os_service_default'],
+  $share_min_microversion                   = $facts['os_service_default'],
+  $share_max_microversion                   = $facts['os_service_default'],
   $keystone_v3                              = $facts['os_service_default'],
   $auth_version                             = $facts['os_service_default'],
   $run_service_broker_tests                 = $facts['os_service_default'],
@@ -690,6 +728,18 @@ class tempest(
     'enforce_scope/nova':                              value => $nova_enforce_scope;
     'enforce_scope/octavia':                           value => $octavia_enforce_scope;
     'enforce_scope/placement':                         value => $placement_enforce_scope;
+    'compute/min_microversion':                        value => $compute_min_microversion;
+    'compute/max_microversion':                        value => $compute_max_microversion;
+    'placement/min_microversion':                      value => $placement_min_microversion;
+    'placement/max_microversion':                      value => $placement_max_microversion;
+    'volume/min_microversion':                         value => $volume_min_microversion;
+    'volume/max_microversion':                         value => $volume_max_microversion;
+    'key_manager/min_microversion':                    value => $key_manager_min_microversion;
+    'key_manager/max_microversion':                    value => $key_manager_max_microversion;
+    'baremetal/min_microversion':                      value => $baremetal_min_microversion;
+    'baremetal/max_microversion':                      value => $baremetal_max_microversion;
+    'share/min_api_microversion':                      value => $share_min_microversion;
+    'share/max_api_microversion':                      value => $share_max_microversion;
     'cli/cli_dir':                                     value => pick($cli_dir, $facts['os_service_default']);
     'scenario/img_file':                               value => $img_file;
     'scenario/img_disk_format':                        value => $img_disk_format;
