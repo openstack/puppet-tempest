@@ -677,7 +677,7 @@ class tempest(
     'service_available/zaqar':                         value => $zaqar_available;
     'service_available/ec2api':                        value => $ec2api_available;
     'service_available/octavia':                       value => $octavia_available;
-    'barbican_rbac_scope_verification/enforce_scope':  value => $barbican_enforce_scope;
+    'enforce_scope/barbican':                          value => $barbican_enforce_scope;
     'enforce_scope/cinder':                            value => $cinder_enforce_scope;
     'enforce_scope/designate':                         value => $designate_enforce_scope;
     'enforce_scope/glance':                            value => $glance_enforce_scope;
@@ -735,6 +735,11 @@ class tempest(
     'share/enable_protocols':                          value => join(any2array($share_enable_protocols), ',');
     'share/multi_backend':                             value => $share_multi_backend;
     'share/capability_storage_protocol':               value => $share_capability_storage_protocol;
+  }
+
+  # TODO(tkajinam): Remove this after 2024.1 release
+  tempest_config {
+    'barbican_rbac_scope_verification/enforce_scope': ensure => absent;
   }
 
   oslo::concurrency { 'tempest_config': lock_path => $lock_path }
