@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``metric_backends`` parameter and the ``alarm_backend`` parameter has
+    been added to the ``tempest`` class.
