@@ -300,6 +300,10 @@
 #   Defaults to $facts['os_service_default']
 #  [*share_capability_storage_protocol*]
 #   Defaults to $facts['os_service_default']
+#  [*metric_backends*]
+#   Defaults to $facts['os_service_default']
+#  [*alarm_backend*]
+#   Defaults to $facts['os_service_default']
 #
 # DEPREACTED PARAMETERS
 #  [*glance_v2*]
@@ -490,6 +494,9 @@ class tempest(
   $share_enable_protocols                   = $facts['os_service_default'],
   $share_multi_backend                      = $facts['os_service_default'],
   $share_capability_storage_protocol        = $facts['os_service_default'],
+  # telemetry options
+  $metric_backends                          = $facts['os_service_default'],
+  $alarm_backend                            = $facts['os_service_default'],
   # DEPRECATED PARAMETERS
   $glance_v2                                = undef,
   $tempest_config_file                      = undef,
@@ -731,10 +738,14 @@ class tempest(
     'load_balancer/observer_role':                     value => $load_balancer_observer_role;
     'load_balancer/global_observer_role':              value => $load_balancer_global_observer_role;
     'load_balancer/test_with_noop':                    value => $load_balancer_test_with_noop;
+    # manila-tempest-plugin
     'share/multitenancy_enabled':                      value => $share_multitenancy_enabled;
     'share/enable_protocols':                          value => join(any2array($share_enable_protocols), ',');
     'share/multi_backend':                             value => $share_multi_backend;
     'share/capability_storage_protocol':               value => $share_capability_storage_protocol;
+    # telemetry-tempest-plugin
+    'telemetry_services/metric_backends':              value => join(any2array($metric_backends), ',');
+    'telemetry_services/alarm_backend':                value => $alarm_backend;
   }
 
   # TODO(tkajinam): Remove this after 2024.1 release
