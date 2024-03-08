@@ -1,0 +1,9 @@
+---
+deprecations:
+  - |
+    Support for the following tempest plugins has been deprecated and has no
+    effect now.
+
+    - ec2api-tempest-plugin
+    - murano-tempest-plugin
+    - sahara-tests

@@ -3,7 +3,7 @@ Puppet::Type.newtype(:tempest_ec2_credentials) do
   ensurable
 
   newparam(:name, :namevar => true) do
-    desc 'Name of the credentials.'
+    desc 'Name of the credentials. (DEPRECATED)'
   end
 
   newparam(:user) do

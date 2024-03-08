@@ -125,21 +125,6 @@ describe 'tempest' do
       end
     end
 
-    context 'with sahara_plugins' do
-      let :params do
-        {
-          :configure_images   => false,
-          :configure_networks => false,
-          :sahara_available   => true,
-          :sahara_plugins     => ['vanilla'],
-        }
-      end
-
-      it 'properly configures Sahara plugins in tempest.conf' do
-        is_expected.to contain_tempest_config('data-processing-feature-enabled/plugins').with_value(['vanilla'])
-      end
-    end
-
     context 'with reseller_admin_role' do
       let :params do
         {
@@ -166,26 +151,6 @@ describe 'tempest' do
       it 'properly sets  tempest_roles in tempest.conf' do
         is_expected.to contain_tempest_config('auth/tempest_roles').with_value('Member,creator')
       end
-    end
-
-    context 'with ec2api_available parameter' do
-      let :params do
-        {
-          :configure_images   => false,
-          :configure_networks => false,
-          :ec2api_available   => true,
-        }
-      end
-
-      it 'creates ec2 credentials' do
-        is_expected.to contain_tempest_ec2_credentials('ec2_test_creds').with(
-          :ensure            => 'present',
-          :tempest_conf_path => '/var/lib/tempest/etc/tempest.conf',
-          :user              => 'ec2api-tester',
-          :project           => 'openstack'
-        )
-      end
-
     end
 
     context 'with parameters' do
@@ -308,8 +273,6 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('service_available/mistral').with(:value => false)
           is_expected.to contain_tempest_config('service_available/vitrage').with(:value => false)
           is_expected.to contain_tempest_config('service_available/nova').with(:value => true)
-          is_expected.to contain_tempest_config('service_available/sahara').with(:value => false)
-          is_expected.to contain_tempest_config('service_available/murano').with(:value => false)
           is_expected.to contain_tempest_config('service_available/swift').with(:value => false)
           is_expected.to contain_tempest_config('service_available/trove').with(:value => false)
           is_expected.to contain_tempest_config('service_available/ironic').with(:value => false)
@@ -346,10 +309,6 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('share/min_api_microversion').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('share/max_api_microversion').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('dns/nameservers').with(:value => '<SERVICE DEFAULT>')
-          is_expected.to contain_tempest_config('aws/ec2_url').with(:value => '<SERVICE DEFAULT>')
-          is_expected.to contain_tempest_config('aws/aws_region').with(:value => '<SERVICE DEFAULT>')
-          is_expected.to contain_tempest_config('aws/image_id').with(:value => nil)
-          is_expected.to contain_tempest_config('aws/ebs_image_id').with(:value => nil)
           is_expected.to contain_tempest_config('heat_plugin/auth_url').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('heat_plugin/auth_version').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('heat_plugin/admin_password').with_secret( true )
@@ -562,10 +521,6 @@ describe 'tempest' do
         is_expected.to_not contain_package('python-heat-tests-tempest')
       end
 
-      it "should not install optional sahara tests package" do
-        is_expected.to_not contain_package('python-sahara-tests-tempest')
-      end
-
       it "should install neutron but not *aas tests packages" do
         is_expected.to contain_package('python-neutron-tests-tempest').with(
           :name => platform_params[:python_neutron_tests]
@@ -583,22 +538,6 @@ describe 'tempest' do
         is_expected.to contain_package('python-heat-tests-tempest').with(
           :name => platform_params[:python_heat_tests]
         )
-      end
-    end
-
-    context 'with when managing tests packages for sahara (optional service)' do
-      before :each do
-        params.merge!({ :sahara_available => true })
-      end
-
-      it "should install sahara tests package if available" do
-        if platform_params[:python_sahara_tests]
-          is_expected.to contain_package('python-sahara-tests-tempest').with(
-            :name => platform_params[:python_sahara_tests]
-          )
-        else
-          is_expected.to_not contain_package('python-sahara-tests-tempest')
-        end
       end
     end
   end
@@ -627,7 +566,7 @@ describe 'tempest' do
             :python_heat_tests     => 'heat-tempest-plugin',
             :python_keystone_tests => 'keystone-tempest-plugin',
             :python_neutron_tests  => 'neutron-tempest-plugin',
-            :python_sahara_tests   => false }
+          }
         when 'RedHat'
           { :dev_packages          => ['python3-devel',
                                        'libxslt-devel',
@@ -642,7 +581,7 @@ describe 'tempest' do
             :python_heat_tests     => 'python3-heat-tests-tempest',
             :python_keystone_tests => 'python3-keystone-tests-tempest',
             :python_neutron_tests  => 'python3-neutron-tests-tempest',
-            :python_sahara_tests   => 'python3-sahara-tests-tempest' }
+          }
         end
       end
 

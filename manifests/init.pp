@@ -122,9 +122,6 @@
 #   Defaults to undef
 #  [*public_router_id*]
 #   Defaults to undef
-#  [*sahara_plugins*]
-#   (optional) List of enabled Sahara plugins
-#   Defaults to $facts['os_service_default']
 #  [*cinder_available*]
 #   Defaults to true
 #  [*cinder_backup_available*]
@@ -157,13 +154,9 @@
 #   Defaults to false
 #  [*nova_available*]
 #   Defaults to true
-#  [*murano_available*]
-#   Defaults to false
 #  [*watcher_available*]
 #   Defaults to false
 #  [*zaqar_available*]
-#   Defaults to false
-#  [*ec2api_available*]
 #   Defaults to false
 #  [*mistral_available*]
 #   Defaults to false
@@ -171,8 +164,6 @@
 #   Defaults to false
 #  [*run_service_broker_tests*]
 #   Defaults to $facts['os_service_default']
-#  [*sahara_available*]
-#   Defaults to false
 #  [*swift_available*]
 #   Defaults to false
 #  [*trove_available*]
@@ -284,16 +275,6 @@
 #   Defaults to undef
 #  [*designate_nameservers*]
 #   Defaults to $facts['os_service_default']
-#  [*ec2api_tester_roles*]
-#   Defaults to ['Member']
-#  [*aws_ec2_url*]
-#   Defaults to $facts['os_service_default']
-#  [*aws_region*]
-#   Defaults to $facts['os_service_default']
-#  [*aws_image_id*]
-#   Defualts to undef
-#  [*aws_ebs_image_id*]
-#   Defaults to undef
 #  [*heat_image_ref*]
 #   Defaults to undef
 #  [*heat_image_name*]
@@ -338,6 +319,24 @@
 #   Defaults to undef 
 #  [*login_url*]
 #   Defaults to undef
+#  [*ec2api_available*]
+#   Defaults to undef
+#  [*ec2api_tester_roles*]
+#   Defaults to undef
+#  [*aws_ec2_url*]
+#   Defaults to undef
+#  [*aws_region*]
+#   Defaults to undef
+#  [*aws_image_id*]
+#   Defaults to undef
+#  [*aws_ebs_image_id*]
+#   Defaults to undef
+#  [*murano_available*]
+#   Defualts to undef
+#  [*sahara_available*]
+#   Defualts to undef
+#  [*sahara_plugins*]
+#   Defualts to undef
 #
 class tempest(
   $package_ensure                           = 'present',
@@ -434,8 +433,6 @@ class tempest(
   # neutron config
   $public_network_id                        = undef,
   $public_router_id                         = undef,
-  # Sahara config
-  $sahara_plugins                           = $facts['os_service_default'],
   # Trove config
   $db_flavor_ref                            = undef,
   Optional[String[1]] $db_flavor_name       = undef,
@@ -456,15 +453,12 @@ class tempest(
   Boolean $neutron_vpnaas_available         = false,
   Boolean $neutron_dr_available             = false,
   Boolean $nova_available                   = true,
-  Boolean $murano_available                 = false,
-  Boolean $sahara_available                 = false,
   Boolean $swift_available                  = false,
   Boolean $trove_available                  = false,
   Boolean $ironic_available                 = false,
   Boolean $ironic_inspector_available       = false,
   Boolean $watcher_available                = false,
   Boolean $zaqar_available                  = false,
-  Boolean $ec2api_available                 = false,
   Boolean $mistral_available                = false,
   Boolean $vitrage_available                = false,
   Boolean $octavia_available                = false,
@@ -507,12 +501,6 @@ class tempest(
   $img_disk_format                          = $facts['os_service_default'],
   # designate options
   $designate_nameservers                    = $facts['os_service_default'],
-  # ec2api options
-  Array[String[1]] $ec2api_tester_roles     = ['Member'],
-  $aws_ec2_url                              = $facts['os_service_default'],
-  $aws_region                               = $facts['os_service_default'],
-  $aws_image_id                             = undef,
-  $aws_ebs_image_id                         = undef,
   # heat options
   $heat_image_ref                           = undef,
   Optional[String[1]] $heat_image_name      = undef,
@@ -540,6 +528,15 @@ class tempest(
   $tempest_config_file                      = undef,
   $cli_dir                                  = undef,
   $login_url                                = undef,
+  Optional[Boolean] $ec2api_available       = undef,
+  Optional[Boolean] $murano_available       = undef,
+  Optional[Boolean] $sahara_available       = undef,
+  $ec2api_tester_roles                      = undef,
+  $aws_ec2_url                              = undef,
+  $aws_region                               = undef,
+  $aws_image_id                             = undef,
+  $aws_ebs_image_id                         = undef,
+  $sahara_plugins                           = undef,
 ) {
 
   [ 'glance_v2', 'cli_dir', 'login_url' ].each |String $deprecated_opt| {
@@ -556,6 +553,27 @@ class tempest(
       warning("The ${opt} parameter has no effect now. Use the neutron_api_extensions parameter instead.")
     }
   }
+
+  if $ec2api_available {
+    warning('EC2API support has been deprecated and has no effect now.')
+  }
+  if $murano_available {
+    warning('Murano support has been deprecated and has no effect now.')
+  }
+  if $sahara_available {
+    warning('Sahara support has been deprecated and has no effect now.')
+  }
+
+  [
+    'ec2api_available', 'murano_available', 'sahara_available',
+    'ec2api_tester_roles', 'aws_ec2_url', 'aws_region',
+    'aws_image_id', 'aws_ebs_image_id', 'sahara_plugins'
+  ].each |String $deprecated_plugin_opt| {
+    if getvar($deprecated_plugin_opt) != undef {
+      warning("The ${deprecated_plugin_opt} parameter has been deprecated and has no effect.")
+    }
+  }
+
 
   include tempest::params
 
@@ -712,15 +730,12 @@ class tempest(
     'service_available/mistral':                       value => $mistral_available;
     'service_available/vitrage':                       value => $vitrage_available;
     'service_available/nova':                          value => $nova_available;
-    'service_available/murano':                        value => $murano_available;
-    'service_available/sahara':                        value => $sahara_available;
     'service_available/swift':                         value => $swift_available;
     'service_available/trove':                         value => $trove_available;
     'service_available/ironic':                        value => $ironic_available;
     'service_available/ironic_inspector':              value => $ironic_inspector_available;
     'service_available/watcher':                       value => $watcher_available;
     'service_available/zaqar':                         value => $zaqar_available;
-    'service_available/ec2api':                        value => $ec2api_available;
     'service_available/octavia':                       value => $octavia_available;
     'enforce_scope/barbican':                          value => $barbican_enforce_scope;
     'enforce_scope/cinder':                            value => $cinder_enforce_scope;
@@ -755,11 +770,6 @@ class tempest(
     'compute-feature-enabled/resize':                  value => $resize_available;
     # designate-tempest-plugin
     'dns/nameservers':                                 value => join(any2array($designate_nameservers), ',');
-    # ec2api-tempest-plugin
-    'aws/ec2_url':                                     value => $aws_ec2_url;
-    'aws/aws_region':                                  value => $aws_region;
-    'aws/image_id':                                    value => $aws_image_id;
-    'aws/ebs_image_id':                                value => $aws_ebs_image_id;
     # heat-tempest-plugin
     'heat_plugin/auth_url':                            value => $identity_uri_v3;
     # TODO(tkajinam): auth_version does not affect vN format (eg v3) and
@@ -801,6 +811,24 @@ class tempest(
   # TODO(tkajinam): Remove this after 2024.1 release
   tempest_config {
     'barbican_rbac_scope_verification/enforce_scope': ensure => absent;
+  }
+
+  tempest_config {
+    # ec2api-tempest-plugin
+    'service_available/ec2api':                ensure => absent;
+    'aws/ec2_url':                             ensure => absent;
+    'aws/aws_region':                          ensure => absent;
+    'aws/image_id':                            ensure => absent;
+    'aws/ebs_image_id':                        ensure => absent;
+    'aws/instance_type':                       ensure => absent;
+    'aws/instance_type_alt':                   ensure => absent;
+    'aws/aws_secret':                          ensure => absent;
+    'aws/aws_access':                          ensure => absent;
+    # murano-tempest-plugin
+    'service_available/murano':                ensure => absent;
+    # sahara-tempest-plugin
+    'service_available/sahara':                ensure => absent;
+    'data-processing-feature-enabled/plugins': ensure => absent;
   }
 
   oslo::concurrency { 'tempest_config': lock_path => $lock_path }
@@ -856,13 +884,6 @@ class tempest(
         tag    => ['openstack', 'tempest-package'],
       }
     }
-    if $murano_available and $::tempest::params::python_murano_tests {
-      package { 'python-murano-tests-tempest':
-        ensure => present,
-        name   => $::tempest::params::python_murano_tests,
-        tag    => ['openstack', 'tempest-package'],
-      }
-    }
     if $neutron_available and $::tempest::params::python_neutron_tests {
       package { 'python-neutron-tests-tempest':
         ensure => present,
@@ -875,13 +896,6 @@ class tempest(
           name   => $::tempest::params::python_l2gw_tests,
           tag    => ['openstack', 'tempest-package'],
         }
-      }
-    }
-    if $sahara_available and $::tempest::params::python_sahara_tests {
-      package { 'python-sahara-tests-tempest':
-        ensure => present,
-        name   => $::tempest::params::python_sahara_tests,
-        tag    => ['openstack', 'tempest-package'],
       }
     }
     if $trove_available and $::tempest::params::python_trove_tests {
@@ -930,13 +944,6 @@ class tempest(
       package { 'python-octavia-tests-tempest':
         ensure => present,
         name   => $::tempest::params::python_octavia_tests,
-        tag    => ['openstack', 'tempest-package'],
-      }
-    }
-    if $ec2api_available and $::tempest::params::python_ec2api_tests {
-      package { 'python-ec2-api-tests-tempest':
-        ensure => present,
-        name   => $::tempest::params::python_ec2api_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
@@ -1074,34 +1081,4 @@ class tempest(
   must be provided.')
     }
   }
-
-  if $sahara_available {
-    tempest_config {
-      'data-processing-feature-enabled/plugins': value => $sahara_plugins,
-    }
-  }
-
-  if $ec2api_available {
-    tempest_config {
-      'aws/instance_type':     value => $flavor_ref;
-      'aws/instance_type_alt': value => $flavor_ref_alt;
-    }
-    keystone_user { 'ec2api-tester' :
-      ensure  => present,
-      enabled => true,
-    }
-    keystone_user_role { 'ec2api-tester@openstack' :
-      ensure => present,
-      roles  => $ec2api_tester_roles,
-    }
-    tempest_ec2_credentials { 'ec2_test_creds':
-      ensure            => present,
-      tempest_conf_path => $tempest_conf,
-      user              => 'ec2api-tester',
-      project           => 'openstack',
-    }
-    Tempest_config<||> -> Tempest_ec2_credentials['ec2_test_creds']
-    Keystone_user_role<||> -> Tempest_ec2_credentials['ec2_test_creds']
-  }
-
 }
