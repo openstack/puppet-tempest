@@ -617,7 +617,7 @@ class tempest(
                     "${tempest_clone_path}/.venv/bin/${tempest::params::pip_command} install -U -r requirements.txt"],
                     ' && '),
         cwd     => $tempest_clone_path,
-        unless  => "test -d ${tempest_clone_path}/.venv",
+        creates => "${tempest_clone_path}/.venv",
         path    => ['/bin','/usr/bin','/usr/local/bin'],
         require => [
           Exec['install-tox'],

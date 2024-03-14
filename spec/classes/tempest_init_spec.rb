@@ -390,7 +390,7 @@ describe 'tempest' do
           is_expected.to contain_exec('setup-venv').with(
             :command => "virtualenv -p python3 /var/lib/tempest/.venv && /var/lib/tempest/.venv/bin/#{platform_params[:pip_command]} install -U -r requirements.txt",
             :cwd     => '/var/lib/tempest',
-            :unless  => 'test -d /var/lib/tempest/.venv',
+            :creates => '/var/lib/tempest/.venv',
             :path    => ['/bin', '/usr/bin', '/usr/local/bin']
           )
         end
