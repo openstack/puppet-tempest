@@ -183,7 +183,7 @@ describe 'tempest' do
           end
 
           is_expected.to contain_exec('install-tox').with(
-            :command => "#{platform_params[:pip_command]} install -U tox",
+            :command => [platform_params[:pip_command], 'install', '-U', 'tox'],
             :unless  => 'which tox',
             :path    => ['/bin', '/usr/bin', '/usr/local/bin'],
           )
@@ -387,11 +387,24 @@ describe 'tempest' do
         end
 
         it 'sets up virtualenv for tempest' do
-          is_expected.to contain_exec('setup-venv').with(
-            :command => "virtualenv -p python3 /var/lib/tempest/.venv && /var/lib/tempest/.venv/bin/#{platform_params[:pip_command]} install -U -r requirements.txt",
-            :cwd     => '/var/lib/tempest',
+          is_expected.to contain_exec('create-venv').with(
+            :command => ['virtualenv', '-p', 'python3', '/var/lib/tempest/.venv'],
             :creates => '/var/lib/tempest/.venv',
             :path    => ['/bin', '/usr/bin', '/usr/local/bin']
+          )
+        end
+
+        it 'installs tempest into the virtualenv' do
+          is_expected.to contain_exec('install-tempest').with(
+            :command     => [
+              'virtualenv', '-p', 'python3', '/var/lib/tempest/.venv'
+            ],
+            :command     => [
+              "/var/lib/tempest/.venv/bin/#{platform_params[:pip_command]}", 'install',
+              '-U', '-r', 'requirements.txt'
+            ],
+            :cwd         => '/var/lib/tempest',
+            :refreshonly => true,
           )
         end
       end
@@ -429,7 +442,7 @@ describe 'tempest' do
       end
       it 'creates tempest workspace' do
         is_expected.to contain_exec('tempest-workspace').with(
-          :command     => 'tempest init /var/lib/tempest',
+          :command     => ['tempest', 'init', '/var/lib/tempest'],
           :path        => ['/bin', '/usr/bin'],
           :refreshonly => true,
           :require     => 'Package[tempest]'
@@ -449,7 +462,7 @@ describe 'tempest' do
 
       it 'supports customizes tempest workspace' do
         is_expected.to contain_exec('tempest-workspace').with(
-          :command => 'tempest init /tmp/tempest',
+          :command => ['tempest', 'init', '/tmp/tempest'],
         )
       end
     end
