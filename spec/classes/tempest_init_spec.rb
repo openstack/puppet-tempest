@@ -445,7 +445,7 @@ describe 'tempest' do
           :command     => ['tempest', 'init', '/var/lib/tempest'],
           :path        => ['/bin', '/usr/bin'],
           :refreshonly => true,
-          :require     => 'Package[tempest]'
+          :subscribe   => 'Package[tempest]'
         )
       end
     end

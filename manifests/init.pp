@@ -649,10 +649,9 @@ class tempest(
       command     => ['tempest', 'init', $tempest_workspace],
       path        => ['/bin', '/usr/bin'],
       refreshonly => true,
-      require     => Package['tempest'],
+      subscribe   => Package['tempest'],
     }
     Package<| tag == 'tempest-package' |> -> Exec['tempest-workspace']
-    Package['tempest'] ~> Exec['tempest-workspace']
     Exec['tempest-workspace'] -> Tempest_config<||>
 
     $tempest_conf = "${tempest_workspace}/etc/tempest.conf"
