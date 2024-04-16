@@ -593,7 +593,7 @@ class tempest(
     }
 
     exec { 'install-tox':
-      command => "${tempest::params::pip_command} install -U tox",
+      command => [$tempest::params::pip_command, 'install', '-U', 'tox'],
       unless  => 'which tox',
       path    => ['/bin','/usr/bin','/usr/local/bin'],
     }
@@ -612,20 +612,24 @@ class tempest(
 
     if $setup_venv {
       # virtualenv will be installed along with tox
-      exec { 'setup-venv':
-        command => join(["virtualenv -p python3 ${tempest_clone_path}/.venv",
-                    "${tempest_clone_path}/.venv/bin/${tempest::params::pip_command} install -U -r requirements.txt"],
-                    ' && '),
-        cwd     => $tempest_clone_path,
+      exec { 'create-venv':
+        command => ['virtualenv', '-p', 'python3', "${tempest_clone_path}/.venv"],
         creates => "${tempest_clone_path}/.venv",
-        path    => ['/bin','/usr/bin','/usr/local/bin'],
+        path    => ['/bin', '/usr/bin', '/usr/local/bin'],
         require => [
           Exec['install-tox'],
           Package[$tempest::params::dev_packages],
         ],
       }
+      exec { 'install-tempest':
+        command     => ["${tempest_clone_path}/.venv/bin/${tempest::params::pip_command}", 'install', '-U', '-r', 'requirements.txt'],
+        cwd         => $tempest_clone_path,
+        refreshonly => true,
+        subscribe   => Exec['create-venv'],
+      }
+
       if $git_clone {
-        Vcsrepo<||> -> Exec['setup-venv']
+        Vcsrepo<||> -> Exec['create-venv']
       }
     }
 
@@ -642,7 +646,7 @@ class tempest(
     # It will generate etc/tempest.conf, logs and tempest_lock folder
     # in tempest workspace
     exec {'tempest-workspace':
-      command     => "tempest init ${tempest_workspace}",
+      command     => ['tempest', 'init', $tempest_workspace],
       path        => ['/bin', '/usr/bin'],
       refreshonly => true,
       require     => Package['tempest'],
