@@ -21,8 +21,9 @@ describe 'tempest::magnum' do
         is_expected.to contain_tempest_config('magnum/keypair_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_tempest_config('magnum/flavor_id').with_value('s1.magnum')
         is_expected.to contain_tempest_config('magnum/master_flavor_id').with_value('m1.magnum')
-        is_expected.to contain_tempest_config('magnum/copy_logs').with_value('true')
-        is_expected.to contain_tempest_config('magnum/dns_nameserver').with_value('8.8.8.8')
+        is_expected.to contain_tempest_config('magnum/magnum_url').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_tempest_config('magnum/copy_logs').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_tempest_config('magnum/dns_nameserver').with_value('<SERVICE DEFAULT>')
       end
     end
 
