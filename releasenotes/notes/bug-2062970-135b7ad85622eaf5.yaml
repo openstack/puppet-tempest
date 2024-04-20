@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The new ``tempest::magnum::keypair_name`` parameter has been added.
+
+deprecations:
+  - |
+    The new ``tempest::magnum::keypair_id`` parameter has been deprecated and
+    has no effect now.
