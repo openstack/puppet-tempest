@@ -61,6 +61,10 @@
 #   (Optional) DNS nameserver to use for ClusterTemplate
 #   Defaults to '8.8.8.8'
 #
+# [*manage_tests_packages*]
+#   (Optional) Manage the plugin package
+#   Defaults to true
+#
 class tempest::magnum (
   Stdlib::Absolutepath $tempest_config_file = '/var/lib/tempest/etc/tempest.conf',
   Boolean $provision_image                  = true,
@@ -76,6 +80,7 @@ class tempest::magnum (
   $magnum_url                               = undef,
   $copy_logs                                = true,
   $dns_nameserver                           = '8.8.8.8',
+  Boolean $manage_tests_packages            = true,
 ) {
   include tempest::params
 
@@ -109,11 +114,13 @@ class tempest::magnum (
     }
   }
 
-  if $::tempest::params::python_magnum_tests {
-    package { 'python-magnum-tests':
-      ensure => present,
-      name   => $::tempest::params::python_magnum_tests,
-      tag    => ['openstack', 'tempest-package'],
+  if $manage_tests_packages {
+    if $::tempest::params::python_magnum_tests {
+      package { 'python-magnum-tests':
+        ensure => present,
+        name   => $::tempest::params::python_magnum_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
     }
   }
 
