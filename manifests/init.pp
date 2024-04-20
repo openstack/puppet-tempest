@@ -313,12 +313,6 @@
 # DEPREACTED PARAMETERS
 #  [*glance_v2*]
 #   Defaults to true
-#  [*tempest_config_file*]
-#   Defaults to undef
-#  [*cli_dir*]
-#   Defaults to undef 
-#  [*login_url*]
-#   Defaults to undef
 #
 class tempest(
   $package_ensure                           = 'present',
@@ -507,18 +501,12 @@ class tempest(
   $alarm_backend                            = $facts['os_service_default'],
   # DEPRECATED PARAMETERS
   $glance_v2                                = undef,
-  $tempest_config_file                      = undef,
-  $cli_dir                                  = undef,
-  $login_url                                = undef,
 ) {
 
-  [ 'glance_v2', 'cli_dir', 'login_url' ].each |String $deprecated_opt| {
+  [ 'glance_v2' ].each |String $deprecated_opt| {
     if getvar($deprecated_opt) != undef {
       warning("The ${deprecated_opt} parameter has been deprecated and will be removed in a future release")
     }
-  }
-  if $tempest_config_file != undef {
-    warning('The tempest_config_file parameter has been deprecated and has no effect')
   }
 
   [ 'neutron_bgpvpn_available', 'neutron_vpnaas_available', 'neutron_dr_available' ].each |$opt| {
@@ -665,7 +653,6 @@ class tempest(
     'network-feature-enabled/api_extensions':          value => join(any2array($neutron_api_extensions), ',');
     'network/public_network_id':                       value => $public_network_id;
     'network/public_router_id':                        value => $public_router_id;
-    'dashboard/login_url':                             value => pick($login_url, $facts['os_service_default']);
     'dashboard/dashboard_url':                         value => $dashboard_url;
     'dashboard/disable_ssl_certificate_validation':    value => $disable_dashboard_ssl_validation;
     'database/db_flavor_ref':                          value => $db_flavor_ref;
@@ -717,7 +704,6 @@ class tempest(
     'baremetal/max_microversion':                      value => $baremetal_max_microversion;
     'share/min_api_microversion':                      value => $share_min_microversion;
     'share/max_api_microversion':                      value => $share_max_microversion;
-    'cli/cli_dir':                                     value => pick($cli_dir, $facts['os_service_default']);
     'scenario/img_file':                               value => $img_file;
     'scenario/img_disk_format':                        value => $img_disk_format;
     'service_broker/run_service_broker_tests':         value => $run_service_broker_tests;

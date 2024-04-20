@@ -1,0 +1,8 @@
+---
+upgrade:
+  - |
+    The following ``tempest`` class parameters have been removed.
+
+    - ``tempest_config_file``
+    - ``cli_dir``
+    - ``login_url``
