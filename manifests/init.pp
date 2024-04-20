@@ -319,24 +319,6 @@
 #   Defaults to undef 
 #  [*login_url*]
 #   Defaults to undef
-#  [*ec2api_available*]
-#   Defaults to undef
-#  [*ec2api_tester_roles*]
-#   Defaults to undef
-#  [*aws_ec2_url*]
-#   Defaults to undef
-#  [*aws_region*]
-#   Defaults to undef
-#  [*aws_image_id*]
-#   Defaults to undef
-#  [*aws_ebs_image_id*]
-#   Defaults to undef
-#  [*murano_available*]
-#   Defualts to undef
-#  [*sahara_available*]
-#   Defualts to undef
-#  [*sahara_plugins*]
-#   Defualts to undef
 #
 class tempest(
   $package_ensure                           = 'present',
@@ -528,15 +510,6 @@ class tempest(
   $tempest_config_file                      = undef,
   $cli_dir                                  = undef,
   $login_url                                = undef,
-  Optional[Boolean] $ec2api_available       = undef,
-  Optional[Boolean] $murano_available       = undef,
-  Optional[Boolean] $sahara_available       = undef,
-  $ec2api_tester_roles                      = undef,
-  $aws_ec2_url                              = undef,
-  $aws_region                               = undef,
-  $aws_image_id                             = undef,
-  $aws_ebs_image_id                         = undef,
-  $sahara_plugins                           = undef,
 ) {
 
   [ 'glance_v2', 'cli_dir', 'login_url' ].each |String $deprecated_opt| {
@@ -553,27 +526,6 @@ class tempest(
       warning("The ${opt} parameter has no effect now. Use the neutron_api_extensions parameter instead.")
     }
   }
-
-  if $ec2api_available {
-    warning('EC2API support has been deprecated and has no effect now.')
-  }
-  if $murano_available {
-    warning('Murano support has been deprecated and has no effect now.')
-  }
-  if $sahara_available {
-    warning('Sahara support has been deprecated and has no effect now.')
-  }
-
-  [
-    'ec2api_available', 'murano_available', 'sahara_available',
-    'ec2api_tester_roles', 'aws_ec2_url', 'aws_region',
-    'aws_image_id', 'aws_ebs_image_id', 'sahara_plugins'
-  ].each |String $deprecated_plugin_opt| {
-    if getvar($deprecated_plugin_opt) != undef {
-      warning("The ${deprecated_plugin_opt} parameter has been deprecated and has no effect.")
-    }
-  }
-
 
   include tempest::params
 
@@ -814,24 +766,6 @@ class tempest(
   # TODO(tkajinam): Remove this after 2024.1 release
   tempest_config {
     'barbican_rbac_scope_verification/enforce_scope': ensure => absent;
-  }
-
-  tempest_config {
-    # ec2api-tempest-plugin
-    'service_available/ec2api':                ensure => absent;
-    'aws/ec2_url':                             ensure => absent;
-    'aws/aws_region':                          ensure => absent;
-    'aws/image_id':                            ensure => absent;
-    'aws/ebs_image_id':                        ensure => absent;
-    'aws/instance_type':                       ensure => absent;
-    'aws/instance_type_alt':                   ensure => absent;
-    'aws/aws_secret':                          ensure => absent;
-    'aws/aws_access':                          ensure => absent;
-    # murano-tempest-plugin
-    'service_available/murano':                ensure => absent;
-    # sahara-tempest-plugin
-    'service_available/sahara':                ensure => absent;
-    'data-processing-feature-enabled/plugins': ensure => absent;
   }
 
   oslo::concurrency { 'tempest_config': lock_path => $lock_path }
