@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``tempest::magnum::manage_tests_packages`` parameter has been
+    added.
