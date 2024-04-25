@@ -47,19 +47,19 @@
 #
 # [*nic_id*]
 #   (Optional) The nic_id parameter used in Magnum tempest configuration
-#   Defaults to 'public'
+#   Defaults to $facts['os_service_default']
 #
 # [*magnum_url*]
 #   (Optional) Bypass URL for Magnum to skip service catalog lookup
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #
 # [*copy_logs*]
 #   (Optional) Whether to copy nova server logs on failure
-#   Defaults to true
+#   Defaults to $facts['os_service_default']
 #
 # [*dns_nameserver*]
 #   (Optional) DNS nameserver to use for ClusterTemplate
-#   Defaults to '8.8.8.8'
+#   Defaults to $facts['os_service_default']
 #
 # [*manage_tests_packages*]
 #   (Optional) Manage the plugin package
@@ -82,10 +82,10 @@ class tempest::magnum (
   String[1] $master_flavor_id               = 'm1.magnum',
   Boolean $provision_keypair                = false,
   $keypair_name                             = $facts['os_service_default'],
-  $nic_id                                   = 'public',
-  $magnum_url                               = undef,
-  $copy_logs                                = true,
-  $dns_nameserver                           = '8.8.8.8',
+  $nic_id                                   = $facts['os_service_default'],
+  $magnum_url                               = $facts['os_service_default'],
+  $copy_logs                                = $facts['os_service_default'],
+  $dns_nameserver                           = $facts['os_service_default'],
   Boolean $manage_tests_packages            = true,
   # DEPRECATED PARAMETERS
   $keypair_id                               = undef,
