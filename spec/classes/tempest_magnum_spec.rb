@@ -18,7 +18,7 @@ describe 'tempest::magnum' do
 
         is_expected.to contain_tempest_config('magnum/image_id').with_value('fedora-atomic-latest')
         is_expected.to contain_tempest_config('magnum/nic_id').with_value('b2e6021a-4956-4a1f-8329-790b9add05a9')
-        is_expected.to contain_tempest_config('magnum/keypair_id').with_value('default')
+        is_expected.to contain_tempest_config('magnum/keypair_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_tempest_config('magnum/flavor_id').with_value('s1.magnum')
         is_expected.to contain_tempest_config('magnum/master_flavor_id').with_value('m1.magnum')
         is_expected.to contain_tempest_config('magnum/copy_logs').with_value('true')
@@ -34,7 +34,7 @@ describe 'tempest::magnum' do
           :provision_flavors => false,
           :flavor_id         => 's1.tempest',
           :master_flavor_id  => 'm1.tempest',
-          :keypair_id        => 'magnum',
+          :keypair_name      => 'magnum',
           :provision_keypair => false,
           :magnum_url        => 'http://magnum/',
           :copy_logs         => false,
@@ -45,7 +45,7 @@ describe 'tempest::magnum' do
       it 'configures tempest for magnum' do
         is_expected.to contain_tempest_config('magnum/image_id').with_value('coreos')
         is_expected.to contain_tempest_config('magnum/nic_id').with_value('b2e6021a-4956-4a1f-8329-790b9add05a9')
-        is_expected.to contain_tempest_config('magnum/keypair_id').with_value('magnum')
+        is_expected.to contain_tempest_config('magnum/keypair_name').with_value('magnum')
         is_expected.to contain_tempest_config('magnum/flavor_id').with_value('s1.tempest')
         is_expected.to contain_tempest_config('magnum/master_flavor_id').with_value('m1.tempest')
         is_expected.to contain_tempest_config('magnum/magnum_url').with_value('http://magnum/')

@@ -41,9 +41,9 @@
 #   (Optional) If ::tempest::magnum should configure the testing keypair
 #   Defaults to false (not yet supported, will be true when implemented)
 #
-# [*keypair_id*]
+# [*keypair_name*]
 #   (Optional) The keypair_id parameter used in Magnum tempest configuration
-#   Defaults to 'default'
+#   Defaults to $facts['os_service_default']
 #
 # [*nic_id*]
 #   (Optional) The nic_id parameter used in Magnum tempest configuration
@@ -65,6 +65,12 @@
 #   (Optional) Manage the plugin package
 #   Defaults to true
 #
+# DEPRECATED PARAMETERS
+#
+# [*keypair_id*]
+#   (Optional) The keypair_id parameter used in Magnum tempest configuration
+#   Defaults to undef
+#
 class tempest::magnum (
   Stdlib::Absolutepath $tempest_config_file = '/var/lib/tempest/etc/tempest.conf',
   Boolean $provision_image                  = true,
@@ -75,14 +81,21 @@ class tempest::magnum (
   String[1] $flavor_id                      = 's1.magnum',
   String[1] $master_flavor_id               = 'm1.magnum',
   Boolean $provision_keypair                = false,
-  $keypair_id                               = 'default',
+  $keypair_name                             = $facts['os_service_default'],
   $nic_id                                   = 'public',
   $magnum_url                               = undef,
   $copy_logs                                = true,
   $dns_nameserver                           = '8.8.8.8',
   Boolean $manage_tests_packages            = true,
+  # DEPRECATED PARAMETERS
+  $keypair_id                               = undef,
 ) {
   include tempest::params
+
+  if $keypair_id != undef {
+    warning("The keypair_id parameter is deprecated and has no effect. \
+Use the keypair_name parameter.")
+  }
 
   if $provision_image {
     $image_properties = { 'os_distro' => $image_os_distro }
@@ -131,11 +144,16 @@ class tempest::magnum (
   tempest_config {
     'magnum/image_id':         value => $image_name;
     'magnum/nic_id':           value => $nic_id;
-    'magnum/keypair_id':       value => $keypair_id;
+    'magnum/keypair_name':     value => $keypair_name;
     'magnum/flavor_id':        value => $flavor_id;
     'magnum/master_flavor_id': value => $master_flavor_id;
     'magnum/magnum_url':       value => $magnum_url;
     'magnum/copy_logs':        value => $copy_logs;
     'magnum/dns_nameserver':   value => $dns_nameserver;
+  }
+
+  # TODO(tkajinam): Remove this after 2025.1
+  tempest_config {
+    'magnum/keypair_id': ensure => absent;
   }
 }
