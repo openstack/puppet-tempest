@@ -6,9 +6,6 @@
 #
 # === Parameters
 #
-# [*tempest_config_file*]
-#   Defaults to '/var/lib/tempest/etc/tempest.conf'
-#
 # [*provision_image*]
 #   (Optional) If ::tempest::magnum should configure the testing image
 #   Defaults to true
@@ -71,30 +68,38 @@
 #   (Optional) The keypair_id parameter used in Magnum tempest configuration
 #   Defaults to undef
 #
+# [*tempest_config_file*]
+#   Defaults to undef
+#
 class tempest::magnum (
-  Stdlib::Absolutepath $tempest_config_file = '/var/lib/tempest/etc/tempest.conf',
-  Boolean $provision_image                  = true,
-  String[1] $image_source                   = 'https://fedorapeople.org/groups/magnum/fedora-atomic-latest.qcow2',
-  String[1] $image_name                     = 'fedora-atomic-latest',
-  String[1] $image_os_distro                = 'fedora-atomic',
-  Boolean $provision_flavors                = true,
-  String[1] $flavor_id                      = 's1.magnum',
-  String[1] $master_flavor_id               = 'm1.magnum',
-  Boolean $provision_keypair                = false,
-  $keypair_name                             = $facts['os_service_default'],
-  $nic_id                                   = $facts['os_service_default'],
-  $magnum_url                               = $facts['os_service_default'],
-  $copy_logs                                = $facts['os_service_default'],
-  $dns_nameserver                           = $facts['os_service_default'],
-  Boolean $manage_tests_packages            = true,
+  Boolean $provision_image       = true,
+  String[1] $image_source        = 'https://fedorapeople.org/groups/magnum/fedora-atomic-latest.qcow2',
+  String[1] $image_name          = 'fedora-atomic-latest',
+  String[1] $image_os_distro     = 'fedora-atomic',
+  Boolean $provision_flavors     = true,
+  String[1] $flavor_id           = 's1.magnum',
+  String[1] $master_flavor_id    = 'm1.magnum',
+  Boolean $provision_keypair     = false,
+  $keypair_name                  = $facts['os_service_default'],
+  $nic_id                        = $facts['os_service_default'],
+  $magnum_url                    = $facts['os_service_default'],
+  $copy_logs                     = $facts['os_service_default'],
+  $dns_nameserver                = $facts['os_service_default'],
+  Boolean $manage_tests_packages = true,
   # DEPRECATED PARAMETERS
-  $keypair_id                               = undef,
+  $keypair_id                    = undef,
+  $tempest_config_file           = undef,
 ) {
   include tempest::params
+  include tempest
 
   if $keypair_id != undef {
     warning("The keypair_id parameter is deprecated and has no effect. \
 Use the keypair_name parameter.")
+  }
+
+  if $tempest_config_file != undef {
+    warning('The tempest_config_file parameter has been deprecated and has no effect')
   }
 
   if $provision_image {
@@ -138,7 +143,7 @@ Use the keypair_name parameter.")
   }
 
   Tempest_config {
-    path    => $tempest_config_file,
+    path => $::tempest::tempest_conf,
   }
 
   tempest_config {

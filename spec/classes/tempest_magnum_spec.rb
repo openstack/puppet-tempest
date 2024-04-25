@@ -1,6 +1,14 @@
 require 'spec_helper'
 
 describe 'tempest::magnum' do
+  let :pre_condition do
+    "
+    class { 'tempest':
+      configure_networks => false,
+      configure_images   => false
+    }"
+  end
+
   let :params do
     { :nic_id => 'b2e6021a-4956-4a1f-8329-790b9add05a9', }
   end

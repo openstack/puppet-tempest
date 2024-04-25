@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The ``tempest::magnum::tempest_config_file`` parameter is deprecated and
+    has no effect now.
