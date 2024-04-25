@@ -256,7 +256,6 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('network-feature-enabled/api_extensions').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('network/public_network_id').with(:value => nil)
           is_expected.to contain_tempest_config('network/public_router_id').with(:value => nil)
-          is_expected.to contain_tempest_config('dashboard/login_url').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('dashboard/dashboard_url').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('dashboard/disable_ssl_certificate_validation').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('database/db_flavor_ref').with(:value => nil)
@@ -337,7 +336,6 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('telemetry_services/metric_backends').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('telemetry_services/alarm_backend').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('share/capability_storage_protocol').with(:value => '<SERVICE DEFAULT>')
-          is_expected.to contain_tempest_config('cli/cli_dir').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_oslo__concurrency('tempest_config').with(
             :lock_path => '/var/lib/tempest'
           )
