@@ -1,0 +1,15 @@
+---
+features:
+  - |
+    The following ``tempest`` class parameters have been removed.
+
+    - ``ec2api_available``
+    - ``murano_available``
+    - ``sahara_available``
+    - ``ec2api_tester_roles``
+    - ``aws_ec2_url``
+    - ``aws_region``
+    - ``aws_image_id``
+    - ``aws_ebs_image_id``
+    - ``sahara_plugins``
+
