@@ -749,11 +749,6 @@ class tempest(
     'telemetry_services/alarm_backend':                value => $alarm_backend;
   }
 
-  # TODO(tkajinam): Remove this after 2024.1 release
-  tempest_config {
-    'barbican_rbac_scope_verification/enforce_scope': ensure => absent;
-  }
-
   oslo::concurrency { 'tempest_config': lock_path => $lock_path }
 
   oslo::log { 'tempest_config':
