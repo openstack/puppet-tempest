@@ -32,8 +32,6 @@
 #   Defaults to undef
 #  [*configure_networks*]
 #   Defaults to true
-#  [*l2gw_switch*]
-#   Defaults to $facts['os_service_default']
 #  [*public_network_name*]
 #   Defaults to undef
 #  [*neutron_api_extensions*]
@@ -106,17 +104,21 @@
 #   Defaults to false
 #  [*ssh_key_type*]
 #   Defaults to $facts['os_service_default']
-#  [*flavor_name*]
-#   Defaults to undef
-#  [*flavor_name_alt*]
-#   Defaults to undef
+#  [*configure_flavors*]
+#   Defaults to true
 #  [*flavor_ref*]
 #   Defaults to undef
 #  [*flavor_ref_alt*]
 #   Defaults to undef
+#  [*flavor_name*]
+#   Defaults to undef
+#  [*flavor_name_alt*]
+#   Defaults to undef
 #  [*resize_available*]
 #   Defaults to $facts['os_service_default']
 #  [*use_dynamic_credentials*]
+#   Defaults to $facts['os_service_default']
+#  [*l2gw_switch*]
 #   Defaults to $facts['os_service_default']
 #  [*public_network_id*]
 #   Defaults to undef
@@ -387,6 +389,9 @@ class tempest(
   $image_ref_alt                            = undef,
   $image_ssh_user                           = undef,
   $image_alt_ssh_user                       = undef,
+  $run_ssh                                  = false,
+  $ssh_key_type                             = $facts['os_service_default'],
+  Boolean $configure_flavors                = true,
   $flavor_ref                               = undef,
   $flavor_ref_alt                           = undef,
   Optional[String[1]] $flavor_name          = undef,
@@ -400,8 +405,6 @@ class tempest(
   $volume_build_interval                    = $facts['os_service_default'],
   $volume_build_timeout                     = $facts['os_service_default'],
   $object_storage_build_timeout             = $facts['os_service_default'],
-  $run_ssh                                  = false,
-  $ssh_key_type                             = $facts['os_service_default'],
   # testing features that are supported
   $resize_available                         = $facts['os_service_default'],
   $use_dynamic_credentials                  = $facts['os_service_default'],
@@ -882,60 +885,62 @@ class tempest(
 
   }
 
-  if ! $flavor_ref and $flavor_name {
-    tempest_flavor_id_setter { 'compute/flavor_ref':
-      ensure            => present,
-      tempest_conf_path => $tempest_conf,
-      flavor_name       => $flavor_name,
-    }
-    Tempest_config<||> -> Tempest_flavor_id_setter['compute/flavor_ref']
-    Keystone_user_role<||> -> Tempest_flavor_id_setter['compute/flavor_ref']
+  if $nova_available and $configure_flavors {
+    if ! $flavor_ref and $flavor_name {
+      tempest_flavor_id_setter { 'compute/flavor_ref':
+        ensure            => present,
+        tempest_conf_path => $tempest_conf,
+        flavor_name       => $flavor_name,
+      }
+      Tempest_config<||> -> Tempest_flavor_id_setter['compute/flavor_ref']
+      Keystone_user_role<||> -> Tempest_flavor_id_setter['compute/flavor_ref']
 
-    tempest_flavor_id_setter { 'heat_plugin/minimal_instance_type':
-      ensure            => present,
-      tempest_conf_path => $tempest_conf,
-      flavor_name       => $flavor_name,
+      tempest_flavor_id_setter { 'heat_plugin/minimal_instance_type':
+        ensure            => present,
+        tempest_conf_path => $tempest_conf,
+        flavor_name       => $flavor_name,
+      }
+      Tempest_config<||> -> Tempest_flavor_id_setter['heat_plugin/minimal_instance_type']
+      Keystone_user_role<||> -> Tempest_flavor_id_setter['heat_plugin/minimal_instance_type']
+    } elsif ($flavor_name and $flavor_ref) {
+      fail('flavor_ref and flavor_name are both set: please set only one of them')
     }
-    Tempest_config<||> -> Tempest_flavor_id_setter['heat_plugin/minimal_instance_type']
-    Keystone_user_role<||> -> Tempest_flavor_id_setter['heat_plugin/minimal_instance_type']
-  } elsif ($flavor_name and $flavor_ref) {
-    fail('flavor_ref and flavor_name are both set: please set only one of them')
-  }
 
-  if ! $flavor_ref_alt and $flavor_name_alt {
-    tempest_flavor_id_setter { 'compute/flavor_ref_alt':
-      ensure            => present,
-      tempest_conf_path => $tempest_conf,
-      flavor_name       => $flavor_name_alt,
+    if ! $flavor_ref_alt and $flavor_name_alt {
+      tempest_flavor_id_setter { 'compute/flavor_ref_alt':
+        ensure            => present,
+        tempest_conf_path => $tempest_conf,
+        flavor_name       => $flavor_name_alt,
+      }
+      Tempest_config<||> -> Tempest_flavor_id_setter['compute/flavor_ref_alt']
+      Keystone_user_role<||> -> Tempest_flavor_id_setter['compute/flavor_ref_alt']
+    } elsif ($flavor_name_alt and $flavor_ref_alt) {
+      fail('flavor_ref_alt and flavor_name_alt are both set: please set only one of them')
     }
-    Tempest_config<||> -> Tempest_flavor_id_setter['compute/flavor_ref_alt']
-    Keystone_user_role<||> -> Tempest_flavor_id_setter['compute/flavor_ref_alt']
-  } elsif ($flavor_name_alt and $flavor_ref_alt) {
-    fail('flavor_ref_alt and flavor_name_alt are both set: please set only one of them')
-  }
 
-  if ! $db_flavor_ref and $db_flavor_name {
-    tempest_flavor_id_setter { 'database/db_flavor_ref':
-      ensure            => present,
-      tempest_conf_path => $tempest_conf,
-      flavor_name       => $db_flavor_name,
+    if ! $db_flavor_ref and $db_flavor_name {
+      tempest_flavor_id_setter { 'database/db_flavor_ref':
+        ensure            => present,
+        tempest_conf_path => $tempest_conf,
+        flavor_name       => $db_flavor_name,
+      }
+      Tempest_config<||> -> Tempest_flavor_id_setter['database/db_flavor_ref']
+      Keystone_user_role<||> -> Tempest_flavor_id_setter['database/db_flavor_ref']
+    } elsif ($db_flavor_name and $db_flavor_ref) {
+      fail('db_flavor_ref and db_flavor_name are both set: please set only one of them')
     }
-    Tempest_config<||> -> Tempest_flavor_id_setter['database/db_flavor_ref']
-    Keystone_user_role<||> -> Tempest_flavor_id_setter['database/db_flavor_ref']
-  } elsif ($db_flavor_name and $db_flavor_ref) {
-    fail('db_flavor_ref and db_flavor_name are both set: please set only one of them')
-  }
 
-  if !$heat_flavor_ref and $heat_flavor_name {
-    tempest_flavor_id_setter { 'heat_plugin/instance_type':
-      ensure            => present,
-      tempest_conf_path => $tempest_conf,
-      flavor_name       => $heat_flavor_name,
+    if !$heat_flavor_ref and $heat_flavor_name {
+      tempest_flavor_id_setter { 'heat_plugin/instance_type':
+        ensure            => present,
+        tempest_conf_path => $tempest_conf,
+        flavor_name       => $heat_flavor_name,
+      }
+      Tempest_config<||> -> Tempest_flavor_id_setter['heat_plugin/instance_type']
+      Keystone_user_role<||> -> Tempest_flavor_id_setter['heat_plugin/instance_type']
+    } elsif ($heat_flavor_name and $heat_flavor_ref) {
+      fail('heat_flavor_ref and heat_flavor_name are both set: please set only one of them')
     }
-    Tempest_config<||> -> Tempest_flavor_id_setter['heat_plugin/instance_type']
-    Keystone_user_role<||> -> Tempest_flavor_id_setter['heat_plugin/instance_type']
-  } elsif ($heat_flavor_name and $heat_flavor_ref) {
-    fail('heat_flavor_ref and heat_flavor_name are both set: please set only one of them')
   }
 
   if $glance_available and $configure_images {
