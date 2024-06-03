@@ -938,7 +938,7 @@ class tempest(
     fail('heat_flavor_ref and heat_flavor_name are both set: please set only one of them')
   }
 
-  if $configure_images {
+  if $glance_available and $configure_images {
     if ! $image_ref and $image_name {
       # If the image id was not provided, look it up via the image name
       # and set the value in the conf file.
