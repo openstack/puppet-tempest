@@ -1,0 +1,9 @@
+---
+deprecations:
+  - |
+    The following parameters of the ``tempest`` class have been deprecated and
+    will be removed in a future release.
+
+    - ``identity_uri``
+    - ``keystone_v3``
+    - ``auth_version``

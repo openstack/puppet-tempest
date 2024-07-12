@@ -36,8 +36,6 @@
 #   Defaults to undef
 #  [*neutron_api_extensions*]
 #   Defaults to $facts['os_service_default']
-#  [*identity_uri*]
-#   Defaults to $facts['os_service_default']
 #  [*identity_uri_v3*]
 #   Defaults to $facts['os_service_default']
 #  [*lock_path*]
@@ -228,10 +226,6 @@
 #   Defaults to $facts['os_service_default']
 #  [*share_max_microversion*]
 #   Defaults to $facts['os_service_default']
-#  [*keystone_v3*]
-#   Defaults to $facts['os_service_default']
-#  [*auth_version*]
-#   Defaults to $facts['os_service_default']
 #  [*img_file*]
 #   Defaults to '/var/lib/tempest/cirros-0.4.0-x86_64-disk.img'
 #  [*img_disk_format*]
@@ -315,6 +309,12 @@
 # DEPREACTED PARAMETERS
 #  [*glance_v2*]
 #   Defaults to true
+#  [*identity_uri*]
+#   Defaults to undef
+#  [*keystone_v3*]
+#   Defaults to undef
+#  [*auth_version*]
+#   Defaults to undef
 #
 class tempest(
   $package_ensure                           = 'present',
@@ -349,7 +349,6 @@ class tempest(
 
   # tempest.conf parameters
   #
-  $identity_uri                             = $facts['os_service_default'],
   $identity_uri_v3                          = $facts['os_service_default'],
   $lock_path                                = '/var/lib/tempest',
   $log_file                                 = $facts['os_service_default'],
@@ -469,8 +468,6 @@ class tempest(
   $baremetal_max_microversion               = $facts['os_service_default'],
   $share_min_microversion                   = $facts['os_service_default'],
   $share_max_microversion                   = $facts['os_service_default'],
-  $keystone_v3                              = $facts['os_service_default'],
-  $auth_version                             = $facts['os_service_default'],
   $run_service_broker_tests                 = $facts['os_service_default'],
   $ca_certificates_file                     = $facts['os_service_default'],
   $disable_ssl_validation                   = $facts['os_service_default'],
@@ -504,13 +501,22 @@ class tempest(
   $alarm_backend                            = $facts['os_service_default'],
   # DEPRECATED PARAMETERS
   $glance_v2                                = undef,
+  $identity_uri                             = undef,
+  $keystone_v3                              = undef,
+  $auth_version                             = undef,
 ) {
 
-  [ 'glance_v2' ].each |String $deprecated_opt| {
+  [
+    'glance_v2',
+    'identity_uri',
+    'keystone_v3',
+    'auth_version'
+  ].each |String $deprecated_opt| {
     if getvar($deprecated_opt) != undef {
       warning("The ${deprecated_opt} parameter has been deprecated and will be removed in a future release")
     }
   }
+  $auth_version_real = pick($auth_version, $facts['os_service_default'])
 
   [ 'neutron_bgpvpn_available', 'neutron_vpnaas_available', 'neutron_dr_available' ].each |$opt| {
     if getvar($opt) != undef {
@@ -645,12 +651,12 @@ class tempest(
     'identity/username':                               value => $username;
     'identity/project_domain_name':                    value => $project_domain_name;
     'identity/user_domain_name':                       value => $user_domain_name;
-    'identity/uri':                                    value => $identity_uri;
+    'identity/uri':                                    value => pick($identity_uri, $facts['os_service_default']);
     'identity/uri_v3':                                 value => $identity_uri_v3;
-    'identity/auth_version':                           value => $auth_version;
+    'identity/auth_version':                           value => $auth_version_real;
     'identity/ca_certificates_file':                   value => $ca_certificates_file;
     'identity/disable_ssl_certificate_validation':     value => $disable_ssl_validation;
-    'identity-feature-enabled/api_v3':                 value => $keystone_v3;
+    'identity-feature-enabled/api_v3':                 value => pick($keystone_v3, $facts['os_service_default']);
     'image-feature-enabled/api_v2':                    value => pick($glance_v2, $facts['os_service_default']);
     'l2gw/l2gw_switch':                                value => $l2gw_switch;
     'network-feature-enabled/api_extensions':          value => join(any2array($neutron_api_extensions), ',');
@@ -718,7 +724,7 @@ class tempest(
     'heat_plugin/auth_url':                            value => $identity_uri_v3;
     # TODO(tkajinam): auth_version does not affect vN format (eg v3) and
     #                 the heading v should be removed.
-    'heat_plugin/auth_version':                        value => regsubst($auth_version, '^v(\\d+)$', '\\1');
+    'heat_plugin/auth_version':                        value => regsubst($auth_version_real, '^v(\\d+)$', '\\1');
     'heat_plugin/admin_username':                      value => $admin_username;
     'heat_plugin/admin_password':                      value => $admin_password, secret => true;
     'heat_plugin/admin_project_name':                  value => $admin_project_name;
