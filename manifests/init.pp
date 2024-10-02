@@ -536,15 +536,14 @@ class tempest(
       ensure_packages('pip', {
         name => $::tempest::params::pip_package_name,
       })
-      Package['pip'] -> Exec['install-tox']
+      Package['pip'] -> Package['tox']
     } else {
       warning('pip package is not available in this distribution.')
     }
 
-    exec { 'install-tox':
-      command => [$tempest::params::pip_command, 'install', '-U', 'tox'],
-      unless  => 'which tox',
-      path    => ['/bin','/usr/bin','/usr/local/bin'],
+    package { 'tox':
+      ensure   => present,
+      provider => 'pip',
     }
 
     if $git_clone {
@@ -566,7 +565,7 @@ class tempest(
         creates => "${tempest_clone_path}/.venv",
         path    => ['/bin', '/usr/bin', '/usr/local/bin'],
         require => [
-          Exec['install-tox'],
+          Package['tox'],
           Package[$tempest::params::dev_packages],
         ],
       }

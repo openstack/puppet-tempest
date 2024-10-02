@@ -182,10 +182,9 @@ describe 'tempest' do
             )
           end
 
-          is_expected.to contain_exec('install-tox').with(
-            :command => [platform_params[:pip_command], 'install', '-U', 'tox'],
-            :unless  => 'which tox',
-            :path    => ['/bin', '/usr/bin', '/usr/local/bin'],
+          is_expected.to contain_package('tox').with(
+            :ensure   => 'present',
+            :provider => 'pip',
           )
 
           is_expected.to contain_vcsrepo('/var/lib/tempest').with(
