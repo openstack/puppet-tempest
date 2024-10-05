@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``<service>_catalog_type`` parameters have been added.

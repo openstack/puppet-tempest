@@ -58,6 +58,10 @@
 #   (Optional) DNS nameserver to use for ClusterTemplate
 #   Defaults to $facts['os_service_default']
 #
+# [*catalog_type*]
+#   (Optional) Catalog type of the coe service
+#   Defaults to $facts['os_service_default']
+#
 # [*manage_tests_packages*]
 #   (Optional) Manage the plugin package
 #   Defaults to true
@@ -85,6 +89,7 @@ class tempest::magnum (
   $magnum_url                    = $facts['os_service_default'],
   $copy_logs                     = $facts['os_service_default'],
   $dns_nameserver                = $facts['os_service_default'],
+  $catalog_type                  = $facts['os_service_default'],
   Boolean $manage_tests_packages = true,
   # DEPRECATED PARAMETERS
   $keypair_id                    = undef,
@@ -155,6 +160,7 @@ Use the keypair_name parameter.")
     'magnum/magnum_url':       value => $magnum_url;
     'magnum/copy_logs':        value => $copy_logs;
     'magnum/dns_nameserver':   value => $dns_nameserver;
+    'magnum/catalog_type':     value => $catalog_type;
   }
 
   # TODO(tkajinam): Remove this after 2025.1

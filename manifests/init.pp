@@ -202,6 +202,34 @@
 #   Defaults to $facts['os_service_default']
 #  [*manila_enforce_scope*]
 #   Defaults to $facts['os_service_default']
+#  [*compute_catalog_type*]
+#   Defaults to $facts['os_service_default']
+#  [*identity_catalog_type*]
+#   Defaults to $facts['os_service_default']
+#  [*image_catalog_type*]
+#   Defaults to $facts['os_service_default']
+#  [*network_catalog_type*]
+#   Defaults to $facts['os_service_default']
+#  [*object_store_catalog_type*]
+#   Defaults to $facts['os_service_default']
+#  [*placement_catalog_type*]
+#   Defaults to $facts['os_service_default']
+#  [*volume_catalog_type*]
+#   Defaults to $facts['os_service_default']
+#  [*orchestration_catalog_type*]
+#   Defaults to $facts['os_service_default']
+#  [*alarming_catalog_type*]
+#   Defaults to $facts['os_service_default']
+#  [*metric_catalog_type*]
+#   Defaults to $facts['os_service_default']
+#  [*baremetal_catalog_type*]
+#   Defaults to $facts['os_service_default']
+#  [*dns_catalog_type*]
+#   Defaults to $facts['os_service_default']
+#  [*load_balancer_catalog_type*]
+#   Defaults to $facts['os_service_default']
+#  [*share_catalog_type*]
+#   Defaults to $facts['os_service_default']
 #  [*compute_min_microversion*]
 #   Defaults to $facts['os_service_default']
 #  [*compute_max_microversion*]
@@ -468,6 +496,21 @@ class tempest(
   $baremetal_max_microversion               = $facts['os_service_default'],
   $share_min_microversion                   = $facts['os_service_default'],
   $share_max_microversion                   = $facts['os_service_default'],
+  # catalog type
+  $compute_catalog_type                     = $facts['os_service_default'],
+  $identity_catalog_type                    = $facts['os_service_default'],
+  $image_catalog_type                       = $facts['os_service_default'],
+  $network_catalog_type                     = $facts['os_service_default'],
+  $object_store_catalog_type                = $facts['os_service_default'],
+  $placement_catalog_type                   = $facts['os_service_default'],
+  $volume_catalog_type                      = $facts['os_service_default'],
+  $orchestration_catalog_type               = $facts['os_service_default'],
+  $alarming_catalog_type                    = $facts['os_service_default'],
+  $metric_catalog_type                      = $facts['os_service_default'],
+  $baremetal_catalog_type                   = $facts['os_service_default'],
+  $dns_catalog_type                         = $facts['os_service_default'],
+  $load_balancer_catalog_type               = $facts['os_service_default'],
+  $share_catalog_type                       = $facts['os_service_default'],
   $run_service_broker_tests                 = $facts['os_service_default'],
   $ca_certificates_file                     = $facts['os_service_default'],
   $disable_ssl_validation                   = $facts['os_service_default'],
@@ -712,6 +755,20 @@ class tempest(
     'baremetal/max_microversion':                      value => $baremetal_max_microversion;
     'share/min_api_microversion':                      value => $share_min_microversion;
     'share/max_api_microversion':                      value => $share_max_microversion;
+    'compute/catalog_type':                            value => $compute_catalog_type;
+    'identity/catalog_type':                           value => $identity_catalog_type;
+    'image/catalog_type':                              value => $image_catalog_type;
+    'network/catalog_type':                            value => $network_catalog_type;
+    'object_store/catalog_type':                       value => $object_store_catalog_type;
+    'placement/catalog_type':                          value => $placement_catalog_type;
+    'volume/catalog_type':                             value => $volume_catalog_type;
+    'heat_plugin/catalog_type':                        value => $orchestration_catalog_type;
+    'alarming/catalog_type':                           value => $alarming_catalog_type;
+    'metric/catalog_type':                             value => $metric_catalog_type;
+    'baremetal/catalog_type':                          value => $baremetal_catalog_type;
+    'dns/catalog_type':                                value => $dns_catalog_type;
+    'load_balancer/catalog_type':                      value => $load_balancer_catalog_type;
+    'share/catalog_type':                              value => $share_catalog_type;
     'scenario/img_file':                               value => $img_file;
     'scenario/img_disk_format':                        value => $img_disk_format;
     'service_broker/run_service_broker_tests':         value => $run_service_broker_tests;
