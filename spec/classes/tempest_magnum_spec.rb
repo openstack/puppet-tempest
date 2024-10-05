@@ -23,6 +23,7 @@ describe 'tempest::magnum' do
         is_expected.to contain_tempest_config('magnum/master_flavor_id').with_value('m1.magnum')
         is_expected.to contain_tempest_config('magnum/copy_logs').with_value('true')
         is_expected.to contain_tempest_config('magnum/dns_nameserver').with_value('8.8.8.8')
+        is_expected.to contain_tempest_config('magnum/catalog_type').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -38,7 +39,8 @@ describe 'tempest::magnum' do
           :provision_keypair => false,
           :magnum_url        => 'http://magnum/',
           :copy_logs         => false,
-          :dns_nameserver    => '7.7.7.7'
+          :dns_nameserver    => '7.7.7.7',
+          :catalog_type      => 'container-infra'
         })
       end
 
@@ -51,6 +53,7 @@ describe 'tempest::magnum' do
         is_expected.to contain_tempest_config('magnum/magnum_url').with_value('http://magnum/')
         is_expected.to contain_tempest_config('magnum/copy_logs').with_value('false')
         is_expected.to contain_tempest_config('magnum/dns_nameserver').with_value('7.7.7.7')
+        is_expected.to contain_tempest_config('magnum/catalog_type').with_value('container-infra')
       end
     end
   end

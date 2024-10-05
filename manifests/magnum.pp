@@ -61,6 +61,10 @@
 #   (Optional) DNS nameserver to use for ClusterTemplate
 #   Defaults to '8.8.8.8'
 #
+# [*catalog_type*]
+#   (Optional) Catalog type of the coe service
+#   Defaults to $facts['os_service_default']
+#
 # [*manage_tests_packages*]
 #   (Optional) Manage the plugin package
 #   Defaults to true
@@ -80,6 +84,7 @@ class tempest::magnum (
   $magnum_url                               = undef,
   $copy_logs                                = true,
   $dns_nameserver                           = '8.8.8.8',
+  $catalog_type                             = $facts['os_service_default'],
   Boolean $manage_tests_packages            = true,
 ) {
   include tempest::params
@@ -137,5 +142,6 @@ class tempest::magnum (
     'magnum/magnum_url':       value => $magnum_url;
     'magnum/copy_logs':        value => $copy_logs;
     'magnum/dns_nameserver':   value => $dns_nameserver;
+    'magnum/catalog_type':     value => $catalog_type;
   }
 }
