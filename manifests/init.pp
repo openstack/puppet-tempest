@@ -248,6 +248,8 @@
 #   Defaults to $facts['os_service_default']
 #  [*baremetal_catalog_type*]
 #   Defaults to $facts['os_service_default']
+#  [*baremetal_introspection_catalog_type*]
+#   Defaults to $facts['os_service_default']
 #  [*dns_catalog_type*]
 #   Defaults to $facts['os_service_default']
 #  [*load_balancer_catalog_type*]
@@ -508,6 +510,7 @@ class tempest(
   $alarming_catalog_type                    = $facts['os_service_default'],
   $metric_catalog_type                      = $facts['os_service_default'],
   $baremetal_catalog_type                   = $facts['os_service_default'],
+  $baremetal_introspection_catalog_type     = $facts['os_service_default'],
   $dns_catalog_type                         = $facts['os_service_default'],
   $load_balancer_catalog_type               = $facts['os_service_default'],
   $share_catalog_type                       = $facts['os_service_default'],
@@ -767,6 +770,7 @@ class tempest(
     'alarming/catalog_type':                           value => $alarming_catalog_type;
     'metric/catalog_type':                             value => $metric_catalog_type;
     'baremetal/catalog_type':                          value => $baremetal_catalog_type;
+    'baremetal_introspection/catalog_type':            value => $baremetal_introspection_catalog_type;
     'dns/catalog_type':                                value => $dns_catalog_type;
     'load_balancer/catalog_type':                      value => $load_balancer_catalog_type;
     'share/catalog_type':                              value => $share_catalog_type;
