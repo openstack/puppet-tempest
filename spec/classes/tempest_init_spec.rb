@@ -337,6 +337,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('heat_plugin/minimal_image_ref').with(:value => nil)
           is_expected.to contain_tempest_config('heat_plugin/minimal_instance_type').with(:value => nil)
           is_expected.to contain_tempest_config('baremetal/driver').with(:value => '<SERVICE DEFAULT>')
+          is_expected.to contain_tempest_config('baremetal/enabled_drivers').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('baremetal/enabled_hardware_types').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('load_balancer/member_role').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('load_balancer/admin_role').with(:value => '<SERVICE DEFAULT>')

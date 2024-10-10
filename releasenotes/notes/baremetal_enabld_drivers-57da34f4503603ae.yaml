@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``tempest::baremetal_enabld_drivers`` parameter has been added.

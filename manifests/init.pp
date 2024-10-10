@@ -309,6 +309,8 @@
 #   Defaults to undef
 #  [*baremetal_driver*]
 #   Defaults to $facts['os_service_default']
+#  [*baremetal_enabled_drivers*]
+#   Defaults to $facts['os_service_default']
 #  [*baremetal_enabled_hardware_types*]
 #   Defaults to $facts['os_service_default']
 #  [*load_balancer_member_role*]
@@ -527,6 +529,7 @@ class tempest(
   Optional[String[1]] $heat_flavor_name     = undef,
   # ironic options
   $baremetal_driver                         = $facts['os_service_default'],
+  $baremetal_enabled_drivers                = $facts['os_service_default'],
   $baremetal_enabled_hardware_types         = $facts['os_service_default'],
   # octavia options
   $load_balancer_member_role                = $facts['os_service_default'],
@@ -797,6 +800,7 @@ class tempest(
     'heat_plugin/minimal_instance_type':               value => $flavor_ref;
     # ironic-tempest-plugin
     'baremetal/driver':                                value => $baremetal_driver;
+    'baremetal/enabled_drivers':                       value => join(any2array($baremetal_enabled_drivers), ',');
     'baremetal/enabled_hardware_types':                value => join(any2array($baremetal_enabled_hardware_types), ',');
     # octavia-tempest-plugin
     'load_balancer/member_role':                       value => $load_balancer_member_role;
