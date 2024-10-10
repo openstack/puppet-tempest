@@ -797,7 +797,7 @@ class tempest(
     'heat_plugin/minimal_instance_type':               value => $flavor_ref;
     # ironic-tempest-plugin
     'baremetal/driver':                                value => $baremetal_driver;
-    'baremetal/enabled_hardware_types':                value => $baremetal_enabled_hardware_types;
+    'baremetal/enabled_hardware_types':                value => join(any2array($baremetal_enabled_hardware_types), ',');
     # octavia-tempest-plugin
     'load_balancer/member_role':                       value => $load_balancer_member_role;
     'load_balancer/admin_role':                        value => $load_balancer_admin_role;
