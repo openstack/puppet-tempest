@@ -61,5 +61,5 @@
     ],
     "source": "https://opendev.org/openstack/puppet-tempest.git",
     "summary": "Puppet module for OpenStack Tempest",
-    "version": "25.0.0"
+    "version": "25.1.0"
 }
