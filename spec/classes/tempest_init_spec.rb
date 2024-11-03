@@ -176,17 +176,6 @@ describe 'tempest' do
 
           is_expected.to contain_class('tempest::params')
 
-          if platform_params[:pip_package_name]
-            is_expected.to contain_package('pip').with(
-              :name => platform_params[:pip_package_name],
-            )
-          end
-
-          is_expected.to contain_package('tox').with(
-            :ensure   => 'present',
-            :provider => 'pip',
-          )
-
           is_expected.to contain_vcsrepo('/var/lib/tempest').with(
             :ensure   => 'present',
             :source   => 'https://opendev.org/openstack/tempest',
@@ -400,7 +389,7 @@ describe 'tempest' do
 
         it 'sets up virtualenv for tempest' do
           is_expected.to contain_exec('create-venv').with(
-            :command => ['virtualenv', '-p', 'python3', '/var/lib/tempest/.venv'],
+            :command => ['python3', '-m', 'venv', '/var/lib/tempest/.venv'],
             :creates => '/var/lib/tempest/.venv',
             :path    => ['/bin', '/usr/bin', '/usr/local/bin']
           )
@@ -409,7 +398,7 @@ describe 'tempest' do
         it 'installs tempest into the virtualenv' do
           is_expected.to contain_exec('install-tempest').with(
             :command     => [
-              'virtualenv', '-p', 'python3', '/var/lib/tempest/.venv'
+              'pytho3', '-m' 'venv', '/var/lib/tempest/.venv'
             ],
             :command     => [
               "/var/lib/tempest/.venv/bin/#{platform_params[:pip_command]}", 'install',
@@ -583,11 +572,9 @@ describe 'tempest' do
                                        'libssl-dev',
                                        'libffi-dev',
                                        'patch',
-                                       'gcc',
-                                       'python3-virtualenv'],
+                                       'gcc'],
             :package_name          => 'tempest',
             :pip_command           => 'pip3',
-            :pip_package_name      => 'python3-pip',
             :python_heat_tests     => 'heat-tempest-plugin',
             :python_keystone_tests => 'keystone-tempest-plugin',
             :python_neutron_tests  => 'neutron-tempest-plugin',
@@ -602,7 +589,6 @@ describe 'tempest' do
                                        'gcc'],
             :package_name          => 'openstack-tempest',
             :pip_command           => 'pip3',
-            :pip_package_name      => 'python3-pip',
             :python_heat_tests     => 'python3-heat-tests-tempest',
             :python_keystone_tests => 'python3-keystone-tests-tempest',
             :python_neutron_tests  => 'python3-neutron-tests-tempest',

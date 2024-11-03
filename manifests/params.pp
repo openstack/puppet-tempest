@@ -33,10 +33,6 @@ class tempest::params {
       $python_barbican_tests   = 'python3-barbican-tests-tempest'
       $python_manila_tests     = 'python3-manila-tests-tempest'
       $package_name            = 'openstack-tempest'
-      $pip_package_name        = $facts['os']['name'] ? {
-        'RedHat' => undef,
-        default  => 'python3-pip'
-      }
     }
     'Debian': {
       $dev_packages = [
@@ -46,8 +42,7 @@ class tempest::params {
         'libssl-dev',
         'libffi-dev',
         'patch',
-        'gcc',
-        'python3-virtualenv',
+        'gcc'
       ]
       $python_telemetry_tests  = 'telemetry-tempest-plugin'
       $python_cinder_tests     = 'cinder-tempest-plugin'
@@ -68,7 +63,6 @@ class tempest::params {
       $python_barbican_tests   = 'barbican-tempest-plugin'
       $python_manila_tests     = 'manila-tempest-plugin'
       $package_name            = 'tempest'
-      $pip_package_name        = 'python3-pip'
     }
     default: {
       fail("Unsupported osfamily: ${facts['os']['family']}")

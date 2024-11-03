@@ -581,20 +581,6 @@ class tempest(
     ensure_packages(['git'])
     ensure_packages($tempest::params::dev_packages)
 
-    if $::tempest::params::pip_package_name {
-      ensure_packages('pip', {
-        name => $::tempest::params::pip_package_name,
-      })
-      Package['pip'] -> Package['tox']
-    } else {
-      warning('pip package is not available in this distribution.')
-    }
-
-    package { 'tox':
-      ensure   => present,
-      provider => 'pip',
-    }
-
     if $git_clone {
       vcsrepo { $tempest_clone_path:
         ensure   => 'present',
@@ -608,13 +594,11 @@ class tempest(
     }
 
     if $setup_venv {
-      # virtualenv will be installed along with tox
       exec { 'create-venv':
-        command => ['virtualenv', '-p', 'python3', "${tempest_clone_path}/.venv"],
+        command => ['python3', '-m', 'venv', "${tempest_clone_path}/.venv"],
         creates => "${tempest_clone_path}/.venv",
         path    => ['/bin', '/usr/bin', '/usr/local/bin'],
         require => [
-          Package['tox'],
           Package[$tempest::params::dev_packages],
         ],
       }
