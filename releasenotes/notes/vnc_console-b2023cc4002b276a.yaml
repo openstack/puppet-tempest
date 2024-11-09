@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``tempest::vnc_console`` parameter has been added.

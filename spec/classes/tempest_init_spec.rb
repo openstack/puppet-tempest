@@ -216,6 +216,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('object-storage/build_timeout').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('compute-feature-enabled/attach_encrypted_volume').with(:value => false)
           is_expected.to contain_tempest_config('compute-feature-enabled/resize').with(:value => '<SERVICE DEFAULT>')
+          is_expected.to contain_tempest_config('compute-feature-enabled/vnc_console').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('validation/image_ssh_user').with(:value => nil)
           is_expected.to contain_tempest_config('validation/image_alt_ssh_user').with(:value => nil)
           is_expected.to contain_tempest_config('validation/run_validation').with(:value => false)

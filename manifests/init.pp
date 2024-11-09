@@ -112,7 +112,11 @@
 #   Defaults to undef
 #  [*flavor_name_alt*]
 #   Defaults to undef
+#  [*attach_encrypted_volume*]
+#   Defaults to false
 #  [*resize_available*]
+#   Defaults to $facts['os_service_default']
+#  [*vnc_console*]
 #   Defaults to $facts['os_service_default']
 #  [*use_dynamic_credentials*]
 #   Defaults to $facts['os_service_default']
@@ -288,8 +292,6 @@
 #   Defaults to $facts['os_service_default']
 #  [*manage_tests_packages*]
 #   Defaults to false
-#  [*attach_encrypted_volume*]
-#   Defaults to false
 #  [*tempest_roles*]
 #   Defaults to $facts['os_service_default']
 #  [*reseller_admin_role*]
@@ -389,7 +391,6 @@ class tempest(
   $use_syslog                               = $facts['os_service_default'],
   $logging_context_format_string            = $facts['os_service_default'],
   $http_timeout                             = $facts['os_service_default'],
-  $attach_encrypted_volume                  = false,
   # non admin user
   $username                                 = undef,
   $password                                 = undef,
@@ -437,7 +438,9 @@ class tempest(
   $volume_build_timeout                     = $facts['os_service_default'],
   $object_storage_build_timeout             = $facts['os_service_default'],
   # testing features that are supported
+  $attach_encrypted_volume                  = false,
   $resize_available                         = $facts['os_service_default'],
+  $vnc_console                              = $facts['os_service_default'],
   $use_dynamic_credentials                  = $facts['os_service_default'],
   $l2gw_switch                              = $facts['os_service_default'],
   # neutron config
@@ -765,6 +768,7 @@ class tempest(
     'service_broker/run_service_broker_tests':         value => $run_service_broker_tests;
     'compute-feature-enabled/attach_encrypted_volume': value => $attach_encrypted_volume;
     'compute-feature-enabled/resize':                  value => $resize_available;
+    'compute-feature-enabled/vnc_console':             value => $vnc_console;
     # designate-tempest-plugin
     'dns/nameservers':                                 value => join(any2array($designate_nameservers), ',');
     # heat-tempest-plugin
