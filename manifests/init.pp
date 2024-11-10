@@ -1054,8 +1054,7 @@ class tempest(
       Tempest_config<||> -> Tempest_neutron_net_id_setter['network/public_network_id']
       Keystone_user_role<||> -> Tempest_neutron_net_id_setter['network/public_network_id']
     } elsif ($public_network_name and $public_network_id) or (! $public_network_name and ! $public_network_id) {
-      fail('A value for either public_network_id or public_network_name \
-  must be provided.')
+      fail('A value for either public_network_id or public_network_name must be provided.')
     }
   }
 }
