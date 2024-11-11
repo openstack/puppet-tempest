@@ -11,7 +11,6 @@ class tempest::params {
         'libxml2-devel',
         'openssl-devel',
         'libffi-devel',
-        'patch',
         'gcc'
       ]
       $python_telemetry_tests  = 'python3-telemetry-tests-tempest'
@@ -41,7 +40,6 @@ class tempest::params {
         'libxml2-dev',
         'libssl-dev',
         'libffi-dev',
-        'patch',
         'gcc'
       ]
       $python_telemetry_tests  = 'telemetry-tempest-plugin'
