@@ -11,8 +11,9 @@
 #   Defaults to true
 #
 # [*image_source*]
-#   (Optional) If provision_image is true, the location of the image
-#   Defaults to 'https://fedorapeople.org/groups/magnum/fedora-atomic-latest.qcow2'
+#   (Optional) If provision_image is true, the location of the image. Required
+#   when provision_image is true
+#   Defaults to undef
 #
 # [*image_os_distro*]
 #   (Optional) If provision_image is true, the os_distro propery of the image
@@ -76,24 +77,24 @@
 #   Defaults to undef
 #
 class tempest::magnum (
-  Boolean $provision_image       = true,
-  String[1] $image_source        = 'https://fedorapeople.org/groups/magnum/fedora-atomic-latest.qcow2',
-  String[1] $image_name          = 'fedora-atomic-latest',
-  String[1] $image_os_distro     = 'fedora-atomic',
-  Boolean $provision_flavors     = true,
-  String[1] $flavor_id           = 's1.magnum',
-  String[1] $master_flavor_id    = 'm1.magnum',
-  Boolean $provision_keypair     = false,
-  $keypair_name                  = $facts['os_service_default'],
-  $nic_id                        = $facts['os_service_default'],
-  $magnum_url                    = $facts['os_service_default'],
-  $copy_logs                     = $facts['os_service_default'],
-  $dns_nameserver                = $facts['os_service_default'],
-  $catalog_type                  = $facts['os_service_default'],
-  Boolean $manage_tests_packages = true,
+  Boolean $provision_image          = true,
+  Optional[String[1]] $image_source = undef,
+  String[1] $image_name             = 'fedora-atomic-latest',
+  String[1] $image_os_distro        = 'fedora-atomic',
+  Boolean $provision_flavors        = true,
+  String[1] $flavor_id              = 's1.magnum',
+  String[1] $master_flavor_id       = 'm1.magnum',
+  Boolean $provision_keypair        = false,
+  $keypair_name                     = $facts['os_service_default'],
+  $nic_id                           = $facts['os_service_default'],
+  $magnum_url                       = $facts['os_service_default'],
+  $copy_logs                        = $facts['os_service_default'],
+  $dns_nameserver                   = $facts['os_service_default'],
+  $catalog_type                     = $facts['os_service_default'],
+  Boolean $manage_tests_packages    = true,
   # DEPRECATED PARAMETERS
-  $keypair_id                    = undef,
-  $tempest_config_file           = undef,
+  $keypair_id                       = undef,
+  $tempest_config_file              = undef,
 ) {
   include tempest::params
   include tempest
@@ -108,6 +109,10 @@ Use the keypair_name parameter.")
   }
 
   if $provision_image {
+    if $image_source == undef {
+      fail('The image_source parameter must be set when provision_image is true')
+    }
+
     $image_properties = { 'os_distro' => $image_os_distro }
     glance_image { $image_name:
       ensure           => present,

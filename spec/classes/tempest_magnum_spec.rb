@@ -10,16 +10,19 @@ describe 'tempest::magnum' do
   end
 
   let :params do
-    { :nic_id => 'b2e6021a-4956-4a1f-8329-790b9add05a9', }
+    {
+      :image_source => 'https://fedorapeople.org/groups/magnum/fedora-atomic-latest.qcow2',
+      :nic_id       => 'b2e6021a-4956-4a1f-8329-790b9add05a9',
+    }
   end
 
   shared_examples 'tempest magnum' do
     context 'with default parameters' do
       it 'provisions resources and configures tempest for magnum' do
         is_expected.to contain_glance_image('fedora-atomic-latest').with(
-            :ensure     => 'present',
-            :source     => 'https://fedorapeople.org/groups/magnum/fedora-atomic-latest.qcow2',
-            :properties => '{"os_distro"=>"fedora-atomic"}'
+          :ensure     => 'present',
+          :source     => 'https://fedorapeople.org/groups/magnum/fedora-atomic-latest.qcow2',
+          :properties => {'os_distro' => 'fedora-atomic'}
         )
         is_expected.to contain_nova_flavor('s1.magnum').with_ensure('present')
         is_expected.to contain_nova_flavor('m1.magnum').with_ensure('present')
@@ -51,6 +54,10 @@ describe 'tempest::magnum' do
           :dns_nameserver    => '7.7.7.7',
           :catalog_type      => 'container-infra'
         })
+      end
+
+      it 'should not provision the image' do
+        is_expected.to_not contain_glance_image('coreos')
       end
 
       it 'configures tempest for magnum' do
