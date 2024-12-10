@@ -17,11 +17,11 @@
 #
 # [*image_os_distro*]
 #   (Optional) If provision_image is true, the os_distro propery of the image
-#   Defaults to fedora-atomic-latest
+#   Defaults to fedora-coreos-latest
 #
 # [*image_name*]
 #   (Optional) The name of the image to be used for ClusterTemplate
-#   Defaults to 'fedora-atomic-latest'
+#   Defaults to 'fedora-coreos-latest'
 #
 # [*provision_flavors*]
 #   (Optional) If ::tempest::magnum should configure the testing flavors
@@ -79,8 +79,8 @@
 class tempest::magnum (
   Boolean $provision_image          = true,
   Optional[String[1]] $image_source = undef,
-  String[1] $image_name             = 'fedora-atomic-latest',
-  String[1] $image_os_distro        = 'fedora-atomic',
+  String[1] $image_name             = 'fedora-coreos-latest',
+  String[1] $image_os_distro        = 'fedora-coreos',
   Boolean $provision_flavors        = true,
   String[1] $flavor_id              = 's1.magnum',
   String[1] $master_flavor_id       = 'm1.magnum',

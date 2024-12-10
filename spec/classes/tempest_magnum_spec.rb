@@ -11,7 +11,7 @@ describe 'tempest::magnum' do
 
   let :params do
     {
-      :image_source => 'https://fedorapeople.org/groups/magnum/fedora-atomic-latest.qcow2',
+      :image_source => 'https://fedorapeople.org/groups/magnum/fedora-coreos-latest.qcow2',
       :nic_id       => 'b2e6021a-4956-4a1f-8329-790b9add05a9',
     }
   end
@@ -19,15 +19,15 @@ describe 'tempest::magnum' do
   shared_examples 'tempest magnum' do
     context 'with default parameters' do
       it 'provisions resources and configures tempest for magnum' do
-        is_expected.to contain_glance_image('fedora-atomic-latest').with(
+        is_expected.to contain_glance_image('fedora-coreos-latest').with(
           :ensure     => 'present',
-          :source     => 'https://fedorapeople.org/groups/magnum/fedora-atomic-latest.qcow2',
-          :properties => {'os_distro' => 'fedora-atomic'}
+          :source     => 'https://fedorapeople.org/groups/magnum/fedora-coreos-latest.qcow2',
+          :properties => {'os_distro' => 'fedora-coreos'}
         )
         is_expected.to contain_nova_flavor('s1.magnum').with_ensure('present')
         is_expected.to contain_nova_flavor('m1.magnum').with_ensure('present')
 
-        is_expected.to contain_tempest_config('magnum/image_id').with_value('fedora-atomic-latest')
+        is_expected.to contain_tempest_config('magnum/image_id').with_value('fedora-coreos-latest')
         is_expected.to contain_tempest_config('magnum/nic_id').with_value('b2e6021a-4956-4a1f-8329-790b9add05a9')
         is_expected.to contain_tempest_config('magnum/keypair_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_tempest_config('magnum/flavor_id').with_value('s1.magnum')
