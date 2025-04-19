@@ -124,8 +124,10 @@
 #   Defaults to $facts['os_service_default']
 #  [*public_network_id*]
 #   Defaults to undef
+#  [*floating_network_name*]
+#   Defaults to $facts['os_service_default']
 #  [*public_router_id*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*cinder_available*]
 #   Defaults to true
 #  [*cinder_backup_available*]
@@ -445,7 +447,8 @@ class tempest(
   $l2gw_switch                              = $facts['os_service_default'],
   # neutron config
   $public_network_id                        = undef,
-  $public_router_id                         = undef,
+  $floating_network_name                    = $facts['os_service_default'],
+  $public_router_id                         = $facts['os_service_default'],
   # Trove config
   $db_flavor_ref                            = undef,
   Optional[String[1]] $db_flavor_name       = undef,
@@ -696,6 +699,7 @@ class tempest(
     'l2gw/l2gw_switch':                                value => $l2gw_switch;
     'network-feature-enabled/api_extensions':          value => join(any2array($neutron_api_extensions), ',');
     'network/public_network_id':                       value => $public_network_id;
+    'network/floating_network_name':                   value => $floating_network_name;
     'network/public_router_id':                        value => $public_router_id;
     'dashboard/dashboard_url':                         value => $dashboard_url;
     'dashboard/disable_ssl_certificate_validation':    value => $disable_dashboard_ssl_validation;

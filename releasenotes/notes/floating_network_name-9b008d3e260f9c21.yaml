@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``tempest::floating_network_name`` parameter has been added.
