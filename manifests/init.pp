@@ -571,7 +571,7 @@ class tempest(
   $auth_version_real = pick($auth_version, $facts['os_service_default'])
 
   [ 'neutron_bgpvpn_available', 'neutron_vpnaas_available', 'neutron_dr_available' ].each |$opt| {
-    if getvar($opt) != undef {
+    if getvar($opt) {
       warning("The ${opt} parameter has no effect now. Use the neutron_api_extensions parameter instead.")
     }
   }
