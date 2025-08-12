@@ -168,8 +168,6 @@
 #   Defaults to false
 #  [*vitrage_available*]
 #   Defaults to false
-#  [*run_service_broker_tests*]
-#   Defaults to $facts['os_service_default']
 #  [*swift_available*]
 #   Defaults to false
 #  [*trove_available*]
@@ -351,6 +349,8 @@
 #   Defaults to undef
 #  [*auth_version*]
 #   Defaults to undef
+#  [*run_service_broker_tests*]
+#   Defaults to undef
 #
 class tempest(
   $package_ensure                           = 'present',
@@ -522,7 +522,6 @@ class tempest(
   $dns_catalog_type                         = $facts['os_service_default'],
   $load_balancer_catalog_type               = $facts['os_service_default'],
   $share_catalog_type                       = $facts['os_service_default'],
-  $run_service_broker_tests                 = $facts['os_service_default'],
   $ca_certificates_file                     = $facts['os_service_default'],
   $disable_ssl_validation                   = $facts['os_service_default'],
   Boolean $manage_tests_packages            = false,
@@ -559,6 +558,7 @@ class tempest(
   $identity_uri                             = undef,
   $keystone_v3                              = undef,
   $auth_version                             = undef,
+  $run_service_broker_tests                 = undef,
 ) {
 
   [
@@ -577,6 +577,10 @@ class tempest(
     if getvar($opt) {
       warning("The ${opt} parameter has no effect now. Use the neutron_api_extensions parameter instead.")
     }
+  }
+
+  if $run_service_broker_tests != undef {
+    warning('The run_service_broker_tests parameter is deprecated and has no effect.')
   }
 
   include tempest::params
@@ -769,7 +773,6 @@ class tempest(
     'share/catalog_type':                              value => $share_catalog_type;
     'scenario/img_file':                               value => $img_file;
     'scenario/img_disk_format':                        value => $img_disk_format;
-    'service_broker/run_service_broker_tests':         value => $run_service_broker_tests;
     'compute-feature-enabled/attach_encrypted_volume': value => $attach_encrypted_volume;
     'compute-feature-enabled/resize':                  value => $resize_available;
     'compute-feature-enabled/vnc_console':             value => $vnc_console;
@@ -812,6 +815,11 @@ class tempest(
     # telemetry-tempest-plugin
     'telemetry_services/metric_backends':              value => join(any2array($metric_backends), ',');
     'telemetry_services/alarm_backend':                value => $alarm_backend;
+  }
+
+  # TODO(tkajinam): Remove this after 2026.1 release
+  tempest_config {
+    'service_broker/run_service_broker_tests': ensure => absent
   }
 
   oslo::concurrency { 'tempest_config': lock_path => $lock_path }

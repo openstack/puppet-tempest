@@ -346,7 +346,6 @@ describe 'tempest' do
           )
           is_expected.to contain_tempest_config('scenario/img_file').with(:value => '/var/lib/tempest/cirros-0.4.0-x86_64-disk.img')
           is_expected.to contain_tempest_config('scenario/img_disk_format').with(:value => '<SERVICE DEFAULT>')
-          is_expected.to contain_tempest_config('service_broker/run_service_broker_tests').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_oslo__log('tempest_config').with(
             :debug                         => '<SERVICE DEFAULT>',
             :log_file                      => '<SERVICE DEFAULT>',

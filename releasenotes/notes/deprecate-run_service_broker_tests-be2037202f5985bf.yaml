@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The ``tempest::run_service_broker_tests`` parameter has been deprecated,
+    and has no effect now.
