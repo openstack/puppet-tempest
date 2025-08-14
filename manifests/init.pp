@@ -150,14 +150,8 @@
 #   Defaults to true
 #  [*neutron_available*]
 #   Defaults to true
-#  [*neutron_bgpvpn_available*]
-#   Defaults to false
 #  [*neutron_l2gw_available*]
 #   Defaults to true
-#  [*neutron_vpnaas_available*]
-#   Defaults to false
-#  [*neutron_dr_available*]
-#   Defaults to false
 #  [*nova_available*]
 #   Defaults to true
 #  [*watcher_available*]
@@ -464,10 +458,7 @@ class tempest(
   Boolean $designate_available              = false,
   Boolean $horizon_available                = true,
   Boolean $neutron_available                = true,
-  Boolean $neutron_bgpvpn_available         = false,
   Boolean $neutron_l2gw_available           = false,
-  Boolean $neutron_vpnaas_available         = false,
-  Boolean $neutron_dr_available             = false,
   Boolean $nova_available                   = true,
   Boolean $swift_available                  = false,
   Boolean $trove_available                  = false,
@@ -572,12 +563,6 @@ class tempest(
     }
   }
   $auth_version_real = pick($auth_version, $facts['os_service_default'])
-
-  [ 'neutron_bgpvpn_available', 'neutron_vpnaas_available', 'neutron_dr_available' ].each |$opt| {
-    if getvar($opt) {
-      warning("The ${opt} parameter has no effect now. Use the neutron_api_extensions parameter instead.")
-    }
-  }
 
   if $run_service_broker_tests != undef {
     warning('The run_service_broker_tests parameter is deprecated and has no effect.')
