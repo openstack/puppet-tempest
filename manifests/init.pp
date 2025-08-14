@@ -53,31 +53,31 @@
 #  [*http_timeout*]
 #   Defaults to $facts['os_service_default']
 #  [*username*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*password*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*project_name*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*user_domain_name*]
 #   Defaults to $facts['os_service_default']
 #  [*project_domain_name*]
 #   Defaults to $facts['os_service_default']
 #  [*alt_username*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*alt_password*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*alt_project_name*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*alt_user_domain_name*]
 #   Defaults to $facts['os_service_default']
 #  [*alt_project_domain_name*]
 #   Defaults to $facts['os_service_default']
 #  [*admin_username*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*admin_password*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*admin_project_name*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*admin_role*]
 #   Defaults to $facts['os_service_default']
 #  [*admin_domain_name*]
@@ -394,21 +394,21 @@ class tempest(
   $logging_context_format_string            = $facts['os_service_default'],
   $http_timeout                             = $facts['os_service_default'],
   # non admin user
-  $username                                 = undef,
-  $password                                 = undef,
-  $project_name                             = undef,
+  $username                                 = $facts['os_service_default'],
+  $password                                 = $facts['os_service_default'],
+  $project_name                             = $facts['os_service_default'],
   $user_domain_name                         = $facts['os_service_default'],
   $project_domain_name                      = $facts['os_service_default'],
   # another non-admin user
-  $alt_username                             = undef,
-  $alt_password                             = undef,
-  $alt_project_name                         = undef,
+  $alt_username                             = $facts['os_service_default'],
+  $alt_password                             = $facts['os_service_default'],
+  $alt_project_name                         = $facts['os_service_default'],
   $alt_user_domain_name                     = $facts['os_service_default'],
   $alt_project_domain_name                  = $facts['os_service_default'],
   # admin user
-  $admin_username                           = undef,
-  $admin_password                           = undef,
-  $admin_project_name                       = undef,
+  $admin_username                           = $facts['os_service_default'],
+  $admin_password                           = $facts['os_service_default'],
+  $admin_project_name                       = $facts['os_service_default'],
   $admin_role                               = $facts['os_service_default'],
   $admin_domain_name                        = $facts['os_service_default'],
   $admin_user_domain_name                   = $facts['os_service_default'],
