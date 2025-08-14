@@ -24,18 +24,32 @@
 #   Defaults to 'root'
 #  [*setup_venv*]
 #   Defaults to false
+#  [*configure_flavors*]
+#   Defaults to true
+#  [*flavor_ref*]
+#   Defaults to undef
+#  [*flavor_ref_alt*]
+#   Defaults to undef
+#  [*flavor_name*]
+#   Defaults to undef
+#  [*flavor_name_alt*]
+#   Defaults to undef
 #  [*configure_images*]
 #   Defaults to true
+#  [*image_ref*]
+#   Defaults to undef
+#  [*image_ref_alt*]
+#   Defaults to undef
 #  [*image_name*]
 #   Defaults to undef
 #  [*image_name_alt*]
 #   Defaults to undef
 #  [*configure_networks*]
 #   Defaults to true
+#  [*public_network_id*]
+#   Defaults to undef
 #  [*public_network_name*]
 #   Defaults to undef
-#  [*neutron_api_extensions*]
-#   Defaults to $facts['os_service_default']
 #  [*identity_uri_v3*]
 #   Defaults to $facts['os_service_default']
 #  [*lock_path*]
@@ -90,10 +104,6 @@
 #   Defaults to $facts['os_service_default']
 #  [*default_credentials_domain_name*]
 #   Defaults to $facts['os_service_default']
-#  [*image_ref*]
-#   Defaults to undef
-#  [*image_ref_alt*]
-#   Defaults to undef
 #  [*image_ssh_user*]
 #   Defaults to undef
 #  [*image_alt_ssh_user*]
@@ -102,16 +112,6 @@
 #   Defaults to false
 #  [*ssh_key_type*]
 #   Defaults to $facts['os_service_default']
-#  [*configure_flavors*]
-#   Defaults to true
-#  [*flavor_ref*]
-#   Defaults to undef
-#  [*flavor_ref_alt*]
-#   Defaults to undef
-#  [*flavor_name*]
-#   Defaults to undef
-#  [*flavor_name_alt*]
-#   Defaults to undef
 #  [*attach_encrypted_volume*]
 #   Defaults to false
 #  [*resize_available*]
@@ -122,11 +122,11 @@
 #   Defaults to $facts['os_service_default']
 #  [*l2gw_switch*]
 #   Defaults to $facts['os_service_default']
-#  [*public_network_id*]
-#   Defaults to undef
 #  [*floating_network_name*]
 #   Defaults to $facts['os_service_default']
 #  [*public_router_id*]
+#   Defaults to $facts['os_service_default']
+#  [*neutron_api_extensions*]
 #   Defaults to $facts['os_service_default']
 #  [*cinder_available*]
 #   Defaults to true
@@ -367,17 +367,27 @@ class tempest(
 
   Boolean $setup_venv                       = false,
 
+  # Nova flavor config
+  #
+  Boolean $configure_flavors                = true,
+  $flavor_ref                               = undef,
+  $flavor_ref_alt                           = undef,
+  Optional[String[1]] $flavor_name          = undef,
+  Optional[String[1]] $flavor_name_alt      = undef,
+
   # Glance image config
   #
   Boolean $configure_images                 = true,
+  $image_ref                                = undef,
+  $image_ref_alt                            = undef,
   Optional[String[1]] $image_name           = undef,
   Optional[String[1]] $image_name_alt       = undef,
 
   # Neutron network config
   #
   Boolean $configure_networks               = true,
+  $public_network_id                        = undef,
   Optional[String[1]] $public_network_name  = undef,
-  $neutron_api_extensions                   = $facts['os_service_default'],
 
   # Horizon dashboard config
   $dashboard_url                            = $facts['os_service_default'],
@@ -418,18 +428,12 @@ class tempest(
   # roles fo the users created by tempest
   $tempest_roles                            = $facts['os_service_default'],
   $reseller_admin_role                      = $facts['os_service_default'],
-  # image information
-  $image_ref                                = undef,
-  $image_ref_alt                            = undef,
+  # ssh information
   $image_ssh_user                           = undef,
   $image_alt_ssh_user                       = undef,
   $run_ssh                                  = false,
   $ssh_key_type                             = $facts['os_service_default'],
-  Boolean $configure_flavors                = true,
-  $flavor_ref                               = undef,
-  $flavor_ref_alt                           = undef,
-  Optional[String[1]] $flavor_name          = undef,
-  Optional[String[1]] $flavor_name_alt      = undef,
+  # intervals/timeouts
   $compute_build_interval                   = $facts['os_service_default'],
   $compute_build_timeout                    = $facts['os_service_default'],
   $image_build_interval                     = $facts['os_service_default'],
@@ -446,9 +450,9 @@ class tempest(
   $use_dynamic_credentials                  = $facts['os_service_default'],
   $l2gw_switch                              = $facts['os_service_default'],
   # neutron config
-  $public_network_id                        = undef,
   $floating_network_name                    = $facts['os_service_default'],
   $public_router_id                         = $facts['os_service_default'],
+  $neutron_api_extensions                   = $facts['os_service_default'],
   # Trove config
   $db_flavor_ref                            = undef,
   Optional[String[1]] $db_flavor_name       = undef,
@@ -669,6 +673,7 @@ class tempest(
     'compute/flavor_ref_alt':                          value => $flavor_ref_alt;
     'compute/image_ref':                               value => $image_ref;
     'compute/image_ref_alt':                           value => $image_ref_alt;
+    'network/public_network_id':                       value => $public_network_id;
     'compute/build_interval':                          value => $compute_build_interval;
     'compute/build_timeout':                           value => $compute_build_timeout;
     'image/build_interval':                            value => $image_build_interval;
@@ -702,7 +707,6 @@ class tempest(
     'image-feature-enabled/api_v2':                    value => pick($glance_v2, $facts['os_service_default']);
     'l2gw/l2gw_switch':                                value => $l2gw_switch;
     'network-feature-enabled/api_extensions':          value => join(any2array($neutron_api_extensions), ',');
-    'network/public_network_id':                       value => $public_network_id;
     'network/floating_network_name':                   value => $floating_network_name;
     'network/public_router_id':                        value => $public_router_id;
     'dashboard/dashboard_url':                         value => $dashboard_url;
