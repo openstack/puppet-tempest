@@ -588,8 +588,8 @@ class tempest(
   include openstacklib::openstackclient
 
   if $install_from_source {
-    ensure_packages(['git'])
-    ensure_packages($tempest::params::dev_packages)
+    stdlib::ensure_packages(['git'])
+    stdlib::ensure_packages($tempest::params::dev_packages)
 
     if $git_clone {
       vcsrepo { $tempest_clone_path:
