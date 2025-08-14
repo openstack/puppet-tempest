@@ -113,7 +113,7 @@
 #  [*flavor_name_alt*]
 #   Defaults to undef
 #  [*attach_encrypted_volume*]
-#   Defaults to false
+#   Defaults to $facts['os_service_default']
 #  [*resize_available*]
 #   Defaults to $facts['os_service_default']
 #  [*vnc_console*]
@@ -440,7 +440,7 @@ class tempest(
   $volume_build_timeout                     = $facts['os_service_default'],
   $object_storage_build_timeout             = $facts['os_service_default'],
   # testing features that are supported
-  $attach_encrypted_volume                  = false,
+  $attach_encrypted_volume                  = $facts['os_service_default'],
   $resize_available                         = $facts['os_service_default'],
   $vnc_console                              = $facts['os_service_default'],
   $use_dynamic_credentials                  = $facts['os_service_default'],
