@@ -182,6 +182,8 @@
 #   Defaults to false
 #  [*manila_available*]
 #   Defaults to false
+#  [*cloudkitty_available*]
+#   Defaults to false
 #  [*barbican_enforce_scope*]
 #   Defaults to $facts['os_service_default']
 #  [*cinder_enforce_scope*]
@@ -480,6 +482,7 @@ class tempest(
   Boolean $octavia_available                = false,
   Boolean $barbican_available               = false,
   Boolean $manila_available                 = false,
+  Boolean $cloudkitty_available             = false,
   # scope enforcements
   $barbican_enforce_scope                   = $facts['os_service_default'],
   $cinder_enforce_scope                     = $facts['os_service_default'],
@@ -731,6 +734,7 @@ class tempest(
     'service_available/watcher':                       value => $watcher_available;
     'service_available/zaqar':                         value => $zaqar_available;
     'service_available/octavia':                       value => $octavia_available;
+    'service_available/cloudkitty':                    value => $cloudkitty_available;
     'enforce_scope/barbican':                          value => $barbican_enforce_scope;
     'enforce_scope/cinder':                            value => $cinder_enforce_scope;
     'enforce_scope/designate':                         value => $designate_enforce_scope;
@@ -949,6 +953,13 @@ class tempest(
       package { 'python-manila-tests-tempest':
         ensure => present,
         name   => $::tempest::params::python_manila_tests,
+        tag    => ['openstack', 'tempest-package'],
+      }
+    }
+    if $cloudkitty_available {
+      package { 'python-cloudkitty-tests-tempest':
+        ensure => present,
+        name   => $::tempest::params::python_cloudkitty_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
