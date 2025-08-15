@@ -572,7 +572,7 @@ class tempest(
     'glance_v2',
     'identity_uri',
     'keystone_v3',
-    'auth_version'
+    'auth_version',
   ].each |String $deprecated_opt| {
     if getvar($deprecated_opt) != undef {
       warning("The ${deprecated_opt} parameter has been deprecated and will be removed in a future release")
@@ -636,7 +636,7 @@ class tempest(
 
     package { 'tempest':
       ensure => $package_ensure,
-      name   => $::tempest::params::package_name,
+      name   => $tempest::params::package_name,
       tag    => ['openstack', 'tempest-package'],
     }
 
@@ -827,7 +827,7 @@ class tempest(
 
   # TODO(tkajinam): Remove this after 2026.1 release
   tempest_config {
-    'service_broker/run_service_broker_tests': ensure => absent
+    'service_broker/run_service_broker_tests': ensure => absent;
   }
 
   oslo::concurrency { 'tempest_config': lock_path => $lock_path }
@@ -837,62 +837,62 @@ class tempest(
     log_file                      => $log_file,
     use_stderr                    => $use_stderr,
     use_syslog                    => $use_syslog,
-    logging_context_format_string => $logging_context_format_string
+    logging_context_format_string => $logging_context_format_string,
   }
 
   if $manage_tests_packages {
     if ($aodh_available or $ceilometer_available or $gnocchi_available)  {
       package { 'python-telemetry-tests-tempest':
         ensure => present,
-        name   => $::tempest::params::python_telemetry_tests,
+        name   => $tempest::params::python_telemetry_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
     if $cinder_available {
       package { 'python-cinder-tests-tempest':
         ensure => present,
-        name   => $::tempest::params::python_cinder_tests,
+        name   => $tempest::params::python_cinder_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
     if $glance_available {
       package { 'python-glance-tests-tempest':
         ensure => present,
-        name   => $::tempest::params::python_glance_tests,
+        name   => $tempest::params::python_glance_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
     if $heat_available {
       package { 'python-heat-tests-tempest':
         ensure => present,
-        name   => $::tempest::params::python_heat_tests,
+        name   => $tempest::params::python_heat_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
     if ($ironic_available or $ironic_inspector_available) {
       package { 'python-ironic-tests-tempest':
         ensure => present,
-        name   => $::tempest::params::python_ironic_tests,
+        name   => $tempest::params::python_ironic_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
-    if $::tempest::params::python_keystone_tests {
+    if $tempest::params::python_keystone_tests {
       package { 'python-keystone-tests-tempest':
         ensure => present,
-        name   => $::tempest::params::python_keystone_tests,
+        name   => $tempest::params::python_keystone_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
     if $neutron_available {
       package { 'python-neutron-tests-tempest':
         ensure => present,
-        name   => $::tempest::params::python_neutron_tests,
+        name   => $tempest::params::python_neutron_tests,
         tag    => ['openstack', 'tempest-package'],
       }
-      if $neutron_l2gw_available and $::tempest::params::python_l2gw_tests {
+      if $neutron_l2gw_available and $tempest::params::python_l2gw_tests {
         package { 'python-networking-l2gw-tests-tempest':
           ensure => present,
-          name   => $::tempest::params::python_l2gw_tests,
+          name   => $tempest::params::python_l2gw_tests,
           tag    => ['openstack', 'tempest-package'],
         }
       }
@@ -900,70 +900,70 @@ class tempest(
     if $trove_available {
       package { 'python-trove-tests-tempest':
         ensure => present,
-        name   => $::tempest::params::python_trove_tests,
+        name   => $tempest::params::python_trove_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
     if $watcher_available {
       package { 'python-watcher-tests-tempest':
         ensure => present,
-        name   => $::tempest::params::python_watcher_tests,
+        name   => $tempest::params::python_watcher_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
     if $zaqar_available {
       package { 'python-zaqar-tests-tempest':
         ensure => present,
-        name   => $::tempest::params::python_zaqar_tests,
+        name   => $tempest::params::python_zaqar_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
     if $mistral_available {
       package { 'python-mistral-tests-tempest':
         ensure => present,
-        name   => $::tempest::params::python_mistral_tests,
+        name   => $tempest::params::python_mistral_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
     if $vitrage_available {
       package { 'python-vitrage-tests-tempest':
         ensure => present,
-        name   => $::tempest::params::python_vitrage_tests,
+        name   => $tempest::params::python_vitrage_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
     if $designate_available {
       package { 'python-designate-tests-tempest':
         ensure => present,
-        name   => $::tempest::params::python_designate_tests,
+        name   => $tempest::params::python_designate_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
     if $octavia_available {
       package { 'python-octavia-tests-tempest':
         ensure => present,
-        name   => $::tempest::params::python_octavia_tests,
+        name   => $tempest::params::python_octavia_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
     if $barbican_available {
       package { 'python-barbican-tests-tempest':
         ensure => present,
-        name   => $::tempest::params::python_barbican_tests,
+        name   => $tempest::params::python_barbican_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
     if $manila_available {
       package { 'python-manila-tests-tempest':
         ensure => present,
-        name   => $::tempest::params::python_manila_tests,
+        name   => $tempest::params::python_manila_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
     if $cloudkitty_available {
       package { 'python-cloudkitty-tests-tempest':
         ensure => present,
-        name   => $::tempest::params::python_cloudkitty_tests,
+        name   => $tempest::params::python_cloudkitty_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
