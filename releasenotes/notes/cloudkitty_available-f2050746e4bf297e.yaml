@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``tempest::cloudkitty_available`` parameter has been added. This
+    parameter controls whether cloudkitty-tempest-plugin should be installed.
