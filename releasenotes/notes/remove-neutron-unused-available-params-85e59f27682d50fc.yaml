@@ -1,0 +1,8 @@
+---
+upgrade:
+  - |
+    The following parameters of the ``temepst`` class have been removed.
+
+    - ``neutron_bgpvpn_available``
+    - ``neutron_dr_available``
+    - ``neutron_vpnass_available``
