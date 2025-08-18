@@ -143,17 +143,17 @@ Use the keypair_name parameter.")
   }
 
   if $manage_tests_packages {
-    if $::tempest::params::python_magnum_tests {
+    if $tempest::params::python_magnum_tests {
       package { 'python-magnum-tests':
         ensure => present,
-        name   => $::tempest::params::python_magnum_tests,
+        name   => $tempest::params::python_magnum_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }
   }
 
   Tempest_config {
-    path => $::tempest::tempest_conf,
+    path => $tempest::tempest_conf,
   }
 
   tempest_config {
