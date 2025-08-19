@@ -352,8 +352,6 @@ describe 'tempest' do
             :use_syslog                    => '<SERVICE DEFAULT>',
             :logging_context_format_string => '<SERVICE DEFAULT>'
           )
-
-          is_expected.not_to contain_tempest_config('magnum/keypair_id').with_value('default')
         end
 
         it 'set glance id' do

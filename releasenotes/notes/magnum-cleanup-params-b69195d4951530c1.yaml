@@ -1,0 +1,8 @@
+---
+upgrade:
+  - |
+    The following parameters of the ``tempest::magnum`` class have been
+    removed.
+
+    - ``keypair_id``
+    - ``tempest_config_file``

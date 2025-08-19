@@ -67,15 +67,6 @@
 #   (Optional) Manage the plugin package
 #   Defaults to true
 #
-# DEPRECATED PARAMETERS
-#
-# [*keypair_id*]
-#   (Optional) The keypair_id parameter used in Magnum tempest configuration
-#   Defaults to undef
-#
-# [*tempest_config_file*]
-#   Defaults to undef
-#
 class tempest::magnum (
   Boolean $provision_image          = true,
   Optional[String[1]] $image_source = undef,
@@ -92,21 +83,9 @@ class tempest::magnum (
   $dns_nameserver                   = $facts['os_service_default'],
   $catalog_type                     = $facts['os_service_default'],
   Boolean $manage_tests_packages    = true,
-  # DEPRECATED PARAMETERS
-  $keypair_id                       = undef,
-  $tempest_config_file              = undef,
 ) {
   include tempest::params
   include tempest
-
-  if $keypair_id != undef {
-    warning("The keypair_id parameter is deprecated and has no effect. \
-Use the keypair_name parameter.")
-  }
-
-  if $tempest_config_file != undef {
-    warning('The tempest_config_file parameter has been deprecated and has no effect')
-  }
 
   if $provision_image {
     if $image_source == undef {
@@ -166,10 +145,5 @@ Use the keypair_name parameter.")
     'magnum/copy_logs':        value => $copy_logs;
     'magnum/dns_nameserver':   value => $dns_nameserver;
     'magnum/catalog_type':     value => $catalog_type;
-  }
-
-  # TODO(tkajinam): Remove this after 2025.1
-  tempest_config {
-    'magnum/keypair_id': ensure => absent;
   }
 }
