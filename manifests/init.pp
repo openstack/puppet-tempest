@@ -348,7 +348,7 @@
 #  [*run_service_broker_tests*]
 #   Defaults to undef
 #
-class tempest(
+class tempest (
   $package_ensure                           = 'present',
   Stdlib::Absolutepath $tempest_workspace   = '/var/lib/tempest',
   Boolean $install_from_source              = true,
@@ -558,7 +558,6 @@ class tempest(
   $auth_version                             = undef,
   $run_service_broker_tests                 = undef,
 ) {
-
   [
     'glance_v2',
     'identity_uri',
@@ -618,7 +617,6 @@ class tempest(
 
     $tempest_conf = "${tempest_clone_path}/etc/tempest.conf"
   } else {
-
     package { 'tempest':
       ensure => $package_ensure,
       name   => $tempest::params::package_name,
@@ -628,7 +626,7 @@ class tempest(
     # Create tempest workspace by running tempest init.
     # It will generate etc/tempest.conf, logs and tempest_lock folder
     # in tempest workspace
-    exec {'tempest-workspace':
+    exec { 'tempest-workspace':
       command     => ['tempest', 'init', $tempest_workspace],
       path        => ['/bin', '/usr/bin'],
       refreshonly => true,
@@ -826,7 +824,7 @@ class tempest(
   }
 
   if $manage_tests_packages {
-    if ($aodh_available or $ceilometer_available or $gnocchi_available)  {
+    if ($aodh_available or $ceilometer_available or $gnocchi_available) {
       package { 'python-telemetry-tests-tempest':
         ensure => present,
         name   => $tempest::params::python_telemetry_tests,
@@ -952,7 +950,6 @@ class tempest(
         tag    => ['openstack', 'tempest-package'],
       }
     }
-
   }
 
   if $nova_available and $configure_flavors {

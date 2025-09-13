@@ -30,6 +30,5 @@
 class tempest::config (
   Hash $tempest_config = {},
 ) {
-
   create_resources('tempest_config', $tempest_config)
 }
