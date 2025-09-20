@@ -105,9 +105,9 @@
 #  [*default_credentials_domain_name*]
 #   Defaults to $facts['os_service_default']
 #  [*image_ssh_user*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*image_alt_ssh_user*]
-#   Defaults to undef
+#   Defaults to $facts['os_service_default']
 #  [*run_ssh*]
 #   Defaults to false
 #  [*ssh_key_type*]
@@ -425,8 +425,8 @@ class tempest (
   $tempest_roles                            = $facts['os_service_default'],
   $reseller_admin_role                      = $facts['os_service_default'],
   # ssh information
-  $image_ssh_user                           = undef,
-  $image_alt_ssh_user                       = undef,
+  $image_ssh_user                           = $facts['os_service_default'],
+  $image_alt_ssh_user                       = $facts['os_service_default'],
   $run_ssh                                  = false,
   $ssh_key_type                             = $facts['os_service_default'],
   # intervals/timeouts
