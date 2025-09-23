@@ -351,7 +351,7 @@
 #   Defaults to undef
 #
 class tempest (
-  $package_ensure                           = 'present',
+  Stdlib::Ensure::Package $package_ensure   = 'present',
   Stdlib::Absolutepath $tempest_workspace   = '/var/lib/tempest',
   Boolean $install_from_source              = true,
   Boolean $git_clone                        = true,
