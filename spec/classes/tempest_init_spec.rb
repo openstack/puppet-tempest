@@ -220,7 +220,7 @@ describe 'tempest' do
           is_expected.to contain_tempest_config('compute-feature-enabled/vnc_console').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('validation/image_ssh_user').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('validation/image_alt_ssh_user').with(:value => '<SERVICE DEFAULT>')
-          is_expected.to contain_tempest_config('validation/run_validation').with(:value => false)
+          is_expected.to contain_tempest_config('validation/run_validation').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('validation/ssh_key_type').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('identity/admin_role').with(:value => '<SERVICE DEFAULT>')
           is_expected.to contain_tempest_config('identity/auth_version').with(:value => '<SERVICE DEFAULT>')

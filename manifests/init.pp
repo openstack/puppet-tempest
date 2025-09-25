@@ -108,8 +108,8 @@
 #   Defaults to $facts['os_service_default']
 #  [*image_alt_ssh_user*]
 #   Defaults to $facts['os_service_default']
-#  [*run_ssh*]
-#   Defaults to false
+#  [*run_validation*]
+#   Defaults to $facts['os_service_default']
 #  [*ssh_key_type*]
 #   Defaults to $facts['os_service_default']
 #  [*attach_encrypted_volume*]
@@ -347,6 +347,8 @@
 #   Defaults to undef
 #  [*run_service_broker_tests*]
 #   Defaults to undef
+#  [*run_ssh*]
+#   Defaults to undef
 #
 class tempest (
   $package_ensure                           = 'present',
@@ -427,7 +429,7 @@ class tempest (
   # ssh information
   $image_ssh_user                           = $facts['os_service_default'],
   $image_alt_ssh_user                       = $facts['os_service_default'],
-  $run_ssh                                  = false,
+  $run_validation                           = $facts['os_service_default'],
   $ssh_key_type                             = $facts['os_service_default'],
   # intervals/timeouts
   $compute_build_interval                   = $facts['os_service_default'],
@@ -557,6 +559,7 @@ class tempest (
   $keystone_v3                              = undef,
   $auth_version                             = undef,
   $run_service_broker_tests                 = undef,
+  $run_ssh                                  = undef,
 ) {
   [
     'glance_v2',
@@ -572,6 +575,14 @@ class tempest (
 
   if $run_service_broker_tests != undef {
     warning('The run_service_broker_tests parameter is deprecated and has no effect.')
+  }
+
+  if $run_ssh != undef {
+    warning('The run_ssh parameter is deprecated. Use the run_validation parameter instead.')
+  }
+  $run_validation_real = $run_ssh ? {
+    undef   => $run_validation,
+    default => $run_ssh,
   }
 
   include tempest::params
@@ -671,7 +682,7 @@ class tempest (
     'object-storage/build_timeout':                    value => $object_storage_build_timeout;
     'validation/image_ssh_user':                       value => $image_ssh_user;
     'validation/image_alt_ssh_user':                   value => $image_alt_ssh_user;
-    'validation/run_validation':                       value => $run_ssh;
+    'validation/run_validation':                       value => $run_validation_real;
     'validation/ssh_key_type':                         value => $ssh_key_type;
     'identity/admin_role':                             value => $admin_role;
     'identity/alt_password':                           value => $alt_password, secret => true;
