@@ -733,7 +733,9 @@ class tempest (
     'service_available/ironic':                        value => $ironic_available;
     'service_available/watcher':                       value => $watcher_available;
     'service_available/zaqar':                         value => $zaqar_available;
+    # This is kept for easier transition for https://review.opendev.org/984602
     'service_available/octavia':                       value => $octavia_available;
+    'service_available/load_balancer':                 value => $octavia_available;
     'service_available/cloudkitty':                    value => $cloudkitty_available;
     'enforce_scope/barbican':                          value => $barbican_enforce_scope;
     'enforce_scope/cinder':                            value => $cinder_enforce_scope;
