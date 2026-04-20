@@ -523,7 +523,7 @@ class tempest (
   $disable_ssl_validation                   = $facts['os_service_default'],
   Boolean $manage_tests_packages            = false,
   # scenario options
-  $img_file                                 = '/var/lib/tempest/cirros-0.4.0-x86_64-disk.img',
+  Stdlib::Absolutepath $img_file            = '/var/lib/tempest/cirros-0.4.0-x86_64-disk.img',
   $img_disk_format                          = $facts['os_service_default'],
   # designate options
   $designate_nameservers                    = $facts['os_service_default'],
