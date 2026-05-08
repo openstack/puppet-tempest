@@ -160,8 +160,6 @@
 #   Defaults to false
 #  [*mistral_available*]
 #   Defaults to false
-#  [*vitrage_available*]
-#   Defaults to false
 #  [*swift_available*]
 #   Defaults to false
 #  [*trove_available*]
@@ -349,6 +347,8 @@
 #   Defaults to undef
 #  [*baremetal_introspection_catalog_type*]
 #   Defaults to undef
+#  [*vitrage_available*]
+#   Defaults to undef
 #
 class tempest (
   Stdlib::Ensure::Package $package_ensure   = 'present',
@@ -474,7 +474,6 @@ class tempest (
   Boolean $watcher_available                = false,
   Boolean $zaqar_available                  = false,
   Boolean $mistral_available                = false,
-  Boolean $vitrage_available                = false,
   Boolean $octavia_available                = false,
   Boolean $barbican_available               = false,
   Boolean $manila_available                 = false,
@@ -560,6 +559,7 @@ class tempest (
   $ironic_inspector_available               = undef,
   $ironic_inspector_enforce_scope           = undef,
   $baremetal_introspection_catalog_type     = undef,
+  $vitrage_available                        = undef,
 ) {
   [
     'glance_v2',
@@ -569,6 +569,7 @@ class tempest (
     'ironic_inspector_available',
     'ironic_inspector_enforce_scope',
     'baremetal_introspection_catalog_type',
+    'vitrage_available',
   ].each |String $deprecated_opt| {
     if getvar($deprecated_opt) != undef {
       warning("The ${deprecated_opt} parameter has been deprecated and will be removed in a future release")
@@ -726,7 +727,6 @@ class tempest (
     'service_available/horizon':                       value => $horizon_available;
     'service_available/neutron':                       value => $neutron_available;
     'service_available/mistral':                       value => $mistral_available;
-    'service_available/vitrage':                       value => $vitrage_available;
     'service_available/nova':                          value => $nova_available;
     'service_available/swift':                         value => $swift_available;
     'service_available/trove':                         value => $trove_available;
@@ -920,13 +920,6 @@ class tempest (
       package { 'python-mistral-tests-tempest':
         ensure => present,
         name   => $tempest::params::python_mistral_tests,
-        tag    => ['openstack', 'tempest-package'],
-      }
-    }
-    if $vitrage_available {
-      package { 'python-vitrage-tests-tempest':
-        ensure => present,
-        name   => $tempest::params::python_vitrage_tests,
         tag    => ['openstack', 'tempest-package'],
       }
     }

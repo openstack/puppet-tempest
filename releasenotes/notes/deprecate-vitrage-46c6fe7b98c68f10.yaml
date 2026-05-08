@@ -1,0 +1,6 @@
+---
+deprecations:
+  - |
+    Support for vitrage-tempest-plugin has been deprecated and has no effect
+    now. The vitrage project was marked inactive and no 2026.1 release will be
+    provided.

@@ -22,7 +22,6 @@ class tempest::params {
       $python_keystone_tests   = 'python3-keystone-tests-tempest'
       $python_magnum_tests     = 'python3-magnum-tests-tempest'
       $python_mistral_tests    = 'python3-mistral-tests-tempest'
-      $python_vitrage_tests    = 'python3-vitrage-tests-tempest'
       $python_neutron_tests    = 'python3-neutron-tests-tempest'
       $python_l2gw_tests       = 'python3-networking-l2gw-tests-tempest'
       $python_trove_tests      = 'python3-trove-tests-tempest'
@@ -52,7 +51,6 @@ class tempest::params {
       $python_keystone_tests   = 'keystone-tempest-plugin'
       $python_magnum_tests     = 'magnum-tempest-plugin'
       $python_mistral_tests    = 'mistral-tempest-plugin'
-      $python_vitrage_tests    = 'vitrage-tempest-plugin'
       $python_neutron_tests    = 'neutron-tempest-plugin'
       $python_l2gw_tests       = undef
       $python_trove_tests      = 'trove-tempest-plugin'
